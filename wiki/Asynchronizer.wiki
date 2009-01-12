@@ -47,6 +47,7 @@ The following methods on all objects, which support iterations in Groovy, are cu
   * allAsync()
   * anyAsync()
 
+===Closures enhancements===
 The following methods are added to closures inside the _Asynchronizer.withAsynchronizer()_ blocks:
   * async() - Creates an asynchronous variant of the supplied closure, which when invoked returns a future for the potential return value
   * callAsync() - Calls a closure in a separate thread supplying the given arguments, returning a future for the potential return value,
@@ -61,6 +62,8 @@ Asynchronizer.withAsynchronizer() {
     println result.get()
 }
 }}}
+
+===Executor Service enhancements===
 The ExecutorService class is enhanced with the << (leftShift) operator to submit tasks to it returning a _Future_ for the result. It wraps the _submit()_ method call on the service.
 
 Example:
@@ -69,6 +72,8 @@ Asynchronizer.withAsynchronizer {ExecutorService executorService ->
     executorService << {println 'Inside parallel task'}
 }
 }}}
+
+==Parallelizing closures===
 The AsyncInvokerUtil class offers methods _doInParallel()_, _executeInParallel()_ and _startInParallel()_ to easily run multiple closures in parallel.
 
 Example:
