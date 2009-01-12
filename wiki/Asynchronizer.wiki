@@ -73,7 +73,7 @@ Asynchronizer.withAsynchronizer {ExecutorService executorService ->
 }
 }}}
 
-==Parallelizing closures===
+===Parallelizing closures===
 The AsyncInvokerUtil class offers methods _doInParallel()_, _executeInParallel()_ and _startInParallel()_ to easily run multiple closures in parallel.
 
 Example:
