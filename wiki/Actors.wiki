@@ -1,7 +1,7 @@
 #summary Use of Actors - the message-passing based Scala-like actors library
 #labels Featured,Phase-Design,Phase-Implementation
 
-_Actors_ in GParallelizer were inspired by Actors library in Scala. They allow for messaging-based concurrency model, built from independent active objects that exchange messages and have no modifiable shared state. Actors naturally avoid issues like deadlocks, livelocks or starvation, so typical for shared memory.
+_Actors_ in GParallelizer were inspired by Actors library in Scala. They allow for messaging-based concurrency model, built from independent active objects that exchange messages and have no mutable shared state. Actors naturally avoid issues like deadlocks, livelocks or starvation, so typical for shared memory.
 
 = Usage of Actors =
 
