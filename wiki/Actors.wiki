@@ -113,3 +113,12 @@ List<Integer> merge(List<Integer> a, List<Integer> b) {
     return result
 }
 }}}
+
+===Actors creation===
+_GParallelizer_ provides multiple Actor classes, which differ in the type of the message queue. For example, the _DefaultActor_ uses unbounded queue, _BoundedActor_ uses a bounded one and the _SynchronousActor_ uses an SynchronousQueue, so that send() and receive() operations must meet for both to proced further.
+
+Actors have their _act()_ method run periodically by the actors' thread until the _stop()_ method is called on the Actor.
+
+Developers may either extend one of the Actor classes and override the _act()_ method or use one of the helper methods in the _Actors_ class to create an Actor around a supplied closure.
+
+So called one-shot actors have the _stop()_ method called automatically after the _act()_ method finishes the first time. They are aimed at handling non-repeating tasks.
