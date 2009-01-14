@@ -50,6 +50,8 @@ def actor = Actors.oneShotActor {
 }
 }}}
 
+===Simple calculator===
+
 A little bit more realistic example of an actor that receives two numeric messages, sums them up and sends the result to the console actor.
 {{{
 def console = Actors.oneShotActor {
