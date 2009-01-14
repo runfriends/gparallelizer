@@ -50,6 +50,24 @@ def actor = Actors.oneShotActor {
 }
 }}}
 
+A little bit more realistic example of an actor that receives two numeric messages, sums them up and sends the result to the console actor.
+{{{
+def console = Actors.oneShotActor {
+    println 'Result: ' + receive()
+}.start()
+
+def calculator = Actors.oneShotActor {
+    int a = receive()
+    int b = receive()
+    console.send(a + b)
+}.start()
+
+calculator.send(2)
+calculator.send(3) 
+}}}
+
+===Concurrent Merge Sort Example===
+
 For comparison I'm including a more involved example performing a concurrent merge sort of a list of integers using actors. You can see that thanks to flexibility of Groovy we came pretty close to the Scala's model, although I still miss Scala's pattern matching for message handling.
 
 {{{
