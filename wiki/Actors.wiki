@@ -148,3 +148,13 @@ Each Actor can define lifecycle observing methods, which will be called by the A
   * afterStop(List undeliveredMessages) - called right after the actor is stopped, passing in all the messages from the queue.
   * onInterrupt(InterruptedException e) - called when the actor's thread gets interrupted. Thread interruption will result in the stopping the actor in any case.
   * onException(Throwable e) - called when an exception occurs in the actor's thread. Throwing an exception from this method will stop the actor.
+
+You can either define the methods statically in your Actor class or add them dynamically to the actor's metaclass:
+{{{
+def actor = Actors.actor {...}
+
+actor.metaClass.onException = {
+    log.error('Exception occured', it)
+    if (it instanceof Error) throw it
+}
+}}}
