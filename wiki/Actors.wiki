@@ -144,5 +144,7 @@ Developers may either extend one of the Actor classes and override the _act()_ m
 ===Actor lifecycle methods===
 Each Actor can define lifecycle observing methods, which will be called by the Actor's background thread whenever a certain lifecycle event occurs.
   * afterStart() - called immediatelly after the Actor's background thread has been started, before the act() method is called the first time.
-  * beforeStop()
-  * afterStop()
+  * beforeStop() - called right before the actor stops.
+  * afterStop(List undeliveredMessages) - called right after the actor is stopped, passing in all the messages from the queue.
+  * onInterrupt(InterruptedException e) - called when the actor's thread gets interrupted. Thread interruption will result in the stopping the actor in any case.
+  * onException(Throwable e) - called when an exception occurs in the actor's thread. Throwing an exception from this method will stop the actor.
