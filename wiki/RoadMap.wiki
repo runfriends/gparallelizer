@@ -1,8 +1,8 @@
 #summary What to look forward to
 #labels Featured,Phase-Requirements,Phase-Design
 
-= RoadMap =
+== RoadMap ==
 
-Mixin support - allow actors to be mixed into other classes
-TimeCategory for timeouts - allow time DSL to be used for receive timeouts
-Event-based actors - leverage thread pooling
+  * Mixin support - allow actors to be mixed into other classes
+  * TimeCategory for timeouts - allow time DSL to be used for receive timeouts
+  * Event-based actors - leverage thread pooling
