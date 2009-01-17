@@ -36,7 +36,7 @@ Groovy's flexible syntax with closures allows our library to offer multiple ways
 
 {{{
 def actor = Actors.oneShotActor {
-    println receive(30, TimeUnit.SECONDS) ?: 'No message'
+    println receive(30.seconds) ?: 'No message'
 }
 }}}
 
@@ -44,7 +44,7 @@ Notice the possible alternative way to retrieve the received value from the rece
 
 {{{
 def actor = Actors.oneShotActor {
-    receive(30, TimeUnit.SECONDS) {
+    receive(30.seconds) {
         println it?:'No message'
     }
 }
@@ -157,4 +157,59 @@ actor.metaClass.onException = {
     log.error('Exception occured', it)
     if (it instanceof Error) throw it
 }
+}}}
+
+===TimeCategory DSL use===
+Actors allow time DSL defined by org.codehaus.groovy.runtime.TimeCategory class to be used for timeout specification to the receive() method.
+{{{
+def me = Actors.actor {
+    friend.send('Hi')
+    def reply = receive(10.seconds)
+    if (!reply) friend.send('I said Hi! Are your there man?')
+}
+}}}
+
+===Actors as Mixins===
+As of 0.5 release actors can be mixed into other classes.
+{{{
+        Company.metaClass {
+            mixin DefaultActor
+
+            act = {->
+                receive {
+                    println it
+                }
+            }
+
+            afterStop = {List undeliveredMessages ->
+                ...
+            }
+        }
+
+final Company company = new Company(name: 'Company1', employees: ['Joe', 'Dave', 'Alice'])
+company.start()
+company.send("Message")
+...
+company.stop()
+}}}
+
+Actors can also extend individual instances only.
+{{{
+final Company company = new Company(name: 'Company1', employees: ['Joe', 'Dave', 'Alice'])
+
+company.metaClass {
+    mixin DefaultActor
+
+    act = {->
+        receive {
+            println it
+        }
+    }
+}
+
+company.start()
+company.send("Message")
+...
+company.stop()
+
 }}}
