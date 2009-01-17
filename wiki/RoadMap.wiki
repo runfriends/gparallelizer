@@ -3,6 +3,4 @@
 
 == RoadMap ==
 
-  * Mixin support - allow actors to be mixed into other classes
-  * TimeCategory for timeouts - allow time DSL to be used for receive timeouts
-  * Event-based actors - leverage thread pooling
+  * Event-based actors - disconnect actors from threads, leverage thread pooling to enable scaling up beyond the OS threading limits
