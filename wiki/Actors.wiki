@@ -3,7 +3,21 @@
 
 _Actors_ in GParallelizer were inspired by Actors library in Scala. They allow for messaging-based concurrency model, built from independent active objects that exchange messages and have no mutable shared state. Actors naturally avoid issues like deadlocks, livelocks or starvation, so typical for shared memory.
 
+= Types of Actors =
+
+*GParallelizer* comes with two types of actors, both of which have their uses. _thread-bound actors_ maintain their own thread of execution, whereas _event-driven actors_ (scheduled for the 0.6 release) share a common thread pool, from which they borrow threads whenever they must react to an event - typically a message sent to them. 
+
+== Event-driven actors ==
+
+Although _thread-bound actors_ can perform better in some, typically low contention, scenarios, they exhibit scalability limitations due to the natural limits of concurrently run threads imposed by current HW platforms. _Event-driven actors_, which share a relatively small thread pool and avoid these threading limitations, on the other hand, are a bit trickier to use since they require computing tasks to be detachable from and re-attachable to the underlying threads. Actor's code is processed in chunks separated by quiet periods of waiting for new events (messages). This can be naturally modeled through _continuations_. As JVM doesn't support continuations directly, it has to be simulated in the actors frameworks, which has slight impact on organization of the actors' code. However, the benefits in most cases outweigh the difficulties. 
+
 = Usage of Actors =
+
+*GParallelizer* provides consistent API and DSL for both _thread-bound actors_ and _event-driven actors_. The differences in use are only marginal and relate to the different threading nature of these two types of actors.
+
+== Thread-bound actors ==
+
+_Thread-bound actors_ have their own thread, which is always available to receive and process new messages sent to the actor.
 
 For example, this is how you create an actor that prints out all messages that it receives.
 
