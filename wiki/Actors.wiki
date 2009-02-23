@@ -64,4 +64,4 @@ def actor = Actors.oneShotActor {
 }
 }}}
 
-See more detailed documentation at [http://code.google.com/p/gparallelizer/wiki/ThreadBoundActors]
+See more detailed documentation on [http://code.google.com/p/gparallelizer/wiki/ThreadBoundActors Use of thread-bound actors]
