@@ -74,18 +74,22 @@ For example, this is how you create an actor that prints out all messages that i
 
 {{{
 def actor = PooledActors.actor {
-    react {
-        println it
+    loop {
+        react {
+            println it
+        }
     }
 }}}
 
-Alternativelly you can extend one of the PooledActor's classes and override the act() method.
+Notice the loop() method call, which ensures that the actor doesn't stop after having processed the first message. Alternativelly you can extend one of the PooledActor's classes and override the act() method.
 
 {{{
 class CustomActor extends AbstractPooledActor {
     @Override protected void act() {
-        react {
-            println it
+        loop [
+            react {
+                println it
+            }
         }
     }
 }
@@ -100,20 +104,12 @@ actor.start()
 actor.send('Message')
 }}}
 
-Groovy's flexible syntax with closures allows our library to offer multiple ways to define actors. For instance, here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates. Something I call a one-shot actor.
+Groovy's flexible syntax with closures allows our library to offer multiple ways to define actors. For instance, here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates.
 
 {{{
-def actor = Actors.oneShotActor {
-    println receive(30.seconds) ?: 'No message'
-}
-}}}
-
-Notice the possible alternative way to retrieve the received value from the receive() method - the value is passed as a parameter into a closure.
-
-{{{
-def actor = Actors.oneShotActor {
-    receive(30.seconds) {
-        println it?:'No message'
+def actor = PooledActors.actor {
+    react(30.seconds) {
+        println it
     }
 }
 }}}
