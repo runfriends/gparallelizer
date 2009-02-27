@@ -1,14 +1,50 @@
-#summary One-sentence summary of this page.
+#summary _Event-driven actors_ share a *pool* of threads, which are dynamically assigned to actors when the actors need to *react* to a message sent to them. The threads are returned to back the pool once the message has been processed and the actor is idle waiting for some more messages to arrive.
 #labels Featured,Phase-Design,Phase-Implementation
 
-= Introduction =
+= Use of event-driven actors =
 
-Add your content here.
+_Event-driven actors_ share a *pool* of threads, which are dynamically assigned to actors when the actors need to *react* to a message sent to them. The threads are returned to back the pool once the message has been processed and the actor is idle waiting for some more messages to arrive.
 
+For example, this is how you create an actor that prints out all messages that it receives.
 
-= Details =
+{{{
+def actor = PooledActors.actor {
+    loop {
+        react {
+            println it
+        }
+    }
+}}}
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Notice the loop() method call, which ensures that the actor doesn't stop after having processed the first message. Alternatively you can extend one of the PooledActor's classes and override the act() method.
+
+{{{
+class CustomActor extends AbstractPooledActor {
+    @Override protected void act() {
+        loop [
+            react {
+                println it
+            }
+        }
+    }
+}
+
+def actor=new CustomActor()
+}}}
+
+Once you have the actor, you need to start it so that it attaches itself to the thread pool and can start accepting messages.
+
+{{{
+actor.start()
+actor.send('Message')
+}}}
+
+Groovy's flexible syntax with closures allows our library to offer multiple ways to define actors. For instance, here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates.
+
+{{{
+def actor = PooledActors.actor {
+    react(30.seconds) {
+        println it
+    }
+}
+}}}
