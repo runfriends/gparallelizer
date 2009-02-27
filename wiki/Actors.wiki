@@ -15,6 +15,56 @@ Although _thread-bound actors_ can perform better in some, typically low content
 
 *GParallelizer* provides consistent API and DSL for both _thread-bound actors_ and _event-driven actors_. The differences in use are only marginal and relate to the different threading nature of these two types of actors.
 
+== Event-driven actors ==
+
+_Event-driven actors_ share a *pool* of threads, which are dynamically assigned to actors when the actors need to *react* to a message sent to them. The threads are returned to back the pool once the message has been processed and the actor is idle waiting for some more messages to arrive.
+
+For example, this is how you create an actor that prints out all messages that it receives.
+
+{{{
+def actor = PooledActors.actor {
+    loop {
+        react {
+            println it
+        }
+    }
+}}}
+
+Notice the loop() method call, which ensures that the actor doesn't stop after having processed the first message. Alternatively you can extend one of the PooledActor's classes and override the act() method.
+
+{{{
+class CustomActor extends AbstractPooledActor {
+    @Override protected void act() {
+        loop [
+            react {
+                println it
+            }
+        }
+    }
+}
+
+def actor=new CustomActor()
+}}}
+
+Once you have the actor, you need to start it so that it attaches itself to the thread pool and can start accepting messages.
+
+{{{
+actor.start()
+actor.send('Message')
+}}}
+
+Groovy's flexible syntax with closures allows our library to offer multiple ways to define actors. For instance, here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates.
+
+{{{
+def actor = PooledActors.actor {
+    react(30.seconds) {
+        println it
+    }
+}
+}}}
+
+See more detailed documentation on [http://code.google.com/p/gparallelizer/wiki/EventDrivenActors Use of event-driven actors]
+
 == Thread-bound actors ==
 
 _Thread-bound actors_ have their own thread, which is always available to receive and process new messages sent to the actor.
@@ -65,53 +115,3 @@ def actor = Actors.oneShotActor {
 }}}
 
 See more detailed documentation on [http://code.google.com/p/gparallelizer/wiki/ThreadBoundActors Use of thread-bound actors]
-
-== Event-driven actors ==
-
-_Event-driven actors_ share a *pool* of threads, which are dynamically assigned to actors when the actors need to *react* to a message sent to them. The threads are returned to back the pool once the message has been processed and the actor is idle waiting for some more messages to arrive.
-
-For example, this is how you create an actor that prints out all messages that it receives.
-
-{{{
-def actor = PooledActors.actor {
-    loop {
-        react {
-            println it
-        }
-    }
-}}}
-
-Notice the loop() method call, which ensures that the actor doesn't stop after having processed the first message. Alternatively you can extend one of the PooledActor's classes and override the act() method.
-
-{{{
-class CustomActor extends AbstractPooledActor {
-    @Override protected void act() {
-        loop [
-            react {
-                println it
-            }
-        }
-    }
-}
-
-def actor=new CustomActor()
-}}}
-
-Once you have the actor, you need to start it so that it attaches itself to the thread pool and can start accepting messages.
-
-{{{
-actor.start()
-actor.send('Message')
-}}}
-
-Groovy's flexible syntax with closures allows our library to offer multiple ways to define actors. For instance, here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates.
-
-{{{
-def actor = PooledActors.actor {
-    react(30.seconds) {
-        println it
-    }
-}
-}}}
-
-See more detailed documentation on [http://code.google.com/p/gparallelizer/wiki/EventDrivenActors Use of event-driven actors]
