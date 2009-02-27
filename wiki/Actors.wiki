@@ -5,7 +5,7 @@ _Actors_ in GParallelizer were inspired by Actors library in Scala. They allow f
 
 = Types of Actors =
 
-*GParallelizer* comes with two types of actors, both of which have their uses. _thread-bound actors_ maintain their own thread of execution, whereas _event-driven actors_ (scheduled for the 0.6 release) share a common thread pool, from which they borrow threads whenever they must react to an event - typically a message sent to them. 
+*GParallelizer* comes with two types of actors, both of which have their uses. _Thread-bound actors_ maintain their own thread of execution, whereas _event-driven actors_ (scheduled for the 0.6 release) share a common thread pool, from which they borrow threads whenever they must react to an event - typically a message sent to them. 
 
 == Event-driven actors ==
 
