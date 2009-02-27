@@ -68,7 +68,7 @@ See more detailed documentation on [http://code.google.com/p/gparallelizer/wiki/
 
 == Event-driven actors ==
 
-_Event-driven actors_ share a pool of threads, which are dynamically assigned to actors when the actors need to react to a message sent to them and are returned to the pool once the message has been processed and the actor is idle waiting for some more messages to arrive.
+_Event-driven actors_ share a *pool* of threads, which are dynamically assigned to actors when the actors need to *react* to a message sent to them. The threads are returned to back the pool once the message has been processed and the actor is idle waiting for some more messages to arrive.
 
 For example, this is how you create an actor that prints out all messages that it receives.
 
@@ -81,7 +81,7 @@ def actor = PooledActors.actor {
     }
 }}}
 
-Notice the loop() method call, which ensures that the actor doesn't stop after having processed the first message. Alternativelly you can extend one of the PooledActor's classes and override the act() method.
+Notice the loop() method call, which ensures that the actor doesn't stop after having processed the first message. Alternatively you can extend one of the PooledActor's classes and override the act() method.
 
 {{{
 class CustomActor extends AbstractPooledActor {
@@ -97,7 +97,7 @@ class CustomActor extends AbstractPooledActor {
 def actor=new CustomActor()
 }}}
 
-Once you have the actor, you need to start it so that it attaches to the thread pool and can accept messages.
+Once you have the actor, you need to start it so that it attaches itself to the thread pool and can start accepting messages.
 
 {{{
 actor.start()
