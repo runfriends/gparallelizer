@@ -87,7 +87,7 @@ For comparison I'm also including a more involved example performing a concurren
 {{{
 Closure createMessageHandler(def parentActor) {
     return {
-        receive {List<Integer> message ->
+        react {List<Integer> message ->
             assert message != null
             switch (message.size()) {
                 case 0..1:
@@ -100,26 +100,31 @@ Closure createMessageHandler(def parentActor) {
                 default:
                     def splitList = split(message)
 
-                    def child1 = Actors.oneShotActor(createMessageHandler(delegate))
-                    def child2 = Actors.oneShotActor(createMessageHandler(delegate))
+                    def child1 = actor(createMessageHandler(delegate))
+                    def child2 = actor(createMessageHandler(delegate))
                     child1.start().send(splitList[0])
                     child2.start().send(splitList[1])
 
-                    parentActor.send merge(receive(), receive())
+                    react {message1 ->
+                        react {message2 ->
+                            parentActor.send merge(message1, message2)
+                        }
+
+                    }
             }
         }
     }
-
 }
 
-def resultActor = Actors.oneShotActor {
-    println "Sorted array:\t${receive()}"
+def resultActor = actor {
+    react { println "Sorted array:\t${it}" }
 }.start()
 
-def sorter = Actors.oneShotActor(createMessageHandler(resultActor))
-sorter.start().send([1, 5, 2, 4, 3, 8, 6, 7, 3, 4, 5, 2, 2, 9, 8, 7, 6, 7, 8, 1, 4, 1, 7, 5, 8, 2, 3, 9, 5, 7, 4, 3])
+def sorter = actor(createMessageHandler(resultActor))
+sorter.start().send([1, 5, 2, 4, 3, 8, 6, 7, 3, 9, 5, 3])
 }}}
 
+Since event-driven actors reuse threads from a pool, the script will work with virtually any size of a thread pool, no matter how many actors are created along the way.
 For brevity I didn't include the two helper methods split() and merge() in the code snippet. You can find them below.
 {{{
 def split(List<Integer> list) {
@@ -146,39 +151,34 @@ List<Integer> merge(List<Integer> a, List<Integer> b) {
 }
 }}}
 
-===Actors creation===
-_GParallelizer_ provides multiple Actor classes, which differ in the type of the message queue. For example, the DefaultActor uses unbounded queue, BoundedActor uses a bounded one and the SynchronousActor uses an SynchronousQueue, where send() and receive() operations must meet for both to proced further.
-
-Actors have their _act()_ method run periodically by the actors' thread until the _stop()_ method is called on the Actor. So called one-shot actors have the _stop()_ method called automatically after the _act()_ method finishes the first time. They are aimed at handling non-repeating tasks.
-
-Developers may either extend one of the Actor classes and override the _act()_ method or use one of the helper methods in the _Actors_ class to have an Actor created around a supplied closure.
-
 ===Actor lifecycle methods===
-Each Actor can define lifecycle observing methods, which will be called by the Actor's background thread whenever a certain lifecycle event occurs.
-  * afterStart() - called immediatelly after the Actor's background thread has been started, before the act() method is called the first time.
-  * beforeStop() - called right before the actor stops.
-  * afterStop(List undeliveredMessages) - called right after the actor is stopped, passing in all the messages from the queue.
+Each Actor can define lifecycle observing methods, which will be called whenever a certain lifecycle event occurs.
+  * afterStart() - called immediately after the Actor has been started, before the act() method is called the first time.
+  * afterStop(List undeliveredMessages) - called right after the actor is stopped, passing in all the unprocessed messages from the queue.
   * onInterrupt(InterruptedException e) - called when the actor's thread gets interrupted. Thread interruption will result in the stopping the actor in any case.
-  * onException(Throwable e) - called when an exception occurs in the actor's thread. Throwing an exception from this method will stop the actor.
+  * onTimeout() - called when no messages are sent to the actor within the timeout specified for the currently blocking react method. Timeout will result in stopping the actor.
+  * onException(Throwable e) - called when an exception occurs in the actor's event handler. Actor will stop after return from this method.
 
 You can either define the methods statically in your Actor class or add them dynamically to the actor's metaclass:
 {{{
 def actor = Actors.actor {...}
 
 actor.metaClass.onException = {
-    log.error('Exception occured', it)
-    if (it instanceof Error) throw it
+    log.error('Exception occurred', it)
 }
 }}}
 
 ===TimeCategory DSL use===
-Actors allow time DSL defined by org.codehaus.groovy.runtime.TimeCategory class to be used for timeout specification to the receive() method.
+Actors allow time DSL defined by org.codehaus.groovy.runtime.TimeCategory class to be used for timeout specification to the react() method.
 {{{
 def me = Actors.actor {
     friend.send('Hi')
-    def reply = receive(10.seconds)
-    if (!reply) friend.send('I said Hi! Are your there man?')
+    react(10.seconds) {
+        //continue conversation
+    }
 }
+
+me.metaClass.onTimeout = {->friend.send('I see, busy as usual. Never mind.')}
 }}}
 
 ===Actors as Mixins===
