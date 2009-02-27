@@ -210,11 +210,13 @@ Actors can also extend individual instances only.
 final Company company = new Company(name: 'Company1', employees: ['Joe', 'Dave', 'Alice'])
 
 company.metaClass {
-    mixin DefaultActor
+    mixin DefaultPooledActor
 
     act = {->
-        receive {
-            println it
+        loop {
+            react(1.day) {
+                println it
+            }
         }
     }
 }
