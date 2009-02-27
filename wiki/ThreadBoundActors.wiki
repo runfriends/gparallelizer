@@ -133,7 +133,7 @@ List<Integer> merge(List<Integer> a, List<Integer> b) {
 }}}
 
 ===Actors creation===
-_GParallelizer_ provides multiple Actor classes, which differ in the type of the message queue. For example, the DefaultActor uses unbounded queue, BoundedActor uses a bounded one and the SynchronousActor uses an SynchronousQueue, where send() and receive() operations must meet for both to proced further.
+_GParallelizer_ provides multiple Actor classes, which differ in the type of the message queue. For example, the DefaultActor uses unbounded queue, BoundedActor uses a bounded one and the SynchronousActor uses an SynchronousQueue, where send() and receive() operations must meet for both to proceed further.
 
 Actors have their _act()_ method run periodically by the actors' thread until the _stop()_ method is called on the Actor. So called one-shot actors have the _stop()_ method called automatically after the _act()_ method finishes the first time. They are aimed at handling non-repeating tasks.
 
@@ -141,10 +141,10 @@ Developers may either extend one of the Actor classes and override the _act()_ m
 
 ===Actor lifecycle methods===
 Each Actor can define lifecycle observing methods, which will be called by the Actor's background thread whenever a certain lifecycle event occurs.
-  * afterStart() - called immediatelly after the Actor's background thread has been started, before the act() method is called the first time.
+  * afterStart() - called immediately after the Actor's background thread has been started, before the act() method is called the first time.
   * beforeStop() - called right before the actor stops.
   * afterStop(List undeliveredMessages) - called right after the actor is stopped, passing in all the messages from the queue.
-  * onInterrupt(InterruptedException e) - called when the actor's thread gets interrupted. Thread interruption will result in the stopping the actor in any case.
+  * onInterrupt(InterruptedException e) - called when the actor's thread gets interrupted. Thread interruption will result in stopping the actor in any case.
   * onException(Throwable e) - called when an exception occurs in the actor's thread. Throwing an exception from this method will stop the actor.
 
 You can either define the methods statically in your Actor class or add them dynamically to the actor's metaclass:
