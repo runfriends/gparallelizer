@@ -109,7 +109,6 @@ Closure createMessageHandler(def parentActor) {
                         react {message2 ->
                             parentActor.send merge(message1, message2)
                         }
-
                     }
             }
         }
@@ -124,7 +123,8 @@ def sorter = actor(createMessageHandler(resultActor))
 sorter.start().send([1, 5, 2, 4, 3, 8, 6, 7, 3, 9, 5, 3])
 }}}
 
-Since event-driven actors reuse threads from a pool, the script will work with virtually any size of a thread pool, no matter how many actors are created along the way.
+Since _event-driven actors_ reuse threads from a pool, the script will work with virtually *any size of a thread pool*, no matter how many actors are created along the way.
+
 For brevity I didn't include the two helper methods split() and merge() in the code snippet. You can find them below.
 {{{
 def split(List<Integer> list) {
