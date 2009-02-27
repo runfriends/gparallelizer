@@ -49,6 +49,29 @@ def actor = PooledActors.actor {
 }
 }}}
 
+===Reply===
+
+While handling received messages actors can use the _reply()_ method to send a message to the actor, which has sent the currently handled message to them.
+
+{{{
+import static org.gparallelizer.actors.pooledActors.PooledActors.*
+
+final def decryptor = actor {
+    loop {
+        react {String message->
+            reply message.reverse()
+        }
+    }
+}.start()
+
+actor {
+    decryptor.send 'suonorhcnysa si yvoorG'
+    react {
+        println 'Decrypted message: ' + it
+    }
+}.start()
+}}}
+
 ===Simple calculator===
 
 A little bit more realistic example of an event-driven actor that receives two numeric messages, sums them up and sends the result to the console actor.
