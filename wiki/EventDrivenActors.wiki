@@ -182,14 +182,16 @@ me.metaClass.onTimeout = {->friend.send('I see, busy as usual. Never mind.')}
 }}}
 
 ===Actors as Mixins===
-As of 0.5 release actors can be mixed into other classes.
+Actors can be mixed into other classes.
 {{{
         Company.metaClass {
-            mixin DefaultActor
+            mixin DefaultPooledActor
 
             act = {->
-                receive {
-                    println it
+                loop {
+                    react(100.years) {
+                        println it
+                    }
                 }
             }
 
@@ -205,7 +207,7 @@ company.send("Message")
 company.stop()
 }}}
 
-Actors can also extend individual instances only.
+Actors can also extend individual instances only through mixins.
 {{{
 final Company company = new Company(name: 'Company1', employees: ['Joe', 'Dave', 'Alice'])
 
