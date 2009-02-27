@@ -1,4 +1,4 @@
-#summary _Event-driven actors_ share a *pool* of threads, which are dynamically assigned to actors when the actors need to *react* to a message sent to them. The threads are returned to back the pool once the message has been processed and the actor is idle waiting for some more messages to arrive.
+#summary Event-driven actors share a *pool* of threads, which are dynamically assigned to actors when the actors need to *react* to a message sent to them. The threads are returned to back the pool once the message has been processed and the actor is idle waiting for some more messages to arrive.
 #labels Featured,Phase-Design,Phase-Implementation
 
 = Use of event-driven actors =
