@@ -28,39 +28,47 @@ def actor = actor {
             println it
         }
     }
+}
 }}}
 
-Notice the loop() method call, which ensures that the actor doesn't stop after having processed the first message. Alternatively you can extend one of the PooledActor's classes and override the act() method.
+Notice the loop() method call, which ensures that the actor doesn't stop after having processed the first message.
+
+Here's an example with a decryptor service, which can decrypt submitted messages and send the decrypted messages back to the originators.
 
 {{{
-class CustomActor extends AbstractPooledActor {
-    @Override protected void act() {
-        loop [
-            react {
-                println it
-            }
+import static org.gparallelizer.actors.pooledActors.PooledActors.*
+
+final def decryptor = actor {
+    loop {
+        react {String message->
+            if ('stopService' == message) stop()
+            else reply message.reverse()
         }
     }
-}
+}.start()
 
-def actor=new CustomActor()
-}}}
-
-Once you have the actor, you need to start it so that it attaches itself to the thread pool and can start accepting messages.
-
-{{{
-actor.start()
-actor.send('Message')
+actor {
+    decryptor.send 'suonorhcnysa si yvoorG'
+    react {
+        println 'Decrypted message: ' + it
+        decryptor.send 'stopService'
+    }
+}.start()
 }}}
 
 Groovy's flexible syntax with closures allows our library to offer multiple ways to define actors. For instance, here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates.
 
 {{{
-def actor = actor {
-    react(30.seconds) {
-        println it
+import static org.gparallelizer.actors.pooledActors.PooledActors.*
+
+def me = actor {
+    friend.send('Hi')
+    react(10.seconds) {
+        //continue conversation
     }
-}
+}.start()
+
+me.metaClass.onTimeout = {->friend.send('I see, busy as usual. Never mind.')}
 }}}
 
 See more detailed documentation on [http://code.google.com/p/gparallelizer/wiki/EventDrivenActors Use of event-driven actors]
