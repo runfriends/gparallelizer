@@ -68,7 +68,9 @@ As you can see, you create new actors with the _actor()_ method passing in the a
 Groovy's flexible syntax with closures allows our library to offer multiple ways to define actors. For instance, here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates.
 
 {{{
-def actor = PooledActors.actor {
+import static org.gparallelizer.actors.pooledActors.PooledActors.*
+
+def actor = actor {
     react(30.seconds) {
         println it
     }
