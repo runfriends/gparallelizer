@@ -5,7 +5,7 @@ _Actors_ in GParallelizer were inspired by Actors library in Scala. They allow f
 
 = Types of Actors =
 
-*GParallelizer* comes with two types of actors, both of which have their uses. _Thread-bound actors_ maintain their own thread of execution, whereas _event-driven actors_ (scheduled for the 0.6 release) share a common thread pool, from which they borrow threads whenever they must react to an event - typically a message sent to them. 
+*GParallelizer* comes with two types of actors, both of which have their uses. _Thread-bound actors_ maintain their own thread of execution, whereas _event-driven actors_ (as of the 0.6 release) share a common thread pool, from which they borrow threads whenever they must react to an event - typically a message sent to them. 
 
 == Event-driven actors ==
 
@@ -56,7 +56,7 @@ actor {
 }.start()
 }}}
 
-Groovy's flexible syntax with closures allows our library to offer multiple ways to define actors. For instance, here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates.
+Here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates.
 
 {{{
 import static org.gparallelizer.actors.pooledActors.PooledActors.*
@@ -103,8 +103,7 @@ Once you have the actor, you need to start it so that it creates its background 
 actor.start()
 actor.send('Message')
 }}}
-
-Groovy's flexible syntax with closures allows our library to offer multiple ways to define actors. For instance, here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates. Something I call a one-shot actor.
+Here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates. Something I call a one-shot actor.
 
 {{{
 def actor = Actors.oneShotActor {
