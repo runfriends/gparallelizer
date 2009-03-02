@@ -79,7 +79,7 @@ def me = actor {
 
 me.metaClass.onTimeout = {->friend.send('I see, busy as usual. Never mind.')}
 }}}
-Notice the use of Groovy meta-programming to define one of the actor's lifecycle notification method _onTimeout()_ dynamically.
+Notice the possibility to use Groovy meta-programming to define actor's lifecycle notification methods (e.g. _onTimeout()_) dynamically.
 
 ===Simple calculator===
 
