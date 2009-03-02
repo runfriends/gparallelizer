@@ -70,11 +70,14 @@ Groovy's flexible syntax with closures allows our library to offer multiple ways
 {{{
 import static org.gparallelizer.actors.pooledActors.PooledActors.*
 
-def actor = actor {
-    react(30.seconds) {
-        println it
+def me = actor {
+    friend.send('Hi')
+    react(10.seconds) {
+        //continue conversation
     }
 }
+
+me.metaClass.onTimeout = {->friend.send('I see, busy as usual. Never mind.')}
 }}}
 
 ===Simple calculator===
