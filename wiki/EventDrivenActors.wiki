@@ -65,7 +65,7 @@ actor {
 }}}
 As you can see, you create new actors with the _actor()_ method passing in the actor's body as a closure parameter. Inside the actor's body you can use _loop()_ to iterate, _react()_ to receive messages and _reply()_ to send a message to the actor, which has sent you the currently processed message. With the _start()_ method you schedule the actor to the underlying thread pool for processing. When the decryptor actor doesn't find a message in its message queue, the _react()_ method gives up the thread and returns it back to the thread pool for other actors to pick up. Only after a new message arrives to the actor's message queue, the closure of the _react()_ method gets scheduled for processing with the pool. Event-based actors internally simulate continuations - actor's work is split into chunks, each of which is processed in sequence, by different threads from the thread pool and potentially with pauses between the chunks.
 
-Groovy's flexible syntax with closures allows our library to offer multiple ways to define actors. For instance, here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates.
+Groovy's flexible syntax with closures allows our library to offer multiple ways to define actors. For instance, here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates. Actors allow time DSL defined by org.codehaus.groovy.runtime.TimeCategory class to be used for timeout specification to the _react()_ method.
 
 {{{
 import static org.gparallelizer.actors.pooledActors.PooledActors.*
@@ -198,19 +198,6 @@ def actor = Actors.actor {...}
 actor.metaClass.onException = {
     log.error('Exception occurred', it)
 }
-}}}
-
-===TimeCategory DSL use===
-Actors allow time DSL defined by org.codehaus.groovy.runtime.TimeCategory class to be used for timeout specification to the react() method.
-{{{
-def me = Actors.actor {
-    friend.send('Hi')
-    react(10.seconds) {
-        //continue conversation
-    }
-}
-
-me.metaClass.onTimeout = {->friend.send('I see, busy as usual. Never mind.')}
 }}}
 
 ===Actors as Mixins===
