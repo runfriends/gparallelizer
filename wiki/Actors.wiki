@@ -17,7 +17,7 @@ Although _thread-bound actors_ can perform better in some scenarios, they exhibi
 
 == Event-driven actors ==
 
-_Event-driven actors_ share a *pool* of threads, which are dynamically assigned to actors when the actors need to *react* to messages sent to them. The threads are returned to back the pool once the message has been processed and the actor is idle waiting for some more messages to arrive.
+_Event-driven actors_ share a *pool* of threads, which are dynamically assigned to actors when the actors need to *react* to messages sent to them. The threads are returned to back the pool once a message has been processed and the actor is idle waiting for some more messages to arrive.
 
 For example, this is how you create an actor that prints out all messages that it receives.
 
