@@ -9,7 +9,7 @@ _Actors_ in GParallelizer were inspired by Actors library in Scala. They allow f
 
 == Event-driven actors ==
 
-Although _thread-bound actors_ can perform better in some, typically low contention, scenarios, they exhibit scalability limitations due to the natural limits of concurrently run threads imposed by current HW platforms. _Event-driven actors_, which share a relatively small thread pool and avoid these threading limitations, on the other hand, are a bit trickier to use since they require computing tasks to be detachable from and re-attachable to the underlying threads. Actor's code is processed in chunks separated by quiet periods of waiting for new events (messages). This can be naturally modeled through _continuations_. As JVM doesn't support continuations directly, they have to be simulated in the actors frameworks, which has slight impact on organization of the actors' code. However, the benefits in most cases outweigh the difficulties. 
+Although _thread-bound actors_ can perform better in some scenarios, they exhibit scalability limitations due to the natural limits of concurrently run threads imposed by current HW platforms. _Event-driven actors_, which share a relatively small thread pool and avoid these threading limitations, on the other hand, are a bit trickier to use since they require computing tasks to be detachable from and re-attachable to the underlying threads. Actor's code is processed in chunks separated by quiet periods of waiting for new events (messages). This can be naturally modeled through _continuations_. As JVM doesn't support continuations directly, they have to be simulated in the actors frameworks, which has slight impact on organization of the actors' code. However, the benefits in most cases outweigh the difficulties. 
 
 = Usage of Actors =
 
@@ -22,7 +22,7 @@ _Event-driven actors_ share a *pool* of threads, which are dynamically assigned 
 For example, this is how you create an actor that prints out all messages that it receives.
 
 {{{
-def actor = PooledActors.actor {
+def actor = actor {
     loop {
         react {
             println it
@@ -56,7 +56,7 @@ actor.send('Message')
 Groovy's flexible syntax with closures allows our library to offer multiple ways to define actors. For instance, here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates.
 
 {{{
-def actor = PooledActors.actor {
+def actor = actor {
     react(30.seconds) {
         println it
     }
