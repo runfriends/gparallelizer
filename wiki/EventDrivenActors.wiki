@@ -75,7 +75,7 @@ def me = actor {
     react(10.seconds) {
         //continue conversation
     }
-}
+}.start()
 
 me.metaClass.onTimeout = {->friend.send('I see, busy as usual. Never mind.')}
 }}}
