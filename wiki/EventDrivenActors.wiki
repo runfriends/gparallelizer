@@ -3,7 +3,7 @@
 
 = Use of event-driven actors =
 
-_Event-driven actors_ share a *pool* of threads, which are dynamically assigned to actors when the actors need to *react* to a message sent to them. The threads are returned to back the pool once the message has been processed and the actor is idle waiting for some more messages to arrive.
+_Event-driven actors_ share a *pool* of threads, which are dynamically assigned to actors when the actors need to *react* to a message sent to them. The threads are returned to back the pool once the message has been processed and the actor is idle waiting for some more messages to arrive. Actors become detached from the underlying threads and so a relatively small thread pool can serve potentially unlimited number of actors. Virtually unlimited scalability in number of actors is the main advantage of _event-based actors_ over _thread-bound ones_, where each actor has its own exclusive background thread associated with it.
 
 For example, this is how you create an actor that prints out all messages that it receives.
 
@@ -16,7 +16,8 @@ def actor = PooledActors.actor {
     }
 }}}
 
-Notice the loop() method call, which ensures that the actor doesn't stop after having processed the first message. Alternatively you can extend one of the PooledActor's classes and override the act() method.
+Notice the loop() method call, which ensures that the actor doesn't stop after having processed the first message. Event-driven actors require special care regarding the _react()_ method. Since _event-driven actors_ need to split the code into independent chunks assignable to different threads sequentially and continuations are not natively supported on JVM, the chunks are created artificially with _Runnable_ tasks and exceptions. As a result the _react()_ and _loop()_ methods never return normally and actors' code must be structured accordingly.
+As an alternative you can extend the AbstractPooledActor class and override the _act()_ method.
 
 {{{
 class CustomActor extends AbstractPooledActor {
@@ -39,6 +40,7 @@ actor.start()
 actor.send('Message')
 }}}
 
+As you can see, you create new actors with the actor() method passing in the actor's body as a closure parameter. Inside the actor's body you can use loop() to iterate, react() to receive messages and reply() to send a message to the actor, which has sent you the currently processed message. With the start() method you schedule the actor to the underlying thread pool for processing. When the decryptor actor doesn't find a message in its message queue, the react() method gives up the thread and returns it back to the thread pool for other actors to pick up. Only after a new message arrives to the actor's message queue, the closure of the react() method gets scheduled for processing with the pool. Event-based actors internally simulate continuations - actor's work is split into chunks, each of which is processed in sequence, by different threads from the thread pool and potentially with pauses between the chunks. 
 Groovy's flexible syntax with closures allows our library to offer multiple ways to define actors. For instance, here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates.
 
 {{{
