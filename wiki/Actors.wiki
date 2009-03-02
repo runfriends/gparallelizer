@@ -31,7 +31,7 @@ def actor = actor {
 }
 }}}
 
-Notice the loop() method call, which ensures that the actor doesn't stop after having processed the first message.
+Notice the _loop()_ method call, which ensures that the actor doesn't stop after having processed the first message.
 
 Here's an example with a decryptor service, which can decrypt submitted messages and send the decrypted messages back to the originators.
 
