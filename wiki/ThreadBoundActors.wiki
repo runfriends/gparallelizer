@@ -6,7 +6,9 @@
 For example, this is how you create an actor that prints out all messages that it receives.
 
 {{{
-def actor = Actors.actor {
+import static org.gparallelizer.actors.Actors.*
+
+def console = actor {
     println receive()
 }
 }}}
@@ -20,20 +22,20 @@ class CustomActor extends BoundedActor {
     }
 }
 
-def actor=new CustomActor()
+def console=new CustomActor()
 }}}
 
 Once you have the actor, you need to start it so that it creates its background thread and can accept messages.
 
 {{{
-actor.start()
-actor.send('Message')
+console.start()
+console.send('Message')
 }}}
 
 Groovy's flexible syntax with closures allows our library to offer multiple ways to define actors. For instance, here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates. Something I call a one-shot actor.
 
 {{{
-def actor = Actors.oneShotActor {
+def notifier = oneShotActor {
     println receive(30.seconds) ?: 'No message'
 }
 }}}
@@ -41,7 +43,7 @@ def actor = Actors.oneShotActor {
 Notice the possible alternative way to retrieve the received value from the receive() method - the value is passed as a parameter into a closure.
 
 {{{
-def actor = Actors.oneShotActor {
+def notifier = oneShotActor {
     receive(30.seconds) {
         println it?:'No message'
     }
@@ -52,11 +54,13 @@ def actor = Actors.oneShotActor {
 
 A little bit more realistic example of an actor that receives two numeric messages, sums them up and sends the result to the console actor.
 {{{
-def console = Actors.oneShotActor {
+import static org.gparallelizer.actors.Actors.*
+
+def console = oneShotActor {
     println 'Result: ' + receive()
 }.start()
 
-def calculator = Actors.oneShotActor {
+def calculator = oneShotActor {
     int a = receive()
     int b = receive()
     console.send(a + b)
@@ -71,6 +75,8 @@ calculator.send(3)
 For comparison I'm including a more involved example performing a concurrent merge sort of a list of integers using actors. You can see that thanks to flexibility of Groovy we came pretty close to the Scala's model, although I still miss Scala's pattern matching for message handling.
 
 {{{
+import static org.gparallelizer.actors.Actors.*
+
 Closure createMessageHandler(def parentActor) {
     return {
         receive {List<Integer> message ->
@@ -98,11 +104,11 @@ Closure createMessageHandler(def parentActor) {
 
 }
 
-def resultActor = Actors.oneShotActor {
+def console = oneShotActor {
     println "Sorted array:\t${receive()}"
 }.start()
 
-def sorter = Actors.oneShotActor(createMessageHandler(resultActor))
+def sorter = oneShotActor(createMessageHandler(console))
 sorter.start().send([1, 5, 2, 4, 3, 8, 6, 7, 3, 4, 5, 2, 2, 9, 8, 7, 6, 7, 8, 1, 4, 1, 7, 5, 8, 2, 3, 9, 5, 7, 4, 3])
 }}}
 
@@ -149,9 +155,11 @@ Each Actor can define lifecycle observing methods, which will be called by the A
 
 You can either define the methods statically in your Actor class or add them dynamically to the actor's metaclass:
 {{{
-def actor = Actors.actor {...}
+import static org.gparallelizer.actors.Actors.*
 
-actor.metaClass.onException = {
+def myActor = actor {...}
+
+myActor.metaClass.onException = {
     log.error('Exception occured', it)
     if (it instanceof Error) throw it
 }
@@ -160,7 +168,9 @@ actor.metaClass.onException = {
 ===TimeCategory DSL use===
 Actors allow time DSL defined by org.codehaus.groovy.runtime.TimeCategory class to be used for timeout specification to the receive() method.
 {{{
-def me = Actors.actor {
+import static org.gparallelizer.actors.Actors.*
+
+def me = actor {
     friend.send('Hi')
     def reply = receive(10.seconds)
     if (!reply) friend.send('I said Hi! Are your there man?')
