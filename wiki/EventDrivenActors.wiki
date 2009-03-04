@@ -201,3 +201,16 @@ myActor.metaClass.onException = {
     log.error('Exception occurred', it)
 }
 }}}
+
+===Pool management===
+The actors' thread pool follows the singleton pattern. You retrieve the pool from _PooledActors_ class and manage it through the _Pool_ interface. The pool by default contains n + 1 threads, where n stands for the number of CPUs detected by JVM. The _resize()_ method allows you to change the pool size any time and the _resetDefaultSize()_ sets it back to the default value.
+Since the pool contains non-daemon threads, the _shutdown()_ method should be called when you need to destroy the pool and stop all the threads in order to exit JVM.
+{{{
+import static org.gparallelizer.actors.pooledActors.PooledActors.*
+
+getPool().resize 1  //use one-thread pool
+...
+getPool.resetDefaultSize()
+...
+getPool.shutdown()
+}}}
