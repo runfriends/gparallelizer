@@ -22,7 +22,7 @@ _Event-driven actors_ share a *pool* of threads, which are dynamically assigned 
 For example, this is how you create an actor that prints out all messages that it receives.
 
 {{{
-def actor = actor {
+def console = actor {
     loop {
         react {
             println it
@@ -80,7 +80,7 @@ _Thread-bound actors_ have their own thread, which is always available to receiv
 For example, this is how you create an actor that prints out all messages that it receives.
 
 {{{
-def actor = Actors.actor {
+def console = Actors.actor {
     println receive()
 }
 }}}
@@ -94,19 +94,19 @@ class CustomActor extends BoundedActor {
     }
 }
 
-def actor=new CustomActor()
+def console=new CustomActor()
 }}}
 
 Once you have the actor, you need to start it so that it creates its background thread and can accept messages.
 
 {{{
-actor.start()
-actor.send('Message')
+console.start()
+console.send('Message')
 }}}
 Here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates. Something I call a one-shot actor.
 
 {{{
-def actor = Actors.oneShotActor {
+def notifier = Actors.oneShotActor {
     println receive(30.seconds) ?: 'No message'
 }
 }}}
@@ -114,7 +114,7 @@ def actor = Actors.oneShotActor {
 Notice the possible alternative way to retrieve the received value from the receive() method - the value is passed as a parameter into a closure.
 
 {{{
-def actor = Actors.oneShotActor {
+def notifier = Actors.oneShotActor {
     receive(30.seconds) {
         println it?:'No message'
     }
