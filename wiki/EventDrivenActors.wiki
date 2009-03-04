@@ -10,7 +10,7 @@ Here are some examples of how to use _event-driven_ actors. This is how you crea
 {{{
 import static org.gparallelizer.actors.pooledActors.PooledActors.*
 
-def actor = actor {
+def console = actor {
     loop {
         react {
             println it
@@ -33,14 +33,14 @@ class CustomActor extends AbstractPooledActor {
     }
 }
 
-def actor=new CustomActor()
+def console=new CustomActor()
 }}}
 
 Once you have the actor, you need to start it so that it attaches itself to the thread pool and can start accepting messages.
 
 {{{
-actor.start()
-actor.send('Message')
+console.start()
+console.send('Message')
 }}}
 
 ===Creating an asynchronous service===
@@ -117,6 +117,8 @@ Notice that event-driven actors require special care regarding the _react()_ met
 For comparison I'm also including a more involved example performing a concurrent merge sort of a list of integers using actors. You can see that thanks to flexibility of Groovy we came pretty close to the Scala's model, although I still miss Scala's pattern matching for message handling.
 
 {{{
+import static org.gparallelizer.actors.pooledActors.PooledActors.*
+
 Closure createMessageHandler(def parentActor) {
     return {
         react {List<Integer> message ->
@@ -147,11 +149,11 @@ Closure createMessageHandler(def parentActor) {
     }
 }
 
-def resultActor = actor {
+def console = actor {
     react { println "Sorted array:\t${it}" }
 }.start()
 
-def sorter = actor(createMessageHandler(resultActor))
+def sorter = actor(createMessageHandler(console))
 sorter.start().send([1, 5, 2, 4, 3, 8, 6, 7, 3, 9, 5, 3])
 }}}
 
@@ -193,9 +195,9 @@ Each Actor can define lifecycle observing methods, which will be called whenever
 
 You can either define the methods statically in your Actor class or add them dynamically to the actor's metaclass:
 {{{
-def actor = Actors.actor {...}
+def myActor = actor {...}
 
-actor.metaClass.onException = {
+myActor.metaClass.onException = {
     log.error('Exception occurred', it)
 }
 }}}
