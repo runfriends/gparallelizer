@@ -11,6 +11,67 @@ _Actors_ in GParallelizer were inspired by Actors library in Scala. They allow f
 
 Although _thread-bound actors_ can perform better in some scenarios, they exhibit scalability limitations due to the natural limits of concurrently run threads imposed by current HW platforms. _Event-driven actors_, which share a relatively small thread pool and avoid these threading limitations, on the other hand, are a bit trickier to use since they require computing tasks to be detachable from and re-attachable to the underlying threads. Actor's code is processed in chunks separated by quiet periods of waiting for new events (messages). This can be naturally modeled through _continuations_. As JVM doesn't support continuations directly, they have to be simulated in the actors frameworks, which has slight impact on organization of the actors' code. However, the benefits in most cases outweigh the difficulties. 
 
+{{{
+import org.gparallelizer.actors.pooledActors.AbstractPooledActor
+
+class GameMaster extends AbstractPooledActor {
+       int secretNum
+
+       void afterStart()
+       {
+               secretNum = new Random().nextInt(10)
+       }
+
+       void act()
+       {
+               loop
+               {
+                       react { int num ->
+                               if      ( num > secretNum )
+                                       reply 'too large'
+                               else if ( num < secretNum )
+                                       reply 'too small'
+                               else
+                               {
+                                       reply 'you win'
+                                       stop()
+                               }
+                       }
+               }
+       }
+}
+
+class Player extends AbstractPooledActor {
+       String              name
+       AbstractPooledActor server
+       int                 myNum
+
+       void act()
+       {
+               loop
+               {
+                       myNum = new Random().nextInt(10)
+
+                       server.send myNum
+
+                       react {
+                               switch( it )
+                               {
+                                       case 'too large': println "$name: $myNum was too large"; break
+                                       case 'too small': println "$name: $myNum was too small"; break
+                                       case 'you win':   println "$name: I won $myNum"; stop(); break
+                               }
+                       }
+               }
+       }
+}
+
+def master = new GameMaster().start()
+new Player( name: 'Player', server: master ).start()
+}}}
+_Jordi Campos i Miralles_
+_Departament de Matemàtica Aplicada i Anàlisi, MAiA_
+_Facultat de Matemàtiques, Universitat de Barcelona_
 = Usage of Actors =
 
 *GParallelizer* provides consistent API and DSL for both _thread-bound actors_ and _event-driven actors_. The differences in use are only marginal and relate to the different threading nature of these two types of actors.
