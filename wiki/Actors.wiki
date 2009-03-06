@@ -69,7 +69,7 @@ class Player extends AbstractPooledActor {
 def master = new GameMaster().start()
 new Player( name: 'Player', server: master ).start()
 }}}
-_Jordi Campos i Miralles, Departament de Matemàtica Aplicada i Anàlisi, MAiA Facultat de Matemàtiques, Universitat de Barcelona_
+example by _Jordi Campos i Miralles, Departament de Matemàtica Aplicada i Anàlisi, MAiA Facultat de Matemàtiques, Universitat de Barcelona_
 = Usage of Actors =
 
 *GParallelizer* provides consistent API and DSL for both _thread-bound actors_ and _event-driven actors_. The differences in use are only marginal and relate to the different threading nature of these two types of actors.
