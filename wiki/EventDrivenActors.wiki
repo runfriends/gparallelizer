@@ -220,3 +220,8 @@ getPool.resetDefaultSize()
 
 getPool.shutdown()
 }}}
+
+==Tips and tricks==
+===Structuring actor's code===
+===Event-driven loops===
+When coding event-driven actors you have to have in mind that calls to _react()_ and _loop()_ methods never return. This becomes a bid of a challenge once you try to implement any types of loops in your actors.
