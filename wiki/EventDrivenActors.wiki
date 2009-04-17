@@ -322,7 +322,7 @@ class MyLoopActor extends AbstractPooledActor {
         react {a ->
             println 'Outer: ' + a
             if (a!=0) innerLoop()
-            else println 'Done'
+            else println 'Done for now, but will loop again'
         }
     }
 
