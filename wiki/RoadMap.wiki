@@ -12,7 +12,7 @@ Overloaded the << operator to perform send
 Handling multiple messages in single receive/react
 
 0.8
-Actor groups, multiple indipendant configurable thread pools
+Actor groups, multiple independent configurable thread pools
 Proper maven support
 
 Backlog
