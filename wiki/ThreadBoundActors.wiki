@@ -221,3 +221,72 @@ company.send("Message")
 company.stop()
 
 }}}
+==Tips and tricks==
+===Structuring actor's code===
+When extending the _AbstractActor_ class, you can call any actor's methods from within the _act()_ method and use the _receive()_ method in them.
+{{{
+class MyActor extends DefaultActor {
+
+    protected void act() {
+        handleA()
+    }
+
+    private void handleA() {
+        receive {a ->
+            handleB(a)
+        }
+    }
+
+    private void handleB(int a) {
+        receive {b ->
+            println a + b
+            reply a + b
+        }
+    }
+}
+}}}
+
+Alternatively, when using the _actor()_ factory method, you can add actor code through the meta class as closures.
+{{{
+Actor actor2 = actor {
+    handleA()
+}
+
+actor2.metaClass {
+    handleA = {->
+        receive {a ->
+            handleB(a)
+        }
+    }
+
+    handleB = {a ->
+        receive {b ->
+            println a + b
+            reply a + b
+        }
+    }
+}
+}}}
+
+Closures, which have the actor set as their delegate can also be used to structure event-handling code.
+
+{{{
+Closure handleB = {a ->
+    receive {b ->
+        println a + b
+        reply a + b
+    }
+}
+
+Closure handleA = {->
+    receive {a ->
+        handleB(a)
+    }
+}
+
+Actor actor3 = actor {
+    handleA()
+}
+handleA.delegate = actor3
+handleB.delegate = actor3
+}}}
