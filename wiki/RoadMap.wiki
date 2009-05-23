@@ -18,9 +18,11 @@ Planned release date: 27th May 2009
 
 ===0.8===
 
+  * Prepare a representative benchmark to measure future performance improvements
   * Experimental use-cases - asynchronous meta-class, data-flow concurrency
 
 ===Backlog===
   * Proper maven support
   * Use Fork/Join pool
   * Synchronous send()
+  * Performance improvements
