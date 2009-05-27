@@ -5,7 +5,7 @@
 
 ===0.7===
 
-Planned release date: 27th May 2009
+Planned release date: 1st June 2009
 
   * Reply methods for thread-bound actors
   * Reply methods available on received messages
@@ -14,12 +14,14 @@ Planned release date: 27th May 2009
   * Overloaded the << operator to perform send
   * Handling multiple messages in single receive/react
   * Actor groups, multiple independent configurable thread pools
-  * Gradle build script
 
 ===0.8===
 
+Planned release: summer 2009
+
   * Prepare a representative benchmark to measure future performance improvements
   * Experimental use-cases - asynchronous meta-class, data-flow concurrency
+  * Gradle build script
 
 ===Backlog===
   * Proper maven support
