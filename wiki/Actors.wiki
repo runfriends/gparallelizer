@@ -2,10 +2,11 @@
 #labels Featured,Phase-Design,Phase-Implementation
 
 _Actors_ in GParallelizer were inspired by Actors library in Scala. They allow for messaging-based concurrency model, built from independent active objects that exchange messages and have no mutable shared state. Actors naturally avoid issues like deadlocks, livelocks or starvation, so typical for shared memory.
+A nice wrap-up of the key [http://ruben.savanne.be/articles/concurrency-in-erlang-scala, concepts behind actors] was written recently by Ruben Vermeersch
 
 = Types of Actors =
 
-*GParallelizer* comes with two types of actors, both of which have their uses. _Thread-bound actors_ maintain their own thread of execution, whereas _event-driven actors_ (as of the 0.6 release) share a common thread pool, from which they borrow threads whenever they must react to an event - typically a message sent to them. 
+*GParallelizer* comes with two types of actors, both of which have their uses. _Thread-bound actors_ maintain their own thread of execution, whereas _event-driven actors_ share a common thread pool, from which they borrow threads whenever they must react to an event - typically a message sent to them. 
 
 == Event-driven actors ==
 
