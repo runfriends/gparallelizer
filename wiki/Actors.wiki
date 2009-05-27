@@ -182,3 +182,40 @@ def notifier = Actors.oneShotActor {
 }}}
 
 See more detailed documentation on [http://code.google.com/p/gparallelizer/wiki/ThreadBoundActors Use of thread-bound actors]
+
+==Sending replies==
+
+The _reply/replyIfExists_ methods are not only defined on the actors themselves, but also on the messages themselves upon their reception, which is particularly handy when accepting multiple messages in a single call. In such cases _reply()_ invoked on the actor sends a reply to authors of all the currently processed messages, whereas _reply()_ called on messages sends a reply to the author of the particular message only.
+
+{{{
+react {offerA, offerB, offerC ->
+    
+    //sent to each of the senders
+    reply 'Received your kind offer. Now processing it and comparing with others.'
+
+    offerA.reply 'You were the fastest'  //sent to the author of offerA only
+
+    def winnerOffer = [offerA, offerB, offerC].min {it.price}
+    winnerOffer.reply 'I accept your reasonable offer'  //sent to the winner only
+}
+
+The reply/replyIfExists methods work reliably across the actor types, so that event-driven (pooled) actors can send replies to thread-bound actors and vice versa.
+
+{{{
+//a thread-bound actor
+final Actor doubler = Actors.actor {
+    receive {num ->
+        reply 2 * num
+    }
+}.start()
+
+//an event-driven actor
+PooledActors.actor {
+    doubler << 10
+    doubler << 100
+    react {a, b ->
+        println "Doubles for 10 and 100 are $a and $b"
+    }
+}.start()
+}}}
+}}}
