@@ -151,6 +151,20 @@ Actors have their _act()_ method run periodically by the actors' thread until th
 
 Developers may either extend one of the Actor classes and override the _act()_ method or use one of the helper methods in the _Actors_ class to have an Actor created around a supplied closure.
 
+_Thread-bound_ actors can be organized into groups and as a default there's always an application-wide actor group available. And just like the Actors abstract factory can be used to create actors in the default groups, custom groups can be used as abstract factories to create new actors instances belonging to them.
+
+{{{
+def daemonGroup = new ActorGroup(true)
+
+def actor1 = daemonGroup.actor {
+...
+}
+
+def actor2 = daemonGroup.oneShotActor {
+...
+}
+}}}
+
 ===Actor lifecycle methods===
 Each Actor can define lifecycle observing methods, which will be called by the Actor's background thread whenever a certain lifecycle event occurs.
   * afterStart() - called immediately after the Actor's background thread has been started, before the act() method is called the first time.
