@@ -234,6 +234,43 @@ getPool.resetDefaultSize()
 getPool.shutdown()
 }}}
 
+_Event-driven_ actors can be organized into groups and as a default there's always an application-wide actor group available. And just like the _PooledActors_ abstract factory can be used to create actors in the default groups, custom groups can be used as abstract factories to create new actors instances belonging to them.
+
+{{{
+def daemonGroup = new ActorGroup(true)
+
+def actor1 = daemonGroup.actor {
+...
+}
+
+def actor2 = daemonGroup.oneShotActor {
+...
+}
+}}}
+
+Event-driven actors belonging to the same group on top of having the same daemon thread flag share the underlying thread pool. With pooled actor groups you can split your actors to leverage multiple thread pools of different sizes and so assign resources to different components of your system and tune their performance. 
+
+{{{
+def coreActors = new PooledActorGroup(false, 5)  //5 non-daemon threads pool
+def helperActors = new PooledActorGroup(true, 1)  //1 daemon thread pool
+
+def priceCalculator = coreActors.actor {
+...
+}
+
+def paymentProcessor = coreActors.actor {
+...
+}
+
+def emailNotifier = helperActors.actor {
+...
+}
+
+def cleanupActor = helperActors.actor {
+...
+}
+}}}
+
 ==Tips and tricks==
 ===Structuring actor's code===
 When extending the _AbstractPooledActor_ class, you can call any actor's methods from within the _act()_ method and use the _react()_ or _loop()_ methods in them.
