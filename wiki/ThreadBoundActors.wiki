@@ -165,7 +165,7 @@ def actor2 = daemonGroup.oneShotActor {
 }
 }}}
 
-The thread-bound actors from the same group share the daemon thread flag of that group. 
+The _thread-bound_ actors from the same group share the *daemon thread flag* of that group. 
 
 ===Actor lifecycle methods===
 Each Actor can define lifecycle observing methods, which will be called by the Actor's background thread whenever a certain lifecycle event occurs.
