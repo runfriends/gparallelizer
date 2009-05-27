@@ -1,7 +1,7 @@
 #summary Use of Actors - the message-passing based Scala-like actors library
 #labels Featured,Phase-Design,Phase-Implementation
 
-_Actors_ in GParallelizer were inspired by Actors library in Scala. They allow for messaging-based concurrency model, built from independent active objects that exchange messages and have no mutable shared state. Actors naturally avoid issues like deadlocks, livelocks or starvation, so typical for shared memory.
+_Actors_ in GParallelizer were inspired by Actors library in Scala. They allow for messaging-based concurrency model, built from independent active objects that exchange messages and have no mutable shared state. Actors can naturally avoid issues like deadlocks, livelocks or starvation, so typical for shared memory.
 A nice wrap-up of the key [http://ruben.savanne.be/articles/concurrency-in-erlang-scala concepts behind actors] was written recently by Ruben Vermeersch
 
 = Types of Actors =
@@ -10,7 +10,7 @@ A nice wrap-up of the key [http://ruben.savanne.be/articles/concurrency-in-erlan
 
 == Event-driven actors ==
 
-Although _thread-bound actors_ can perform better in some scenarios, they exhibit scalability limitations due to the natural limits of concurrently run threads imposed by current HW platforms. _Event-driven actors_, which share a relatively small thread pool and avoid these threading limitations, on the other hand, are a bit trickier to use since they require computing tasks to be detachable from and re-attachable to the underlying threads. Actor's code is processed in chunks separated by quiet periods of waiting for new events (messages). This can be naturally modeled through _continuations_. As JVM doesn't support continuations directly, they have to be simulated in the actors frameworks, which has slight impact on organization of the actors' code. However, the benefits in most cases outweigh the difficulties. 
+Although _thread-bound actors_ can perform better in some scenarios and are probably a good default choice when it comes to long calculation tasks, they exhibit scalability limitations due to the natural limits for the number of concurrently run threads imposed by current HW platforms. _Event-driven actors_, which share a relatively small thread pool and avoid these threading limitations, on the other hand, are a bit trickier to use since they require computing tasks to be detachable from and re-attachable to the underlying threads. Actor's code is processed in chunks separated by quiet periods of waiting for new events (messages). This can be naturally modeled through _continuations_. As JVM doesn't support continuations directly, they have to be simulated in the actors frameworks, which has slight impact on organization of the actors' code. However, the benefits in most cases outweigh the difficulties. 
 
 {{{
 import org.gparallelizer.actors.pooledActors.AbstractPooledActor
@@ -135,7 +135,7 @@ See more detailed documentation on [http://code.google.com/p/gparallelizer/wiki/
 
 == Thread-bound actors ==
 
-_Thread-bound actors_ have their own thread, which is always available to receive and process new messages sent to the actor.
+_Thread-bound actors_ have their own thread, which is always available to receive and process new messages sent to the actor. When waiting for a message to arrive, the thread is blocked.
 
 For example, this is how you create an actor that prints out all messages that it receives.
 
@@ -145,7 +145,7 @@ def console = Actors.actor {
 }
 }}}
 
-Alternativelly you can extend one of the Actor's classes and override the act() method.
+Alternatively you can extend one of the Actor's classes and override the act() method.
 
 {{{
 class CustomActor extends BoundedActor {
