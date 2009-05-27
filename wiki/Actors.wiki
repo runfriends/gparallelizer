@@ -2,7 +2,7 @@
 #labels Featured,Phase-Design,Phase-Implementation
 
 _Actors_ in GParallelizer were inspired by Actors library in Scala. They allow for messaging-based concurrency model, built from independent active objects that exchange messages and have no mutable shared state. Actors naturally avoid issues like deadlocks, livelocks or starvation, so typical for shared memory.
-A nice wrap-up of the key [http://ruben.savanne.be/articles/concurrency-in-erlang-scala, concepts behind actors] was written recently by Ruben Vermeersch
+A nice wrap-up of the key [http://ruben.savanne.be/articles/concurrency-in-erlang-scala concepts behind actors] was written recently by Ruben Vermeersch
 
 = Types of Actors =
 
