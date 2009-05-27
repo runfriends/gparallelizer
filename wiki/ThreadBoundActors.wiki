@@ -32,6 +32,12 @@ console.start()
 console.send('Message')
 }}}
 
+The leftShift (<<) operator can be used to send messages to actors as a replacement for the _send()_ method.
+
+{{{
+console << 'Message'
+}}}
+
 Groovy's flexible syntax with closures allows our library to offer multiple ways to define actors. For instance, here's an example of an actor that waits for up to 30 seconds to receive a message, prints it out and terminates. Something I call a one-shot actor.
 
 {{{
