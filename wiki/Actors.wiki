@@ -185,7 +185,7 @@ See more detailed documentation on [http://code.google.com/p/gparallelizer/wiki/
 
 ==Sending replies==
 
-The _reply/replyIfExists_ methods are not only defined on the actors themselves, but also on the messages themselves upon their reception, which is particularly handy when accepting multiple messages in a single call. In such cases _reply()_ invoked on the actor sends a reply to authors of all the currently processed messages, whereas _reply()_ called on messages sends a reply to the author of the particular message only.
+The _reply/replyIfExists_ methods are not only defined on the actors themselves, but also on the messages upon their reception, which is particularly handy when accepting multiple messages in a single call. In such cases _reply()_ invoked on the actor sends a reply to authors of all the currently processed messages, whereas _reply()_ called on messages sends a reply to the author of the particular message only.
 
 {{{
 react {offerA, offerB, offerC ->
