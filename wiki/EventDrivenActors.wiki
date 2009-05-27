@@ -265,6 +265,9 @@ def emailNotifier = helperActors.actor {
 def cleanupActor = helperActors.actor {
 ...
 }
+
+//increase size of the core actor group
+coreActors.threadPool.resize 6 
 }}}
 
 ==Tips and tricks==
