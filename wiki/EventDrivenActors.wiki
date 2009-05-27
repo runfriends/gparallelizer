@@ -43,6 +43,12 @@ console.start()
 console.send('Message')
 }}}
 
+The leftShift (<<) operator can be used to send messages to actors as a replacement for the _send()_ method.
+
+{{{
+console << 'Message'
+}}}
+
 ===Creating an asynchronous service===
 
 {{{
