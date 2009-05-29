@@ -198,6 +198,7 @@ react {offerA, offerB, offerC ->
     def winnerOffer = [offerA, offerB, offerC].min {it.price}
     winnerOffer.reply 'I accept your reasonable offer'  //sent to the winner only
 }
+}}}
 
 The reply/replyIfExists methods work reliably across the actor types, so that event-driven (pooled) actors can send replies to thread-bound actors and vice versa.
 
@@ -217,5 +218,4 @@ PooledActors.actor {
         println "Doubles for 10 and 100 are $a and $b"
     }
 }.start()
-}}}
 }}}
