@@ -98,8 +98,8 @@ Closure createMessageHandler(def parentActor) {
                 default:
                     def splitList = split(message)
 
-                    def child1 = Actors.oneShotActor(createMessageHandler(delegate))
-                    def child2 = Actors.oneShotActor(createMessageHandler(delegate))
+                    def child1 = oneShotActor(createMessageHandler(delegate))
+                    def child2 = oneShotActor(createMessageHandler(delegate))
                     child1.start().send(splitList[0])
                     child2.start().send(splitList[1])
 
@@ -107,7 +107,6 @@ Closure createMessageHandler(def parentActor) {
             }
         }
     }
-
 }
 
 def console = oneShotActor {
