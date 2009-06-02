@@ -162,8 +162,11 @@ Closure createMessageHandler(def parentActor) {
     }
 }
 
-def console = actor {
-    react { println "Sorted array:\t${it}" }
+def console = new PooledActorGroup(false, 1).actor {
+    react {
+        println "Sorted array:\t${it}"
+        System.exit 0 
+    }
 }.start()
 
 def sorter = actor(createMessageHandler(console))
