@@ -3,18 +3,6 @@
 
 == RoadMap ==
 
-===0.7===
-
-Planned release date: 1st June 2009
-
-  * Reply methods for thread-bound actors
-  * Reply methods available on received messages
-  * Ability to send replies between thread-bound and event-driven actors in both directions
-  * Documented structuring actors code and implementing event-driven loops
-  * Overloaded the << operator to perform send
-  * Handling multiple messages in single receive/react
-  * Actor groups, multiple independent configurable thread pools
-
 ===0.8===
 
 Planned release: summer 2009
@@ -22,9 +10,15 @@ Planned release: summer 2009
   * Prepare a representative benchmark to measure future performance improvements
   * Experimental use-cases - asynchronous meta-class, data-flow concurrency
   * Gradle build script
+  * Separate doc and src downloads
+
+===0.8.1===
+
+  * Migrate to Fork/Join thread pool
+  * Performance optimization
+  * Synchronous send()
 
 ===Backlog===
   * Proper maven support
   * Use Fork/Join pool
-  * Synchronous send()
   * Performance improvements
