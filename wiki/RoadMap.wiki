@@ -8,7 +8,7 @@
 Planned release: summer 2009
 
   * Prepare a representative benchmark to measure future performance improvements
-  * Experimental use-cases - asynchronous meta-class, data-flow concurrency
+  * data-flow concurrency
   * Gradle build script
   * Separate doc and src downloads
 
@@ -17,8 +17,10 @@ Planned release: summer 2009
   * Migrate to Fork/Join thread pool
   * Performance optimization
   * Synchronous send()
+  * Fast send (without the reply management overhead)
 
 ===Backlog===
+  * Experimental use-cases - asynchronous meta-class
   * Proper maven support
   * Use Fork/Join pool
   * Performance improvements
