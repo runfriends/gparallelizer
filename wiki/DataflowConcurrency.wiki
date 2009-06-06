@@ -1,0 +1,103 @@
+#summary Dataflow concurrency offers an alternative concurrency model, which is inherently safe and robust.
+
+= Introduction =
+
+Check out the small example written in Groovy using GParallelizer, which sums results of calculations performed by three concurrently run threads:
+{{{
+import static org.gparallelizer.dataflow.DataFlow.thread
+
+final def x = new DataFlowVariable()
+final def y = new DataFlowVariable()
+final def z = new DataFlowVariable()
+
+thread {
+    z << ~x + ~y
+    println "Result: ${~z}"
+}
+
+thread {
+    x << 10
+}
+
+thread {
+    y << 5
+}
+}}}
+
+We start three logical threads, which run in parallel and perform their tasks. When a thread needs to read a value from DataFlowVariable (by the '~' operator), it will block until the value has been set by another thread (using the '<<' operator). Each DataFlowVariable can be set only once in its lifetime. Notice that you don't have to bother with ordering anr synchronizing the threads and their access to shared variables. The values are magically transferred among threads at the right time without your intervention.
+
+*Implementation detail:* The three threads in the example do not necessarily need to be three physical threads. They're so-called "green" or "logical" threads and can be mapped under the covers to any number of physical threads.
+
+= Benefits =
+Here's what you gain by using Dataflow Concurrency:
+
+  * No race-conditions
+  * No deadlocks
+  * No live-locks
+  * Completely deterministic programs
+  * BEAUTIFUL code.
+
+This doesn't sound bad, does it?
+
+= Concepts =
+
+===Quoting Wikipedia - Dataflow programming===
+
+Operations (in Dataflow programs) consist of "black boxes" with inputs and outputs, all of which are always explicitly defined. They run as soon as all of their inputs become valid, as opposed to when the program encounters them. Whereas a traditional program essentially consists of a series of statements saying "do this, now do this", a dataflow program is more like a series of workers on an assembly line, who will do their assigned task as soon as the materials arrive. This is why dataflow languages are inherently parallel; the operations have no hidden state to keep track of, and the operations are all "ready" at the same time.
+
+===Principles===
+With Dataflow Concurrency you can safely share variables across threads. These variables (in Groovy instances of DataFlowVariable class) can only be assigned a value once in their lifetime. The values of the variables, on the other hand, can be read multiple times (in Groovy using the '~' operator), even before the value has been assigned. In such cases the reading 'green' thread is suspended until the value is set by another 'green' thread.
+So you can simply write your code sequentially using Dataflow Variables and the underlying mechanics will make sure you get all the values you need in a thread-safe manner.
+
+Briefly, you generally perform three operations with Dataflow variables:
+  * Create a dataflow variable
+  * Wait for the variable to be bound (read it)
+  * Bind the variable (write to it)
+
+And these are the three essential rules your programs have to follow:
+  * When the program encounters an unbound variable it waits for a value.
+  * It is not possible to change the value of a dataflow variable once it is bound.
+  * Dataflow variables makes it easy to create concurrent stream agents.
+
+=Dataflow Streams=
+
+Before I show you the final and most catchy demo, you should know a bit about streams to have a full picture of Dataflow Concurrency. Except for DataFlowVariables there's also a concept of DataFlowStreams that you can leverage. You may think of them as thread-safe buffers or queues. Check out a typical producer-consumer demo:
+
+{{{
+import static org.gparallelizer.dataflow.DataFlow.thread
+
+def words = ['Groovy', 'fantastic', 'concurrency', 'fun', 'enjoy', 'safe', 'GParallelizer', 'data', 'flow']
+final def buffer = new DataFlowStream()
+
+thread {
+    for (word in words) {
+        buffer << word.toUpperCase()  //add to the buffer
+    }
+}
+
+thread {
+    while(true) println ~buffer  //read from the buffer in a loop
+}
+}}}
+
+=A more involved example=
+
+Dataflow programs naturally scale with the number of processors. Up to a certain level, the more processors you have the faster the program runs.
+Check out, for example, the following script, which calculates parameters of a simple physical experiment and prints out the results. Each "green" thread performs its part of the calculation, it may depend on values calculated by some other threads as well as its result might be needed by some other "green" thread. With Dataflow Concurrency you can split the work between "green" threads or reorder the threads themselves as you like and the dataflow mechanics will ensure the calculation will be accomplished correctly.
+
+{{{
+}}}
+
+Note: I did my best to make all the physical calculations right. Feel free to change the values and see how long distance you need to stop the rolling ball in your cases.
+
+=Implementation in GParallelizer=
+
+The Dataflow Concurrency in GParallelizer builds on top of its actor support. Each time you create a new "thread" with the DataFlow.thread() factory method, an actor is started to process the passed-in code parameter. Each DataFlowVariable has an actor associated as well. Some more actors are created when reading a not-yet-set dataflow variable to wait for the value to be set at some point. All the dataflow actors share a thread pool and so the number of DataFlowVariable instances and the number of calls to DataFlow.thread() factory method do not correspond to the number of physical threads required from the system.
+
+= Further reading =
+
+[http://github.com/jboner/scala-dataflow/tree/f9a38992f5abed4df0b12f6a5293f703aa04dc33/src Scala Dataflow library by Jonas Bonér]
+
+[http://jonasboner.com/talks/state_youre_doing_it_wrong/html/all.html JVM concurrency presentation slides by Jonas Bonér]
+
+[http://github.com/larrytheliquid/dataflow/tree/master Dataflow Concurrency library for Ruby]
