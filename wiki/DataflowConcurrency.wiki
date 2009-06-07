@@ -24,7 +24,7 @@ thread {
 }
 }}}
 
-We start three logical threads, which run in parallel and perform their tasks. When a thread needs to read a value from DataFlowVariable (by the '~' operator), it will block until the value has been set by another thread (using the '<<' operator). Each DataFlowVariable can be set only once in its lifetime. Notice that you don't have to bother with ordering anr synchronizing the threads and their access to shared variables. The values are magically transferred among threads at the right time without your intervention.
+We start three logical threads, which run in parallel and perform their tasks. When a thread needs to read a value from DataFlowVariable (by the '~' operator), it will block until the value has been set by another thread (using the '<<' operator). Each DataFlowVariable can be set only once in its lifetime. Notice that you don't have to bother with ordering and synchronizing the threads and their access to shared variables. The values are magically transferred among threads at the right time without your intervention.
 
 *Implementation detail:* The three threads in the example do not necessarily need to be three physical threads. They're so-called "green" or "logical" threads and can be mapped under the covers to any number of physical threads.
 
