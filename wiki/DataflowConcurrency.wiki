@@ -145,11 +145,36 @@ thread {
 }
 }}}
 
-Note: I did my best to make all the physical calculations right. Feel free to change the values and see how long distance you need to stop the rolling ball in your cases.
+Note: I did my best to make all the physical calculations right. Feel free to change the values and see how long distance you need to stop the rolling ball in your case.
 
 =Implementation in GParallelizer=
 
-The Dataflow Concurrency in GParallelizer builds on top of its actor support. Each time you create a new "thread" with the DataFlow.thread() factory method, an actor is started to process the passed-in code parameter. Each DataFlowVariable has an actor associated as well. Some more actors are created when reading a not-yet-set dataflow variable to wait for the value to be set at some point. All the dataflow actors share a thread pool and so the number of DataFlowVariable instances and the number of calls to DataFlow.thread() factory method do not correspond to the number of physical threads required from the system.
+The Dataflow Concurrency in GParallelizer builds on top of its actor support. Each time you create a new "thread" with the DataFlow.thread() factory method, an actor is started to process the passed-in code parameter. Each DataFlowVariable has an actor associated as well. Some more actors are created when reading a not-yet-set dataflow variable to wait for the value to be set at some point. All the dataflow actors share a thread pool and so neither the number of DataFlowVariable instances nor the number of calls to DataFlow.thread() factory method need to correspond to the number of physical threads required from the system.
+
+===Combining actors and Dataflow Concurrency===
+
+The good news is that you can combine actors and Dataflow Concurrency in any way you feel fit for your particular problem at hands. Since the _DataFlow.thread()_ method returns a subclass of _AbstractPooledActor_ (already started, however), you can set the lifecycle event handlers on it just like you can on the _AbstractPooledActor_ class. It's also perfectly valid to send messages to the "thread" and accept incoming messages it the body of the "thread" using _react()_ and _loop()_.
+
+{{{
+final DataFlowVariable a = new DataFlowVariable()
+
+final AbstractPooledActor doubler = PooledActors.actor {
+    react {
+        a << 2 * it
+    }
+}.start()
+
+final AbstractPooledActor thread = thread {
+    react {
+        doubler << it  //send a number to the doubler
+        println "Result ${~a}"  //wait for the result to be bound to 'a'
+    }
+}
+
+thread << 10
+}}}
+
+In the example you see the "thread" using both messages and a DataFlowVariable to communicate with the _doubler_ actor.
 
 = Further reading =
 
