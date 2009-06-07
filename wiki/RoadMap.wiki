@@ -5,19 +5,21 @@
 
 ===0.8===
 
-Planned release: summer 2009
+Planned release: June 2009
 
-  * Prepare a representative benchmark to measure future performance improvements
-  * data-flow concurrency
-  * Gradle build script
-  * Separate doc and src downloads
+  * Data-flow concurrency
+  * Fast send (without the reply management overhead)
+  * Send and Wait(synchronous send)
 
 ===0.8.1===
 
-  * Migrate to Fork/Join thread pool
+Planned release: July 2009
+
+  * Prepare a representative benchmark to measure future performance improvements
+  * Gradle build script
   * Performance optimization
-  * Synchronous send()
-  * Fast send (without the reply management overhead)
+  * Migrate to Fork/Join thread pool
+  * Provide separate doc and src downloads
 
 ===Backlog===
   * Experimental use-cases - asynchronous meta-class
