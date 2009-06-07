@@ -36,6 +36,7 @@ class GameMaster extends AbstractPooledActor {
                                {
                                        reply 'you win'
                                        stop()
+                                       System.exit 0
                                }
                        }
                }
@@ -69,6 +70,8 @@ class Player extends AbstractPooledActor {
 
 def master = new GameMaster().start()
 new Player( name: 'Player', server: master ).start()
+
+System.in.read()
 }}}
 example by _Jordi Campos i Miralles, Departament de Matemàtica Aplicada i Anàlisi, MAiA Facultat de Matemàtiques, Universitat de Barcelona_
 = Usage of Actors =
