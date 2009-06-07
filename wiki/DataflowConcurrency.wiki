@@ -24,9 +24,9 @@ thread {
 }
 }}}
 
-We start three logical threads, which run in parallel and perform their tasks. When a thread needs to read a value from DataFlowVariable (by the '~' operator), it will block until the value has been set by another thread (using the '<<' operator). Each DataFlowVariable can be set only once in its lifetime. Notice that you don't have to bother with ordering and synchronizing the threads and their access to shared variables. The values are magically transferred among threads at the right time without your intervention.
+We start three logical threads, which run in parallel and perform their tasks. When a thread needs to read a value from _DataFlowVariable_ (by the '~' operator), it will block until the value has been set by another thread (using the '<<' operator). Each _DataFlowVariable_ can be set only once in its lifetime. Notice that you don't have to bother with ordering and synchronizing the threads and their access to shared variables. The values are magically transferred among threads at the right time without your intervention.
 
-*Implementation detail:* The three threads in the example do not necessarily need to be three physical threads. They're so-called "green" or "logical" threads and can be mapped under the covers to any number of physical threads.
+*Implementation detail:* The three threads in the example *do not necessarily need to be three physical threads*. They're so-called "green" or "logical" threads and can be mapped under the covers to any number of physical threads.
 
 = Benefits =
 Here's what you gain by using Dataflow Concurrency:
@@ -47,7 +47,7 @@ _Quoting Wikipedia_
 Operations (in Dataflow programs) consist of "black boxes" with inputs and outputs, all of which are always explicitly defined. They run as soon as all of their inputs become valid, as opposed to when the program encounters them. Whereas a traditional program essentially consists of a series of statements saying "do this, now do this", a dataflow program is more like a series of workers on an assembly line, who will do their assigned task as soon as the materials arrive. This is why dataflow languages are inherently parallel; the operations have no hidden state to keep track of, and the operations are all "ready" at the same time.
 
 ===Principles===
-With Dataflow Concurrency you can safely share variables across threads. These variables (in Groovy instances of DataFlowVariable class) can only be assigned a value once in their lifetime. The values of the variables, on the other hand, can be read multiple times (in Groovy using the '~' operator), even before the value has been assigned. In such cases the reading 'green' thread is suspended until the value is set by another 'green' thread.
+With Dataflow Concurrency you can safely share variables across threads. These variables (in Groovy instances of the _DataFlowVariable_ class) can only be assigned (using the '<<' operator) a value once in their lifetime. The values of the variables, on the other hand, can be read multiple times (in Groovy using the '~' operator), even before the value has been assigned. In such cases the reading 'green' thread is suspended until the value is set by another 'green' thread.
 So you can simply write your code sequentially using Dataflow Variables and the underlying mechanics will make sure you get all the values you need in a thread-safe manner.
 
 Briefly, you generally perform three operations with Dataflow variables:
@@ -62,7 +62,7 @@ And these are the three essential rules your programs have to follow:
 
 =Dataflow Streams=
 
-Before I show you the final and most catchy demo, you should know a bit about streams to have a full picture of Dataflow Concurrency. Except for DataFlowVariables there's also a concept of DataFlowStreams that you can leverage. You may think of them as thread-safe buffers or queues. Check out a typical producer-consumer demo:
+Before I show you the final and most catchy demo, you should know a bit about streams to have a full picture of Dataflow Concurrency. Except for dataflow variables there's also a concept of _DataFlowStreams_ that you can leverage. You may think of them as thread-safe buffers or queues. Check out a typical producer-consumer demo:
 
 {{{
 import static org.gparallelizer.dataflow.DataFlow.thread
@@ -149,11 +149,11 @@ Note: I did my best to make all the physical calculations right. Feel free to ch
 
 =Implementation in GParallelizer=
 
-The Dataflow Concurrency in GParallelizer builds on top of its actor support. Each time you create a new "thread" with the DataFlow.thread() factory method, an actor is started to process the passed-in code parameter. Each DataFlowVariable has an actor associated as well. Some more actors are created when reading a not-yet-set dataflow variable to wait for the value to be set at some point. All the dataflow actors share a thread pool and so neither the number of DataFlowVariable instances nor the number of calls to DataFlow.thread() factory method need to correspond to the number of physical threads required from the system.
+The Dataflow Concurrency in GParallelizer builds on top of its actor support. Each time you create a new "thread" with the _DataFlow.thread()_ factory method, an actor is started to process the passed-in code parameter. Each _DataFlowVariable_ has an actor associated as well. Some more actors are created when reading a not-yet-set dataflow variable to wait for the value to be set at some point. All the dataflow actors share a thread pool and so neither the number of _DataFlowVariable_ instances nor the number of calls to _DataFlow.thread()_ factory method need to correspond to the number of physical threads required from the system.
 
 ===Combining actors and Dataflow Concurrency===
 
-The good news is that you can combine actors and Dataflow Concurrency in any way you feel fit for your particular problem at hands. Since the _DataFlow.thread()_ method returns a subclass of _AbstractPooledActor_ (already started, however), you can set the lifecycle event handlers on it just like you can on the _AbstractPooledActor_ class. It's also perfectly valid to send messages to the "thread" and accept incoming messages it the body of the "thread" using _react()_ and _loop()_.
+The good news is that you can combine actors and Dataflow Concurrency in any way you feel fit for your particular problem at hands. Since the _DataFlow.thread()_ method returns a subclass of _AbstractPooledActor_ (already started, however), you can set the lifecycle event handlers on it just like you can on the _AbstractPooledActor_ class. It's also perfectly valid to send messages to the "thread" and accept incoming messages in the body of the "thread" using _react()_ and _loop()_.
 
 {{{
 final DataFlowVariable a = new DataFlowVariable()
