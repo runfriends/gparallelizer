@@ -174,7 +174,7 @@ final AbstractPooledActor thread = thread {
 thread << 10
 }}}
 
-In the example you see the "thread" using both messages and a DataFlowVariable to communicate with the _doubler_ actor.
+In the example you see the "thread" using both messages and a _DataFlowVariable_ to communicate with the _doubler_ actor.
 
 = Further reading =
 
