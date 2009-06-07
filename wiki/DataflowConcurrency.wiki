@@ -145,7 +145,7 @@ thread {
 }
 }}}
 
-Note: I did my best to make all the physical calculations right. Feel free to change the values and see how long distance you need to stop the rolling ball in your case.
+Note: I did my best to make all the physical calculations right. Feel free to change the values and see how long distance you need to stop the rolling ball.
 
 =Implementation in GParallelizer=
 
