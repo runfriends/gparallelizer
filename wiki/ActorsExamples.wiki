@@ -1,0 +1,84 @@
+#summary A few examples on Actors use
+#labels Featured
+
+= File sort =
+
+{{{
+//Messages
+private final class FileToSort { String fileName }
+private final class SortResult { String fileName; List<String> words }
+
+//Worker actor
+class WordSortActor extends AbstractPooledActor {
+
+    private List<String> sortedWords(String fileName) {
+        def words = []
+        new File(fileName).eachLine {String line ->
+            line.split(' ').each {words << it}
+        }
+        words.sort {it.toLowerCase()}
+    }
+
+    void act() {
+        loop {
+            react {message ->
+                switch (message) {
+                    case FileToSort:
+                        println "Sorting file=${message.fileName} on thread ${Thread.currentThread().name}"
+                        reply new SortResult(fileName: message.fileName, words: sortedWords(message.fileName))
+                }
+            }
+        }
+    }
+}
+
+//Master actor
+class SortMaster extends AbstractPooledActor {
+
+    String docRoot
+    int numActors
+
+    List<List<String>> sorted = []
+    private List<PooledActor> workers
+    private CountDownLatch startupLatch = new CountDownLatch(1)
+    private CountDownLatch doneLatch
+
+    public void beginSorting() {
+        assert docRoot
+        assert numActors > 0
+        int cnt = 0
+        workers = (1..numActors).collect {new WordSortActor().start()}
+        new File(docRoot).eachFile {
+            workers[cnt % numActors] << new FileToSort(fileName : it)
+            cnt += 1
+        }
+        doneLatch = new CountDownLatch(cnt)
+    }
+
+    public void waitUntilDone() {
+        startupLatch.await()
+        doneLatch.await()
+    }
+
+    void act() {
+        beginSorting()
+        startupLatch.countDown()
+        loop {
+            react {
+                switch (it) {
+                    case SortResult:
+                        sorted << it.words
+                        doneLatch.countDown()
+                        println "Received results for file=${it.fileName}"
+                }
+            }
+        }
+    }
+}
+
+//start the actors to sort words
+def master = new SortMaster(docRoot: 'C:/docs/', numActors: 5).start()
+master.waitUntilDone()
+println 'Done'
+println master.sorted
+}}}
