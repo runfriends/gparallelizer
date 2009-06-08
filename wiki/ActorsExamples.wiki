@@ -12,11 +12,15 @@ private final class SortResult { String fileName; List<String> words }
 class WordSortActor extends AbstractPooledActor {
 
     private List<String> sortedWords(String fileName) {
-        def words = []
+        parseFile(fileName).sort {it.toLowerCase()}
+    }
+
+    private List<String> parseFile(String fileName) {
+        List<String> words = []
         new File(fileName).eachLine {String line ->
             line.split(' ').each {words << it}
         }
-        words.sort {it.toLowerCase()}
+        return words
     }
 
     void act() {
@@ -35,24 +39,30 @@ class WordSortActor extends AbstractPooledActor {
 //Master actor
 class SortMaster extends AbstractPooledActor {
 
-    String docRoot
-    int numActors
+    String docRoot = '/'
+    int numActors = 1
 
     List<List<String>> sorted = []
-    private List<PooledActor> workers
     private CountDownLatch startupLatch = new CountDownLatch(1)
     private CountDownLatch doneLatch
 
     public void beginSorting() {
-        assert docRoot
-        assert numActors > 0
+        int cnt = sendTasksToWorkers()
+        doneLatch = new CountDownLatch(cnt)
+    }
+
+    private List createWorkers() {
+        return (1..numActors).collect {new WordSortActor().start()}
+    }
+
+    private int sendTasksToWorkers() {
+        List<PooledActor> workers = createWorkers()
         int cnt = 0
-        workers = (1..numActors).collect {new WordSortActor().start()}
         new File(docRoot).eachFile {
-            workers[cnt % numActors] << new FileToSort(fileName : it)
+            workers[cnt % numActors] << new FileToSort(fileName: it)
             cnt += 1
         }
-        doneLatch = new CountDownLatch(cnt)
+        return cnt
     }
 
     public void waitUntilDone() {
@@ -77,7 +87,7 @@ class SortMaster extends AbstractPooledActor {
 }
 
 //start the actors to sort words
-def master = new SortMaster(docRoot: 'C:/docs/', numActors: 5).start()
+def master = new SortMaster(docRoot: 'C:/dev/TeamCity/logs/', numActors: 5).start()
 master.waitUntilDone()
 println 'Done'
 println master.sorted
