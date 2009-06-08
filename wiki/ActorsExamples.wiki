@@ -1,7 +1,9 @@
 #summary A few examples on Actors use
 #labels Featured
 
-= File sort =
+= Word sort =
+
+Given a folder name, the script will sort words in all files in the folder. The SortMaster actor will create a givet number of WordSortActors, split among them the files to sort words in and collect the results.
 
 {{{
 //Messages
