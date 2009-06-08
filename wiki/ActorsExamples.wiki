@@ -5,6 +5,8 @@
 
 Given a folder name, the script will sort words in all files in the folder. The _SortMaster_ actor creates a given number of _WordSortActors_, splits among them the files to sort words in and collects the results.
 
+Inspired by [http://fupeg.blogspot.com/2009/06/scala-concurrency.html Scala Concurrency blog post by Michael Galpin]
+
 {{{
 //Messages
 private final class FileToSort { String fileName }
