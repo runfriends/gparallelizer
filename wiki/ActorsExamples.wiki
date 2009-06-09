@@ -13,7 +13,7 @@ private final class FileToSort { String fileName }
 private final class SortResult { String fileName; List<String> words }
 
 //Worker actor
-class WordSortActor extends AbstractPooledActor {
+final class WordSortActor extends AbstractPooledActor {
 
     private List<String> sortedWords(String fileName) {
         parseFile(fileName).sort {it.toLowerCase()}
@@ -39,7 +39,7 @@ class WordSortActor extends AbstractPooledActor {
 }
 
 //Master actor
-class SortMaster extends AbstractPooledActor {
+final class SortMaster extends AbstractPooledActor {
 
     String docRoot = '/'
     int numActors = 1
@@ -48,7 +48,7 @@ class SortMaster extends AbstractPooledActor {
     private CountDownLatch startupLatch = new CountDownLatch(1)
     private CountDownLatch doneLatch
 
-    public void beginSorting() {
+    private void beginSorting() {
         int cnt = sendTasksToWorkers()
         doneLatch = new CountDownLatch(cnt)
     }
