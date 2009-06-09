@@ -21,9 +21,7 @@ class WordSortActor extends AbstractPooledActor {
 
     private List<String> parseFile(String fileName) {
         List<String> words = []
-        new File(fileName).eachLine {String line ->
-            line.split(' ').each {words << it}
-        }
+        new File(fileName).splitEachLine(' ') {words.addAll(it)}
         return words
     }
 
