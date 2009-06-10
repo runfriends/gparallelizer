@@ -221,7 +221,7 @@ myActor.metaClass.onException = {
 ===Pool management===
 The actors' thread pool follows the singleton pattern. You retrieve the pool from _PooledActors_ class or a _PooledActorGroup_ class and manage it through the _Pool_ interface. The pool by default contains n + 1 threads, where n stands for the number of CPUs detected by the JVM. The _gparallelizer.poolsize_ system property may be used to modify the default pool size. The _resize()_ method allows you to change the pool size any time and the _resetDefaultSize()_ sets it back to the default value.
 The pool contains daemon threads by default, but the daemon flag for _PooledActorGroup_ instances can be specified at their creation.
-The _shutdown()_ method should be called when you need to safely finish all tasks, destroy the pool and stop all the threads in order to exit JVM. For daemon actor groups it is not mandatory to call _shutdown()_, but it ensures a consistent state at application termination.
+The _shutdown()_ method should be called when you need to safely finish all tasks, destroy the pool and stop all the threads in order to exit JVM.
 
 {{{
 ... (n+1 threads in the default pool after startup)
@@ -271,8 +271,12 @@ def cleanupActor = helperActors.actor {
 
 //increase size of the core actor group
 coreActors.threadPool.resize 6 
+
+//shutdown the group's pool once you no longer need the group to release resources
+helperActors.threadPool.shutdown()
 }}}
 
+Do not forget to shutdown custom pooled actor groups once you no longer need them and their actors to preserve system resources.
 ==Tips and tricks==
 ===Structuring actor's code===
 When extending the _AbstractPooledActor_ class, you can call any actor's methods from within the _act()_ method and use the _react()_ or _loop()_ methods in them.
