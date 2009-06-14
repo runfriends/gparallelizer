@@ -1,5 +1,7 @@
 #summary Dataflow concurrency offers an alternative concurrency model, which is inherently safe and robust.
 
+*Note:* This page describes dataflow concurrency, which is planned for the 0.8 release and is not yet part of the distribution. Take sources from the trunk if you can't wait to perform your own experiments.
+
 = Introduction =
 
 Check out the small example written in Groovy using GParallelizer, which sums results of calculations performed by three concurrently run threads:
