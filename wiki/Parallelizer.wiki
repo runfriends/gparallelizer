@@ -53,3 +53,18 @@ The following methods on collections are currently supported:
   * findAsync()
   * allAsync()
   * anyAsync()
+
+===Meta-class enhancer===
+As an alternative since the 0.8 release you can use the _ParallelEnhancer_ class to enhance meta-classes for any classes or individual instances with asynchronous methods.
+{{{
+import org.gparallelizer.ParallelEnhancer
+
+def list = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+ParallelEnhancer.enhanceInstance(list)
+println list.collectAsync {it * 2 }
+
+def animals = ['dog', 'ant', 'cat', 'whale']
+ParallelEnhancer.enhanceInstance animals
+println (animals.anyAsync {it ==~ /ant/} ? 'Found an ant' : 'No ants found')
+println (animals.allAsync {it.contains('a')} ? 'All animals contain a' : 'Some animals can live without an a')
+}}}
