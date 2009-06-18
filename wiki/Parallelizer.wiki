@@ -3,7 +3,9 @@
 
 ==Usage of Parallelizer==
 
-The _Parallelizer_ class enables a ParallelArray-based (from JSR-166y) DSL on collections. The jsr166y-070108.jar (downloadable from e.g. http://repo1.maven.org/maven2/org/coconut/forkjoin/jsr166y/070108/jsr166y-070108.jar) must be on the classpath.
+The _Parallelizer_ class enables a ParallelArray-based (from JSR-166y) DSL on collections. In general cases the Parallel Arrays implementation shows to be much faster (10 - 20 times) compared to the executor service implementation in Asynchronizer.
+
+The jsr166y-070108.jar (downloadable from e.g. http://repo1.maven.org/maven2/org/coconut/forkjoin/jsr166y/070108/jsr166y-070108.jar) must be on the classpath.
 
 {{{
 <dependency>
