@@ -84,7 +84,7 @@ Asynchronizer.withAsynchronizer {
 }}}
 
 ===Meta-class enhancer===
-As an alternative since the 0.8 release you can use the AsyncEnhancer class to enhance meta-classes for any classes or individual instances with asynchronous methods.
+As an alternative since the 0.8 release you can use the _AsyncEnhancer_ class to enhance meta-classes for any classes or individual instances with asynchronous methods.
 {{{
 import org.gparallelizer.AsyncEnhancer
 
