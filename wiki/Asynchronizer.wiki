@@ -82,3 +82,18 @@ Asynchronizer.withAsynchronizer {
     assertEquals([10, 20], AsyncInvokerUtil.doInParallel({calculateA()}, {calculateB()}))
 }
 }}}
+
+===Meta-class enhancer===
+As an alternative since the 0.8 release you can use the AsyncEnhancer class to enhance meta-classes for any classes or individual instances with asynchronous methods.
+{{{
+import org.gparallelizer.AsyncEnhancer
+
+def list = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+AsyncEnhancer.enhanceInstance(list)
+println list.collectAsync {it * 2 }
+
+def animals = ['dog', 'ant', 'cat', 'whale']
+AsyncEnhancer.enhanceInstance animals
+println (animals.anyAsync {it ==~ /ant/} ? 'Found an ant' : 'No ants found')
+println (animals.allAsync {it.contains('a')} ? 'All animals contain a' : 'Some animals can live without an a')
+}}}
