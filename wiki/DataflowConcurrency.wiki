@@ -34,8 +34,8 @@ We start three logical threads, which run in parallel and perform their tasks. W
 Here's what you gain by using Dataflow Concurrency (by [http://jonasboner.com/ Jonas Bonér]):
 
   * No race-conditions
-  * No deadlocks
   * No live-locks
+  * Deterministic deadlocks
   * Completely deterministic programs
   * BEAUTIFUL code.
 
