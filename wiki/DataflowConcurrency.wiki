@@ -89,6 +89,10 @@ Dataflow programs naturally scale with the number of processors. Up to a certain
 Check out, for example, the following script, which calculates parameters of a simple physical experiment and prints out the results. Each "green" thread performs its part of the calculation, it may depend on values calculated by some other threads as well as its result might be needed by some other "green" thread. With Dataflow Concurrency you can split the work between "green" threads or reorder the threads themselves as you like and the dataflow mechanics will ensure the calculation will be accomplished correctly.
 
 {{{
+import org.gparallelizer.dataflow.DataFlowActor
+import org.gparallelizer.dataflow.DataFlowVariable
+import static org.gparallelizer.dataflow.DataFlow.thread
+
 final def mass = new DataFlowVariable()
 final def radius = new DataFlowVariable()
 final def volume = new DataFlowVariable()
@@ -113,6 +117,7 @@ of ${~deceleration} m/s2 and so stop the ball at a distance of ${~distance} m.
 
 =======================================================================================================================
 This example has been calculated asynchronously in multiple threads using GParallelizer DataFlow concurrency in Groovy.
+Author: ${~author}
 """
 
     System.exit 0
@@ -134,6 +139,12 @@ thread {
 }
 
 thread {
+    println 'Enter your name:'
+    def name = new InputStreamReader(System.in).readLine()
+    author << (name?.trim()?.size()>0 ? name : 'anonymous')
+}
+
+thread {
     time << 10
     velocity << ~acceleration * ~time
 }
@@ -145,6 +156,8 @@ thread {
 thread {
     distance << ~deceleration * ((~velocity/~deceleration) ** 2) * 0.5
 }
+
+Thread.sleep(30000)
 }}}
 
 Note: I did my best to make all the physical calculations right. Feel free to change the values and see how long distance you need to stop the rolling ball.
