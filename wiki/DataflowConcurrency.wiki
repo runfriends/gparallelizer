@@ -31,7 +31,7 @@ We start three logical threads, which run in parallel and perform their tasks. W
 *Implementation detail:* The three threads in the example *do not necessarily need to be three physical threads*. They're so-called "green" or "logical" threads and can be mapped under the covers to any number of physical threads.
 
 = Benefits =
-Here's what you gain by using Dataflow Concurrency ([http://jonasboner.com/ by Jonas Bonér]):
+Here's what you gain by using Dataflow Concurrency (by [http://jonasboner.com/ Jonas Bonér]):
 
   * No race-conditions
   * No deadlocks
