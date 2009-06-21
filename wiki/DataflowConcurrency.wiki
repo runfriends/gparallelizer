@@ -151,7 +151,7 @@ Note: I did my best to make all the physical calculations right. Feel free to ch
 
 =Implementation in GParallelizer=
 
-The Dataflow Concurrency in GParallelizer builds on top of its actor support. Each time you create a new "thread" with the _DataFlow.thread()_ factory method, an actor is started to process the passed-in code parameter. Each _DataFlowVariable_ has an actor associated as well. Some more actors are created when reading a not-yet-set dataflow variable to wait for the value to be set at some point. All the dataflow actors share a thread pool and so neither the number of _DataFlowVariable_ instances nor the number of calls to _DataFlow.thread()_ factory method need to correspond to the number of physical threads required from the system.
+The Dataflow Concurrency in GParallelizer builds on top of its actor support. Each time you create a new "thread" with the _DataFlow.thread()_ factory method, an actor is started to process the passed-in code parameter. All of the dataflow thread actors share a thread pool and so the number threads created through _DataFlow.thread()_ factory method don't need to correspond to the number of physical threads required from the system.
 
 ===Combining actors and Dataflow Concurrency===
 
