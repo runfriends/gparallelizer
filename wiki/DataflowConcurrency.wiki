@@ -1,6 +1,7 @@
 #summary Dataflow concurrency offers an alternative concurrency model, which is inherently safe and robust.
+#labels Featured,Phase-Design,Phase-Requirements
 
-*Note:* This page describes dataflow concurrency, which is planned for the 0.8 release and is not yet part of the distribution. Take sources from the trunk if you can't wait to perform your own experiments.
+*Note:* This page describes dataflow concurrency, which is planned for the 0.8 release and is not yet part of the distribution. Use the 0.8 beta release or take sources from the trunk if you can't wait to perform your own experiments.
 
 = Introduction =
 
