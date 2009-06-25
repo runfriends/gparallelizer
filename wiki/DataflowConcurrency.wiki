@@ -14,8 +14,8 @@ final def y = new DataFlowVariable()
 final def z = new DataFlowVariable()
 
 thread {
-    z << ~x + ~y
-    println "Result: ${~z}"
+    z << x.val + y.val
+    println "Result: ${z.val}"
 }
 
 thread {
@@ -27,7 +27,7 @@ thread {
 }
 }}}
 
-We start three logical threads, which run in parallel and perform their tasks. When a thread needs to read a value from _DataFlowVariable_ (by the '~' operator), it will block until the value has been set by another thread (using the '<<' operator). Each _DataFlowVariable_ can be set only once in its lifetime. Notice that you don't have to bother with ordering and synchronizing the threads and their access to shared variables. The values are magically transferred among threads at the right time without your intervention.
+We start three logical threads, which run in parallel and perform their tasks. When a thread needs to read a value from _DataFlowVariable_ (through the val property), it will block until the value has been set by another thread (using the '<<' operator). Each _DataFlowVariable_ can be set only once in its lifetime. Notice that you don't have to bother with ordering and synchronizing the threads and their access to shared variables. The values are magically transferred among threads at the right time without your intervention.
 
 *Implementation detail:* The three threads in the example *do not necessarily need to be three physical threads*. They're so-called "green" or "logical" threads and can be mapped under the covers to any number of physical threads.
 
@@ -50,7 +50,7 @@ _Quoting Wikipedia_
 Operations (in Dataflow programs) consist of "black boxes" with inputs and outputs, all of which are always explicitly defined. They run as soon as all of their inputs become valid, as opposed to when the program encounters them. Whereas a traditional program essentially consists of a series of statements saying "do this, now do this", a dataflow program is more like a series of workers on an assembly line, who will do their assigned task as soon as the materials arrive. This is why dataflow languages are inherently parallel; the operations have no hidden state to keep track of, and the operations are all "ready" at the same time.
 
 ===Principles===
-With Dataflow Concurrency you can safely share variables across threads. These variables (in Groovy instances of the _DataFlowVariable_ class) can only be assigned (using the '<<' operator) a value once in their lifetime. The values of the variables, on the other hand, can be read multiple times (in Groovy using the '~' operator), even before the value has been assigned. In such cases the reading 'green' thread is suspended until the value is set by another 'green' thread.
+With Dataflow Concurrency you can safely share variables across threads. These variables (in Groovy instances of the _DataFlowVariable_ class) can only be assigned (using the '<<' operator) a value once in their lifetime. The values of the variables, on the other hand, can be read multiple times (in Groovy through the val property), even before the value has been assigned. In such cases the reading 'green' thread is suspended until the value is set by another 'green' thread.
 So you can simply write your code sequentially using Dataflow Variables and the underlying mechanics will make sure you get all the values you need in a thread-safe manner.
 
 Briefly, you generally perform three operations with Dataflow variables:
@@ -80,7 +80,7 @@ thread {
 }
 
 thread {
-    while(true) println ~buffer  //read from the buffer in a loop
+    while(true) println buffer.val  //read from the buffer in a loop
 }
 }}}
 
@@ -109,27 +109,27 @@ thread {
     println """
 Calculating distance required to stop a moving ball.
 ====================================================
-The ball has a radius of ${~radius} meters and is made of a material with ${~density} kg/m3 density,
-which means that the ball has a volume of ${~volume} m3 and a mass of ${~mass} kg.
-The ball has been accelerating with ${~acceleration} m/s2 from 0 for ${~time} seconds and so reached a velocity of ${~velocity} m/s.
+The ball has a radius of ${radius.val} meters and is made of a material with ${density.val} kg/m3 density,
+which means that the ball has a volume of ${volume.val} m3 and a mass of ${mass.val} kg.
+The ball has been accelerating with ${acceleration.val} m/s2 from 0 for ${time.val} seconds and so reached a velocity of ${velocity.val} m/s.
 
-Given our ability to push the ball backwards with a force of ${~decelerationForce} N (Newton), we can cause a deceleration
-of ${~deceleration} m/s2 and so stop the ball at a distance of ${~distance} m.
+Given our ability to push the ball backwards with a force of ${decelerationForce.val} N (Newton), we can cause a deceleration
+of ${deceleration.val} m/s2 and so stop the ball at a distance of ${distance.val} m.
 
 =======================================================================================================================
 This example has been calculated asynchronously in multiple threads using GParallelizer DataFlow concurrency in Groovy.
-Author: ${~author}
+Author: ${author.val}
 """
 
     System.exit 0
 }
 
 thread {
-    mass << ~volume * ~density
+    mass << volume.val * density.val
 }
 
 thread {
-    volume << Math.PI * (~radius ** 3)
+    volume << Math.PI * (radius.val ** 3)
 }
 
 thread {
@@ -147,15 +147,15 @@ thread {
 
 thread {
     time << 10
-    velocity << ~acceleration * ~time
+    velocity << acceleration.val * time.val
 }
 
 thread {
-    deceleration << ~decelerationForce / ~mass
+    deceleration << decelerationForce.val / mass.val
 }
 
 thread {
-    distance << ~deceleration * ((~velocity/~deceleration) ** 2) * 0.5
+    distance << deceleration.val * ((velocity.val/deceleration.val) ** 2) * 0.5
 }
 
 Thread.sleep(30000)
@@ -183,7 +183,7 @@ final AbstractPooledActor doubler = PooledActors.actor {
 final AbstractPooledActor thread = thread {
     react {
         doubler.send it  //send a number to the doubler
-        println "Result ${~a}"  //wait for the result to be bound to 'a'
+        println "Result ${a.val}"  //wait for the result to be bound to 'a'
     }
 }
 
