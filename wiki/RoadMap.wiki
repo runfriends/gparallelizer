@@ -9,7 +9,7 @@ Planned release: June 2009
 
   * Data-flow concurrency
   * Fast send (without the reply management overhead)
-  * Send and Wait(synchronous send)
+  * Send and Wait (synchronous send)
   * Ability to join an actor and so wait for its termination
   * Make all actor threads daemon by default.
   * Prepare a representative benchmark to measure future performance improvements
