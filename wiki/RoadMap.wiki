@@ -10,19 +10,24 @@ Planned release: June 2009
   * Data-flow concurrency
   * Fast send (without the reply management overhead)
   * Send and Wait(synchronous send)
+  * Ability to join an actor and so wait for its termination
+  * Make all actor threads daemon by default.
+  * Prepare a representative benchmark to measure future performance improvements
+  * Add experimental support for Fork/Join thread pool to run actors
+  * Make thread-bound actors use a resizable thread pool
+  * DynamicDispatchActor to allow for an alternative message handling syntax - dynamic method dispatch to multiple onMessage() methods
+  * Added a Reactor implementation - a special purpose actor, which after receiving a message runs its body with the message as a parameter and the result of the code is send in reply.
 
 ===0.8.1===
 
 Planned release: July 2009
 
-  * Prepare a representative benchmark to measure future performance improvements
   * Gradle build script
   * Performance optimization
-  * Migrate to Fork/Join thread pool
   * Provide separate doc and src downloads
 
 ===Backlog===
   * Experimental use-cases - asynchronous meta-class
   * Proper maven support
-  * Use Fork/Join pool
+
   * Performance improvements
