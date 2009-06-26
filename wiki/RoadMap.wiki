@@ -23,11 +23,9 @@ Planned release: June 2009
 Planned release: July 2009
 
   * Gradle build script
-  * Performance optimization
+  * Maven build script
   * Provide separate doc and src downloads
 
 ===Backlog===
   * Experimental use-cases - asynchronous meta-class
-  * Proper maven support
-
-  * Performance improvements
+  * Performance optimization
