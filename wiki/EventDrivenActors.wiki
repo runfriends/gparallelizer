@@ -277,6 +277,90 @@ helperActors.threadPool.shutdown()
 }}}
 
 Do not forget to shutdown custom pooled actor groups once you no longer need them and their actors to preserve system resources.
+
+==Special-purpose pooled actors==
+===Dynamic Dispatch Actor===
+Note: Available since version 0.8
+
+The _DynamicDispatchActor_ class is pooled actor allowing for a different structure of the message handling code. In general _DynamicDispatchActor_ repeatedly scans for messages and dispatches arrived messages to one of the _onMessage(message)_ methods defined on the actor. The _DynamicDispatchActor_ leverages the Groovy dynamic method dispatch mechanism under the covers.
+
+{{{
+final class MyActor extends DynamicDispatchActor {
+    void onMessage(String message) {
+        println 'Received string'
+    }
+
+    void onMessage(Integer message) {
+        println 'Received integer'
+    }
+
+    void onMessage(Object message) {
+        println 'Received object'
+    }
+
+    void onMessage(List message) {
+        println 'Received list'
+        stop()
+    }
+}
+
+final def actor = new MyActor().start()
+
+actor  << 1
+actor  << ''
+actor  << 1.0
+actor  << new ArrayList()
+
+actor.join()
+}}}
+
+In some scenarios, typically when no message-dependent state needs to be preserved on the actor, the dynamic dispatch code structure may be more intuitive than the one using nested _loop_ and _react_ statements.
+
+===Reactive Actor===
+Note: Available since version 0.8
+
+The _ReactiveActor_ class, constructed typically by calling _PooledActors.reactor()_, allow for more event-driven like approach. When a reactive actor receives a message, the supplied block of code, which makes up the reactive actor's body, is run with the message as a parameter. The result returned from the code is send in reply.
+
+{{{
+final def group = new PooledActorGroup()
+
+final def doubler = group.reactor {
+    2 * it
+}.start()
+
+group.actor {
+    println 'Result1:' + doubler.sendAndWait(10)
+}.start()
+
+group.actor {
+    println 'Result2:' + doubler.sendAndWait(20)
+}.start()
+
+group.actor {
+    println 'Result3:' + doubler.sendAndWait(30)
+}.start()
+
+for(i in (1..100)) {
+    println "$i: ${doubler.sendAndWait(i)}"
+}
+doubler.stop()
+doubler.join()
+}}}
+
+Essentially reactive actors provide a convenience shortcut for an actor that would wait for messages in a loop, process them and send back the result. This is schematically how the reactive actor looks inside:
+{{{
+public class ReactiveActor extends AbstractPooledActor {
+    Closure body
+
+    void act() {
+        loop {
+            react {message ->
+                reply body(message)
+            }
+        }
+    }
+}
+}}}
 ==Tips and tricks==
 ===Structuring actor's code===
 When extending the _AbstractPooledActor_ class, you can call any actor's methods from within the _act()_ method and use the _react()_ or _loop()_ methods in them.
