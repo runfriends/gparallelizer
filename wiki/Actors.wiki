@@ -80,6 +80,13 @@ example by _Jordi Campos i Miralles, Departament de Matemàtica Aplicada i Anàl
 = Usage of Actors =
 
 *GParallelizer* provides consistent API and DSL for both _thread-bound actors_ and _event-driven actors_. The differences in use are only marginal and relate to the different threading nature of these two types of actors.
+{{{
+actor << 'Message'
+actor.send 'Message'
+def reply1 = actor.sendAndWait('Message')
+def reply2 = actor.sendAndWait(10, TimeUnit.SECONDS, 'Message')
+def reply3 = actor.sendAndWait(10.seconds, 'Message')
+}}}
 
 == Sending messages ==
 
