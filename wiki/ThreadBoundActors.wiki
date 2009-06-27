@@ -115,6 +115,7 @@ def console = oneShotActor {
 
 def sorter = oneShotActor(createMessageHandler(console))
 sorter.start().send([1, 5, 2, 4, 3, 8, 6, 7, 3, 4, 5, 2, 2, 9, 8, 7, 6, 7, 8, 1, 4, 1, 7, 5, 8, 2, 3, 9, 5, 7, 4, 3])
+console.join()
 }}}
 
 For brevity I didn't include the two helper methods split() and merge() in the code snippet. You can find them below.
