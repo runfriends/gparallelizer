@@ -224,3 +224,15 @@ PooledActors.actor {
     }
 }.start()
 }}}
+
+==Joining actors==
+Note: Available since the 0.8 version
+
+Actors provide a _join()_ method to allow callers to wait for the actor to terminate. A variant accepting a timeout is also available. The Groovy _spread-dot_ operator comes in handy when joining multiple actors at a time.
+
+{{{
+def master = new GameMaster().start()
+def player = new Player(name: 'Player', server: master).start()
+
+[master, player]*.join()
+}}}
