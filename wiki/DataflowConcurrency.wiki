@@ -192,6 +192,28 @@ thread << 10
 
 In the example you see the "thread" using both messages and a _DataFlowVariable_ to communicate with the _doubler_ actor.
 
+===Using plain java threads===
+The _DataFlowVariable_ as well as the _DataFlowStream_ classes can obviously be used from any thread of your application, not only the actor-backed DataFlow.thread() threads. consider the following example:
+{{{
+import org.gparallelizer.dataflow.DataFlowVariable
+
+final DataFlowVariable a = new DataFlowVariable<String>()
+final DataFlowVariable b = new DataFlowVariable<String>()
+
+Thread.start {
+    println "Received: $a.val"
+    Thread.sleep 2000
+    b << 'Thank you'
+}
+
+Thread.start {
+    Thread.sleep 2000
+    a << 'An important message from the second thread'
+    println "Reply: $b.val"
+}
+}}}
+We're creating two plain java.lang.Thread instances, which exchange data using the two data flow variables.
+
 = Further reading =
 
 [http://github.com/jboner/scala-dataflow/tree/f9a38992f5abed4df0b12f6a5293f703aa04dc33/src Scala Dataflow library by Jonas Bonér]
