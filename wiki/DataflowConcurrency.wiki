@@ -193,7 +193,7 @@ thread << 10
 In the example you see the "thread" using both messages and a _DataFlowVariable_ to communicate with the _doubler_ actor.
 
 ===Using plain java threads===
-The _DataFlowVariable_ as well as the _DataFlowStream_ classes can obviously be used from any thread of your application, not only the actor-backed DataFlow.thread() threads. Consider the following example:
+The _DataFlowVariable_ as well as the _DataFlowStream_ classes can obviously be used from any thread of your application, not only the actor-backed _DataFlow.thread()_ threads. Consider the following example:
 {{{
 import org.gparallelizer.dataflow.DataFlowVariable
 
@@ -212,7 +212,7 @@ Thread.start {
     println "Reply: $b.val"
 }
 }}}
-We're creating two plain java.lang.Thread instances, which exchange data using the two data flow variables. Obviously, neither the actor lifecycle methods, nor the send/react functionality or thread pooling take effect in such scenarios.
+We're creating two plain _java.lang.Thread_ instances, which exchange data using the two data flow variables. Obviously, neither the actor lifecycle methods, nor the send/react functionality or thread pooling take effect in such scenarios.
 
 = Further reading =
 
