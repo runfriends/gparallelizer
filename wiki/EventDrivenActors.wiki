@@ -319,7 +319,7 @@ In some scenarios, typically when no message-dependent state needs to be preserv
 ===Reactive Actor===
 Note: Available since version 0.8
 
-The _ReactiveActor_ class, constructed typically by calling _PooledActors.reactor()_ or _PooledActorGroup.reactor()_, allow for more event-driven like approach. When a reactive actor receives a message, the supplied block of code, which makes up the reactive actor's body, is run with the message as a parameter. The result returned from the code is send in reply.
+The _ReactiveActor_ class, constructed typically by calling _PooledActors.reactor()_ or _PooledActorGroup.reactor()_, allow for more event-driven like approach. When a reactive actor receives a message, the supplied block of code, which makes up the reactive actor's body, is run with the message as a parameter. The result returned from the code is sent in reply.
 
 {{{
 final def group = new PooledActorGroup()
