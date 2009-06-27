@@ -288,6 +288,7 @@ The _DynamicDispatchActor_ class is a pooled actor allowing for an alternative s
 import org.gparallelizer.actors.pooledActors.DynamicDispatchActor
 
 final class MyActor extends DynamicDispatchActor {
+
     void onMessage(String message) {
         println 'Received string'
     }
@@ -352,7 +353,7 @@ doubler.stop()
 doubler.join()
 }}}
 
-Here's an example of an actor, which submits a batch of numbers to process and then prints the results gradually as they arrive.
+Here's an example of an actor, which submits a batch of numbers to a _ReactiveActor_ for processing and then prints the results gradually as they arrive.
 
 {{{
 import org.gparallelizer.actors.Actor
