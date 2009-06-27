@@ -171,6 +171,7 @@ def console = new PooledActorGroup(false, 1).actor {
 
 def sorter = actor(createMessageHandler(console))
 sorter.start().send([1, 5, 2, 4, 3, 8, 6, 7, 3, 9, 5, 3])
+console.join()
 }}}
 
 Since _event-driven actors_ reuse threads from a pool, the script will work with virtually *any size of a thread pool*, no matter how many actors are created along the way.
