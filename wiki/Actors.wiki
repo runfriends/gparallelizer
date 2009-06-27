@@ -76,9 +76,16 @@ new Player( name: 'Player', server: master ).start()
 [master, player]*.join()
 }}}
 example by _Jordi Campos i Miralles, Departament de Matemàtica Aplicada i Anàlisi, MAiA Facultat de Matemàtiques, Universitat de Barcelona_
+
 = Usage of Actors =
 
 *GParallelizer* provides consistent API and DSL for both _thread-bound actors_ and _event-driven actors_. The differences in use are only marginal and relate to the different threading nature of these two types of actors.
+
+== Sending messages ==
+
+Messages can be sent to actors using the _send()_ method. Alternatively, the _<<_ operator can be used. A family of _sendAndWait()_ methods is available to block the caller until a reply from the actor is available. The reply is returned from the _sendAndWait()_ method as a return value.
+The _sendAndWait()_ methods may also return after a timeout expires or in case of termination of the called actor.
+All _send()_ and _sendAndWait()_ methods will throw an exception if invoked on a non-active actor.
 
 == Event-driven actors ==
 
