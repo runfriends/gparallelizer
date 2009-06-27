@@ -348,7 +348,37 @@ doubler.stop()
 doubler.join()
 }}}
 
+Here's an example of an actor, which submits a batch of numbers to process and then prints the results gradually as they arrive.
+
+{{{
+import org.gparallelizer.actors.Actor
+import org.gparallelizer.actors.pooledActors.PooledActors
+
+final def doubler = PooledActors.reactor {
+    2 * it
+}.start()
+
+Actor actor = PooledActors.actor {
+    (1..10).each {doubler << it}
+    int i = 0
+    loop {
+        i += 1
+        if (i > 10) stop()
+        else {
+            react {message ->
+                println "Double of $i = $message"
+            }
+        }
+    }
+}.start()
+
+actor.join()
+doubler.stop()
+doubler.join()
+}}}
+
 Essentially reactive actors provide a convenience shortcut for an actor that would wait for messages in a loop, process them and send back the result. This is schematically how the reactive actor looks inside:
+
 {{{
 public class ReactiveActor extends AbstractPooledActor {
     Closure body
