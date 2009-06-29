@@ -145,7 +145,7 @@ List<Integer> merge(List<Integer> a, List<Integer> b) {
 }}}
 
 ===Actors creation===
-_GParallelizer_ provides multiple Actor classes, which differ in the type of the message queue. For example, the DefaultActor uses unbounded queue, BoundedActor uses a bounded one and the SynchronousActor uses an SynchronousQueue, where send() and receive() operations must meet for both to proceed further.
+_GParallelizer_ provides multiple Actor classes, which differ in the type of the message queue. For example, the DefaultThreadActor uses unbounded queue, BoundedActor uses a bounded one and the SynchronousActor uses an SynchronousQueue, where send() and receive() operations must meet for both to proceed further.
 
 Actors have their _act()_ method run periodically by the actors' thread until the _stop()_ method is called on the Actor. So called one-shot actors have the _stop()_ method called automatically after the _act()_ method finishes the first time. They are aimed at handling non-repeating tasks.
 
@@ -214,7 +214,7 @@ def me = actor {
 As of 0.5 release actors can be mixed into other classes.
 {{{
         Company.metaClass {
-            mixin DefaultActor
+            mixin DefaultThreadActor
 
             act = {->
                 receive {
@@ -239,7 +239,7 @@ Actors can also extend individual instances only.
 final Company company = new Company(name: 'Company1', employees: ['Joe', 'Dave', 'Alice'])
 
 company.metaClass {
-    mixin DefaultActor
+    mixin DefaultThreadActor
 
     act = {->
         receive {
@@ -258,7 +258,7 @@ company.stop()
 ===Structuring actor's code===
 When extending the _AbstractActor_ class, you can call any actor's methods from within the _act()_ method and use the _receive()_ method in them.
 {{{
-class MyActor extends DefaultActor {
+class MyActor extends DefaultThreadActor {
 
     protected void act() {
         handleA()
