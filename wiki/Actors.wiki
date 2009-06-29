@@ -274,3 +274,5 @@ def player = new Player(name: 'Player', server: master).start()
 }}}
 
 ==Fork/Join Pool==
+Actors leverage the standard JDK concurrency library by default. An experimental support for JSR-166y Fork/Join thread pool has been added as a first step towards fully replaceable thread schedulers.
+To turn on Fork/Join pools, make sure you have the JSR-166y jar file on classpath and either set the _gparallelizer.useFJPool_ property to _true_ or set the appropriate constructor parameter when creating an actor group.
