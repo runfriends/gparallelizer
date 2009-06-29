@@ -151,7 +151,7 @@ Actors have their _act()_ method run periodically by the actors' thread until th
 
 Developers may either extend one of the Actor classes and override the _act()_ method or use one of the helper methods in the _Actors_ class to have an Actor created around a supplied closure.
 
-_Thread-bound_ actors can be organized into groups and as a default there's always an application-wide thread actor group available. And just like the _Actors_ abstract factory can be used to create actors in the default groups, custom groups can be used as abstract factories to create new actors instances belonging to them.
+_Thread-bound_ actors can be organized into groups and as a default there's always an application-wide thread actor group available. And just like the _Actors_ abstract factory can be used to create actors in the default group, custom groups can be used as abstract factories to create new actors instances belonging to them.
 
 Note: Describing groups as they work in version 0.8 and later
 
@@ -167,11 +167,11 @@ def actor2 = myGroup.oneShotActor {
 }
 }}}
 
-The _thread-bound_ actors from the same group share the *underlying thread pool* of that group. Although _thread-bound_ actors use a *single thread for their whole life-time*, the threads are not created for each actor individually, but they're taken from the group's thread pool instead. The pool resizes automatically and the initial size can be specified either by setting the _gparallelizer.poolsize_ system property or individually for each actor group by specifying the appropriate constructor parameter.
+The _thread-bound_ actors from the same group share *the underlying thread pool* of that group. Although _thread-bound_ actors use *a single thread for their whole life-time*, the threads are not created for each actor individually, but they're taken from the group's thread pool instead. The pool resizes automatically and the initial size can be specified either by setting the _gparallelizer.poolsize_ system property or individually for each actor group by specifying the appropriate constructor parameter.
 {{{
 def myGroup = new ThreadActorGroup(10)  //the pool starts with 10 threads, but will resize if needed
 }}}
-The thread pool can be manipulated through the _ThreadActorGroup_, which *delegates* to the _Pool_ interface.
+The thread pool can be manipulated through the appropriate _ThreadActorGroup_ class, which *delegates* to the _Pool_ interface.
 {{{
 def myGroup = new ThreadActorGroup(10)
 myGroup.resize 20
