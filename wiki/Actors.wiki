@@ -221,7 +221,7 @@ react {offerA, offerB, offerC ->
 
     def winnerOffer = [offerA, offerB, offerC].min {it.price}
     winnerOffer.reply 'I accept your reasonable offer'  //sent to the winner only
-    ([offerA, offerB, offerC] - [winnerOffer])*.reply 'Maybe next time'  //sent to the losers only
+    ([offerA, offerB, offerC] - [winnerOffer])*.reply 'Maybe next time'  //sent to the lo0sers only
 }
 }}}
 
@@ -244,6 +244,20 @@ PooledActors.actor {
     }
 }.start()
 }}}
+
+===Ceasing replies===
+Enhancing actor objects as well as the messages at run-time to enable sending replies has a performance cost. If such a need arises, individual actors can have reply enhancement disabled by calling the disableSendingReplies() method.
+{{{
+final Actor bouncer = Actors.actor {message ->
+    disableSendingReplies()
+    receive()
+    //reply '2'  //not allowed
+    //message.reply '2' //not allowed
+    message.author << '2'  //possible, if messages hold the sender explicitly is a property
+}.start()
+}}}
+Obviously, the _reply()/replyIfExists()_ methods cannot be used when sending replies is disabled. However, you can still include senders in message explicitly and send replies using the _send()_ method of the senders.
+Sending replies can be re-enabled by calling the _enableSendingReplies()_ method.
 
 ==Joining actors==
 Note: Available since the 0.8 version
