@@ -162,6 +162,8 @@ _Thread-bound actors_ have their own thread, which is always available to receiv
 For example, this is how you create an actor that prints out all messages that it receives.
 
 {{{
+import static org.gparallelizer.actors.Actors.*
+
 def console = Actors.actor {
     println receive()
 }
