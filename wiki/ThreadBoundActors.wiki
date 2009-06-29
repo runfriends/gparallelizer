@@ -256,7 +256,7 @@ company.stop()
 }}}
 ==Tips and tricks==
 ===Structuring actor's code===
-When extending the _AbstractActor_ class, you can call any actor's methods from within the _act()_ method and use the _receive()_ method in them.
+When extending the _AbstractThreadActor_ class, you can call any actor's methods from within the _act()_ method and use the _receive()_ method in them.
 {{{
 class MyActor extends DefaultThreadActor {
 
