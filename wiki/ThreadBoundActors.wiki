@@ -179,6 +179,8 @@ myGroup.resetDefaultSize()
 myGroup.shutdown()
 }}}
 
+As an alternative to the ThreadActorGroup_, which creates a pool of daemon threads, the _NonDaemonThreadActorGroup_ class can be used when non-daemon threads are required.
+
 ===Actor lifecycle methods===
 Each Actor can define lifecycle observing methods, which will be called by the Actor's background thread whenever a certain lifecycle event occurs.
   * afterStart() - called immediately after the Actor's background thread has been started, before the act() method is called the first time.
