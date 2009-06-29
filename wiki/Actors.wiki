@@ -102,6 +102,8 @@ _Event-driven actors_ share a *pool* of threads, which are dynamically assigned 
 For example, this is how you create an actor that prints out all messages that it receives.
 
 {{{
+import static org.gparallelizer.actors.pooledActors.PooledActors.*
+
 def console = actor {
     loop {
         react {
@@ -146,9 +148,9 @@ def me = actor {
     react(10.seconds) {
         //continue conversation
     }
-}.start()
-
+}
 me.metaClass.onTimeout = {->friend.send('I see, busy as usual. Never mind.')}
+me.start()
 }}}
 
 See more detailed documentation on [http://code.google.com/p/gparallelizer/wiki/EventDrivenActors Use of event-driven actors]
