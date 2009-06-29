@@ -246,7 +246,7 @@ PooledActors.actor {
 }}}
 
 ===Ceasing replies===
-Note: Available since 0.8 version
+Note: Available since the 0.8 version
 
 Enhancing actor objects as well as the messages at run-time to enable sending replies has a performance cost. If such a need arises, individual actors can have reply enhancement disabled by calling the disableSendingReplies() method.
 {{{
