@@ -261,6 +261,30 @@ final Actor bouncer = Actors.actor {message ->
 Obviously, the _reply()/replyIfExists()_ methods cannot be used when sending replies is disabled. However, you can still include senders in message explicitly and send replies using the _send()_ method of the senders.
 Sending replies can be re-enabled by calling the _enableSendingReplies()_ method.
 
+===Undelivered messages===
+
+Sometimes messages cannot be delivered to the target actor. When special action needs to be taken for undelivered messages, at actor termination all unprocessed messages from its queue have their onDeliveryError() method called. The onDeliveryError() method or closure defined on the message can, for example, send a notification back to the original sender of the message.
+
+{{{
+final AbstractPooledActor me
+me = PooledActors.actor {
+    def message1 = 1
+    def message2 = 2
+
+    message1.metaClass.onDeliveryError = {->
+        me << "Could not deliver $delegate"
+    }
+
+    message2.metaClass.onDeliveryError = {->
+        me << "Could not deliver $delegate"
+    }
+
+    actor1 << message1
+    actor2 << message1
+    ...
+}
+}}}
+
 ==Joining actors==
 Note: Available since the 0.8 version
 
