@@ -7,7 +7,9 @@
   * Word Sort
 
 =Sleeping Barber=
+
 [http://en.wikipedia.org/wiki/Sleeping_barber_problem Problem description]
+
 {{{
 import org.gparallelizer.actors.pooledActors.PooledActorGroup
 import org.gparallelizer.actors.pooledActors.AbstractPooledActor
@@ -120,7 +122,9 @@ System.in.read()
 }}}
 
 =Dining Philosophers=
+
 [http://en.wikipedia.org/wiki/Dining_philosophers_problem Problem description]
+
 {{{
 import org.gparallelizer.actors.pooledActors.AbstractPooledActor
 import org.gparallelizer.actors.pooledActors.PooledActors
