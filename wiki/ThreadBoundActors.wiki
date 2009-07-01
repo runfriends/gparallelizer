@@ -171,7 +171,8 @@ The _thread-bound_ actors from the same group share *the underlying thread pool*
 {{{
 def myGroup = new ThreadActorGroup(10)  //the pool starts with 10 threads, but will resize if needed
 }}}
-The thread pool can be manipulated through the appropriate _ThreadActorGroup_ class, which *delegates* to the _Pool_ interface.
+The thread pool can be manipulated through the appropriate _ThreadActorGroup_ class, which *delegates* to the _Pool_ interface of the thread pool. For example, the _resize()_ method allows you to change the pool default size any time and the _resetDefaultSize()_ sets it back to the default value. The _shutdown()_ method can be called when you need to safely finish all tasks, destroy the pool and stop all the threads in order to exit JVM in an organized manner.
+
 {{{
 def myGroup = new ThreadActorGroup(10)
 myGroup.resize 20
@@ -180,6 +181,22 @@ myGroup.shutdown()
 }}}
 
 As an alternative to the _ThreadActorGroup_, which creates a pool of daemon threads, the _NonDaemonThreadActorGroup_ class can be used when non-daemon threads are required.
+
+{{{
+def daemonGroup = new ThreadActorGroup()
+
+def actor1 = daemonGroup.actor {
+...
+}
+
+def nonDaemonGroup = new NonDaemonThreadActorGroup()
+
+def actor2 = nonDaemonGroup.actor {
+...
+}
+}}}
+
+Do not forget to shutdown custom thread actor groups, once you no longer need them and their actors, to preserve system resources.
 
 ===Actor lifecycle methods===
 Each Actor can define lifecycle observing methods, which will be called by the Actor's background thread whenever a certain lifecycle event occurs.
