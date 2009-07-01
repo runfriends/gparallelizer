@@ -162,7 +162,7 @@ Closure createMessageHandler(def parentActor) {
     }
 }
 
-def console = new PooledActorGroup(false, 1).actor {
+def console = new PooledActorGroup(1).actor {
     react {
         println "Sorted array:\t${it}"
         System.exit 0 
@@ -220,39 +220,66 @@ myActor.metaClass.onException = {
 }}}
 
 ===Pool management===
-The actors' thread pool follows the singleton pattern. You retrieve the pool from _PooledActors_ class or a _PooledActorGroup_ class and manage it through the _Pool_ interface. The pool by default contains n + 1 threads, where n stands for the number of CPUs detected by the JVM. The _gparallelizer.poolsize_ system property may be used to modify the default pool size. The _resize()_ method allows you to change the pool size any time and the _resetDefaultSize()_ sets it back to the default value.
-The pool contains daemon threads by default, but the daemon flag for _PooledActorGroup_ instances can be specified at their creation.
-The _shutdown()_ method should be called when you need to safely finish all tasks, destroy the pool and stop all the threads in order to exit JVM.
+
+Note: Describing pools and groups as they work in version 0.8 and later 
+
+_Event-driven_actors can be organized into groups and as a default there's always an application-wide pooled actor group available. And just like the _PooledActors_ abstract factory can be used to create _event-driven_ actors in the default group, custom groups can be used as abstract factories to create new _event-driven_ actors instances belonging to these groups. 
 
 {{{
-... (n+1 threads in the default pool after startup)
+def myGroup = new PooledActorGroup()
 
-PooledActors.defaultPooledActorGroup.threadPool.resize 1  //use one-thread pool
+def actor1 = myGroup.actor {
+...
+}
 
-... (1 thread in the pool)
-
-PooledActors.defaultPooledActorGroup.threadPool.resetDefaultSize()
-
-... (n+1 threads in the pool)
-
-PooledActors.defaultPooledActorGroup.threadPool.shutdown()
-}}}
-
-_Event-driven_ actors can be organized into groups and as a default there's always an application-wide actor group available. And just like the _PooledActors_ abstract factory can be used to create actors in the default group, custom groups can be used as abstract factories to create new actors instances belonging to them.
-
-{{{
-def daemonGroup = new PooledActorGroup(true)
-
-def actor = daemonGroup.actor {
+def actor2 = myGroup.oneShotActor {
 ...
 }
 }}}
 
-_Event-driven_ actors belonging to the same group on top of having the same *daemon thread flag* share the *underlying thread pool*. With pooled actor groups you can split your actors to leverage multiple thread pools of different sizes and so assign resources to different components of your system and tune their performance. 
+The _event-driven_ actors belonging to the same group share the *underlying thread pool* of that group. The pool by default contains *n + 1 threads*, where *n* stands for the number of *CPUs* detected by the JVM. The *pool size* can be set *explicitly* either by setting the _gparallelizer.poolsize_ system property or individually for each actor group by specifying the appropriate constructor parameter. 
 
 {{{
-def coreActors = new PooledActorGroup(false, 5)  //5 non-daemon threads pool
-def helperActors = new PooledActorGroup(true, 1)  //1 daemon thread pool
+def myGroup = new PooledActorGroup(10)  //the pool will contain 10 threads
+}}}
+
+The thread pool can be manipulated through the appropriate _PooledActorGroup_ class, which *delegates* to the _Pool_ interface of the thread pool. For example, the _resize()_ method allows you to change the pool size any time and the _resetDefaultSize()_ sets it back to the default value. The _shutdown()_ method can be called when you need to safely finish all tasks, destroy the pool and stop all the threads in order to exit JVM in an organized manner.
+
+{{{
+... (n+1 threads in the default pool after startup)
+
+PooledActors.defaultPooledActorGroup.resize 1  //use one-thread pool
+
+... (1 thread in the pool)
+
+PooledActors.defaultPooledActorGroup.resetDefaultSize()
+
+... (n+1 threads in the pool)
+
+PooledActors.defaultPooledActorGroup.shutdown()
+}}}
+
+As an alternative to the _PooledActorGroup_, which creates a pool of daemon threads, the _NonDaemonPooledActorGroup_ class can be used when non-daemon threads are required.
+
+{{{
+def daemonGroup = new PooledActorGroup()
+
+def actor1 = daemonGroup.actor {
+...
+}
+
+def nonDaemonGroup = new NonDaemonPooledActorGroup()
+
+def actor2 = nonDaemonGroup.actor {
+...
+}
+}}}
+
+_Event-driven_ actors belonging to the same group share the *underlying thread pool*. With pooled actor groups you can split your actors to leverage multiple thread pools of different sizes and so assign resources to different components of your system and tune their performance. 
+
+{{{
+def coreActors = new NonDaemonPooledActorGroup(5)  //5 non-daemon threads pool
+def helperActors = new PooledActorGroup(1)  //1 daemon thread pool
 
 def priceCalculator = coreActors.actor {
 ...
@@ -271,10 +298,10 @@ def cleanupActor = helperActors.actor {
 }
 
 //increase size of the core actor group
-coreActors.threadPool.resize 6 
+coreActors.resize 6 
 
 //shutdown the group's pool once you no longer need the group to release resources
-helperActors.threadPool.shutdown()
+helperActors.shutdown()
 }}}
 
 Do not forget to shutdown custom pooled actor groups once you no longer need them and their actors to preserve system resources.
