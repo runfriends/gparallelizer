@@ -248,7 +248,7 @@ PooledActors.actor {
 ===Ceasing replies===
 Note: Available since the 0.8 version
 
-Enhancing actor objects as well as the messages at run-time to enable sending replies has a performance cost. If such a need arises, individual actors can have reply enhancement disabled by calling the disableSendingReplies() method.
+Enhancing actor objects as well as the messages at run-time to enable sending replies has a performance cost. If such a need arises, individual actors can have reply enhancement disabled by calling the _disableSendingReplies()_ method.
 {{{
 final Actor bouncer = Actors.actor {message ->
     disableSendingReplies()
@@ -265,7 +265,7 @@ Sending replies can be re-enabled by calling the _enableSendingReplies()_ method
 
 Note: Available since the 0.8 version
 
-Sometimes messages cannot be delivered to the target actor. When special action needs to be taken for undelivered messages, at actor termination all unprocessed messages from its queue have their onDeliveryError() method called. The onDeliveryError() method or closure defined on the message can, for example, send a notification back to the original sender of the message.
+Sometimes messages cannot be delivered to the target actor. When special action needs to be taken for undelivered messages, at actor termination all unprocessed messages from its queue have their _onDeliveryError()_ method called. The _onDeliveryError()_ method or closure defined on the message can, for example, send a notification back to the original sender of the message.
 
 {{{
 final AbstractPooledActor me
@@ -303,4 +303,4 @@ def player = new Player(name: 'Player', server: master).start()
 Actors leverage the standard JDK concurrency library by default. An experimental support for JSR-166y Fork/Join thread pool has been added as a first step towards fully replaceable thread schedulers.
 To turn on Fork/Join pools, make sure you have the JSR-166y jar file on the classpath and either set the _gparallelizer.useFJPool_ property to _true_ or set the appropriate constructor parameter when creating an actor group.
 
-Please note that Fork/Join pool only allows *daemon* threads.
+Please note that Fork/Join pool only allows *daemon* threads. The _NonDaemonThreadActorGroup_ and _NonDaemonPooledActorGroup_ classes will continue using the standard JDK thread pooling facilities.
