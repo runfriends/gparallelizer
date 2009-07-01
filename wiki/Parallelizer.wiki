@@ -70,3 +70,5 @@ ParallelEnhancer.enhanceInstance animals
 println (animals.anyAsync {it ==~ /ant/} ? 'Found an ant' : 'No ants found')
 println (animals.allAsync {it.contains('a')} ? 'All animals contain a' : 'Some animals can live without an a')
 }}}
+
+If an exception is thrown while processing any of the passed-in closures, the exception gets re-thrown from the xxxAsync methods.
