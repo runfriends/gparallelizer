@@ -62,12 +62,14 @@ final def decryptor = actor {
     }
 }.start()
 
-actor {
+def console = actor {
     decryptor.send 'suonorhcnysa si yvoorG'
     react {
         println 'Decrypted message: ' + it
     }
 }.start()
+
+console.join()
 }}}
 As you can see, you create new actors with the _actor()_ method passing in the actor's body as a closure parameter. Inside the actor's body you can use _loop()_ to iterate, _react()_ to receive messages and _reply()_ to send a message to the actor, which has sent the currently processed message. With the _start()_ method you schedule the actor to the underlying thread pool for processing. When the decryptor actor doesn't find a message in its message queue, the _react()_ method gives up the thread and returns it back to the thread pool for other actors to pick up. Only after a new message arrives to the actor's message queue, the closure of the _react()_ method gets scheduled for processing with the pool. Event-based actors internally simulate continuations - actor's work is split into sequentially run chunks, which get invoked once a message is available in the inbox. Each chunk for a single actor can be performed by different thread from the thread pool.
 
@@ -84,6 +86,7 @@ def me = actor {
 }.start()
 
 me.metaClass.onTimeout = {->friend.send('I see, busy as usual. Never mind.')}
+me.join()
 }}}
 Notice the possibility to use Groovy meta-programming to define actor's lifecycle notification methods (e.g. _onTimeout()_) dynamically.
 
@@ -114,6 +117,8 @@ final def calculator = actor {
 
 calculator.send 2
 calculator.send 3
+
+calculator.join()
 }}}
 
 You can group reception of multiple messages in a single _react()_ call.
