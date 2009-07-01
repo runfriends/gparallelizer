@@ -94,7 +94,7 @@ A little bit more realistic example of an event-driven actor that receives two n
 import static org.gparallelizer.actors.pooledActors.PooledActors.*
 
 //not necessary, just showing that a single-threaded pool can still handle multiple actors
-getPool().initialize 1
+defaultPooledActorGroup.resize 1
 
 final def console = actor {
     loop {
