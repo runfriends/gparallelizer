@@ -225,7 +225,7 @@ react {offerA, offerB, offerC ->
 }
 }}}
 
-The reply/replyIfExists methods work reliably across the actor types, so that event-driven (pooled) actors can send replies to thread-bound actors and vice versa.
+The _reply/replyIfExists_ methods work reliably across the actor types, so that event-driven (pooled) actors can send replies to thread-bound actors and vice versa.
 
 {{{
 //a thread-bound actor
