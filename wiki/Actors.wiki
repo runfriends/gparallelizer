@@ -255,7 +255,7 @@ final Actor bouncer = Actors.actor {message ->
     receive()
     //reply '2'  //not allowed
     //message.reply '2' //not allowed
-    message.author << '2'  //possible, if messages hold the sender explicitly is a property
+    message.author << '2'  //possible, if messages hold the sender explicitly is a property ('author' in the example)
 }.start()
 }}}
 Obviously, the _reply()/replyIfExists()_ methods cannot be used when sending replies is disabled. However, you can still include senders in message explicitly and send replies using the _send()_ method of the senders.
