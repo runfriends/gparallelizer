@@ -232,7 +232,7 @@ def actor1 = myGroup.actor {
 ...
 }
 
-def actor2 = myGroup.actor{
+def actor2 = myGroup.actor {
 ...
 }
 }}}
