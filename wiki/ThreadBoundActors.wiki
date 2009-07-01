@@ -74,6 +74,8 @@ def calculator = oneShotActor {
 
 calculator.send(2)
 calculator.send(3) 
+
+calculator.join()
 }}}
 
 ===Concurrent Merge Sort Example===
