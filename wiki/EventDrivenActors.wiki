@@ -223,7 +223,7 @@ myActor.metaClass.onException = {
 
 Note: Describing pools and groups as they work in version 0.8 and later 
 
-_Event-driven_actors can be organized into groups and as a default there's always an application-wide pooled actor group available. And just like the _PooledActors_ abstract factory can be used to create _event-driven_ actors in the default group, custom groups can be used as abstract factories to create new _event-driven_ actors instances belonging to these groups. 
+_Event-driven_ actors can be organized into groups and as a default there's always an application-wide pooled actor group available. And just like the _PooledActors_ abstract factory can be used to create _event-driven_ actors in the default group, custom groups can be used as abstract factories to create new _event-driven_ actors instances belonging to these groups. 
 
 {{{
 def myGroup = new PooledActorGroup()
