@@ -304,7 +304,7 @@ coreActors.resize 6
 helperActors.shutdown()
 }}}
 
-Do not forget to shutdown custom pooled actor groups once you no longer need them and their actors to preserve system resources.
+Do not forget to shutdown custom pooled actor groups, once you no longer need them and their actors, to preserve system resources.
 
 ==Special-purpose pooled actors==
 ===Dynamic Dispatch Actor===
