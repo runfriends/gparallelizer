@@ -18,7 +18,7 @@ To wrap integers, we can certainly use AtomicXXX types in Java/Groovy/Scala, but
 
 = Ideas =
 
-I'm thinking of having an Agent-like class in GParallelizer, for now called SafeVariable, which could wrap any object as its internal state. It would extend a Pooled Actor and accept Groovy Closures as messages. Upon reception the closure would be run with the internal state as a parameter as so could directly modify the object without fear of race conditions with other threads.
+I'm thinking of having an Agent-like class in GParallelizer, for now called SafeVariable, which could wrap any object as its internal state. It would extend a Pooled Actor and accept Groovy Closures as messages. Upon reception the closure would be run with the internal state as a parameter and so could directly modify the object without fear of race conditions with other threads.
 The whole update process would be of the fire-and-forget type, since once the message (closure) is sent to the SafeVariable, the caller thread can go off do other things and come later to check the current value with SafeVariable.val or SafeVariable.valAsync(closure) if the current thread should not block until the value is retrieved.
 
 {{{
