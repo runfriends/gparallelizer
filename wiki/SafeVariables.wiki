@@ -43,4 +43,4 @@ jugMembers.valAsync {println "Current members: $it"}
 System.in.read()
 }}}
 
-The _SafeVariable_ class is in trunk, so feel free to experiment.
+The _SafeVariable_ class is in the trunk, so feel free to experiment.
