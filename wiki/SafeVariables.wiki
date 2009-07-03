@@ -1,4 +1,5 @@
 #summary An early thoughts on implementing Clojure-inspired Agents
+#labels Phase-Design,Phase-Requirements
 
 = Introduction =
 
@@ -47,7 +48,7 @@ The _SafeVariable_ class is in the trunk, so feel free to experiment.
 
 ==The printer service example==
 
-Another example - a not thread-safe printer service shared by multiple threads. The printer needs to have the document and quality properties set before printing, so obviously a potential for race conditions if not guarded properly. callers don't want to block until the printer is available, which the fire-and-forget nature of actors solves very elegantly.
+Another example - a not thread-safe printer service shared by multiple threads. The printer needs to have the document and quality properties set before printing, so obviously a potential for race conditions if not guarded properly. Callers don't want to block until the printer is available, which the fire-and-forget nature of actors solves very elegantly.
 {{{
 import org.gparallelizer.actors.pooledActors.SafeVariable
 
