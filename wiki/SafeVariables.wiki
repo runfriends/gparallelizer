@@ -1,0 +1,47 @@
+#summary An early thoughts on implementing Clojure-inspired Agents
+
+= Introduction =
+
+In Clojure you can find a concept of Agents, which essentially behave like actors accepting code (functions) as messages. After reception the function is run against the internal state of the Agent and the return value of the function is considered to be the new internal state of the Agent.
+
+Schematically:
+{{{
+agent = new Agent(0)  //created a new Agent wrapping an integer with initial value 0
+agent send {increment()}  //asynchronous send operation
+...
+//after some delay to process the message the internal Agent's state has been updated
+...
+assert agent.state == 1
+}}}
+
+To wrap integers, we can certainly use AtomicXXX types in Java/Groovy/Scala, but what if the state is a more complex object - list, map, shopping cart, etc.
+
+= Ideas =
+
+I'm thinking of having an Agent-like class in GParallelizer, for now called SafeVariable, which could wrap any object as its internal state. It would extend a Pooled Actor and accept Groovy Closures as messages. Upon reception the closure would be run with the internal state as a parameter as so could directly modify the object without fear of race conditions with other threads.
+The whole update process would be of the fire-and-forget type, since once the message (closure) is sent to the SafeVariable, the caller thread can go off do other things and come later to check the current value with SafeVariable.val or SafeVariable.valAsync(closure) if the current thread should not block until the value is retrieved.
+
+{{{
+import org.gparallelizer.actors.pooledActors.SafeVariable
+
+def jugMembers = new SafeVariable<List>(['Me']).start()  //add Me
+
+jugMembers.send {it.add 'James'}  //add James
+
+final Thread t1 = Thread.start {
+    jugMembers.send {it.add 'Joe'}  //add Joe
+}
+
+final Thread t2 = Thread.start {
+    jugMembers << {it.add 'Dave'}  //add Dave
+    jugMembers << {it.add 'Alice'}  //add Alice
+}
+
+[t1, t2]*.join()
+println jugMembers.val
+jugMembers.valAsync {println "Current members: $it"}
+
+System.in.read()
+}}}
+
+The _SafeVariable_ class is in trunk, so feel free to experiment.
