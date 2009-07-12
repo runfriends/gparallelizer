@@ -1,7 +1,9 @@
 #summary An early thoughts on implementing Clojure-inspired Agents
 #labels Phase-Design,Phase-Requirements
 
-*Note:* This page only describes an experimental proposal for one of the next releases. Check out the [http://code.google.com/p/gparallelizer/ Project Home] for more info about GParallelizer.
+==Important Note==
+
+This page only describes an experimental proposal for one of the next releases. Check out the [http://code.google.com/p/gparallelizer/ Project Home] for more info about GParallelizer.
 
 = Introduction =
 
