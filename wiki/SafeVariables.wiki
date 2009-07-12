@@ -3,7 +3,7 @@
 
 =Important Note=
 
-This page only describes an experimental proposal for one of the next releases. There's much more available in GParallelizer. Check out the [http://code.google.com/p/gparallelizer/ Project Home] for more info about GParallelizer.
+This page only describes an experimental proposal for one of the next releases. There's much more available in GParallelizer. Check out the [http://code.google.com/p/gparallelizer/ Project Home] for more info.
 
 [http://code.google.com/p/gparallelizer/ Project Home]
 
