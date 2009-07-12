@@ -3,9 +3,10 @@
 
 =Important Note=
 
-This page only describes an experimental proposal for one of the next releases. There's much more available in GParallelizer. Check out the [http://code.google.com/p/gparallelizer/ Project Home] for more info.
+This page only describes an experimental proposal for one of the next releases. There's much more available in GParallelizer.
 
-[http://code.google.com/p/gparallelizer/ Project Home]
+Check out the [http://code.google.com/p/gparallelizer/ Project Home] for more info.
+
 
 = Introduction =
 
