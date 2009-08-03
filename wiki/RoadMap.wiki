@@ -5,12 +5,19 @@
 
 ===0.8.1===
 
-Planned release: July 2009
+Planned release: August 2009
 
+  * SafeVariables (inspired by the concept of Clojure Agents)
+  * Bugfixing
+
+===0.9===
+
+Planned release: September 2009
+
+  * Actor-based metaClass
   * Gradle build script
   * Maven build script
   * Provide separate doc and src downloads
-  * SafeVariables (inspired by the concept of Clojure Agents)
 
 ===Backlog===
   * Experimental use-cases - asynchronous meta-class
