@@ -46,6 +46,7 @@ The whole update process is of the fire-and-forget type, since once the message 
 =Examples=
 
 ===Shared list of members===
+The SafeVariable wraps a list of members, who have been added to the jug. To add a new member a message (command to add a member) has to be sent to the _jugMembers_ SafeVariable.
 {{{
 import org.gparallelizer.actors.pooledActors.SafeVariable
 
@@ -71,13 +72,14 @@ jugMembers.stop()
 }}}
 
 ===Shared conference counting number of registrations===
+A Conference allows registration and unregistration, however these methods can only be called from the commands sent to the _conference_ SafeVariable.
 {{{
 import org.gparallelizer.actors.pooledActors.SafeVariable
 
 class Conference extends SafeVariable {
     def Conference() { super(0L) }
-    def register(long num) { data += num }
-    def unregister(long num) { data -= num }
+    private def register(long num) { data += num }
+    private def unregister(long num) { data -= num }
 }
 
 final SafeVariable conference = new Conference()
