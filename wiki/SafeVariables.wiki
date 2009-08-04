@@ -1,4 +1,4 @@
-#summary An early thoughts on implementing Clojure-inspired Agents
+#summary The SafeVariable class, which is a special-purpose thread-safe non-blocking reference implementation inspired by Agents in Clojure
 #labels Phase-Design,Phase-Requirements
 
 =Important Note=
@@ -12,6 +12,8 @@ Check out the [http://code.google.com/p/gparallelizer/ Project Home] for more in
 
 In Clojure you can find a concept of Agents, which essentially behave like actors accepting code (functions) as messages. After reception the function is run against the internal state of the Agent and the return value of the function is considered to be the new internal state of the Agent.
 
+Essentially, Agents safe-guard mutable values by allowing only a single agent-managed thread to make modifications to them. The mutable values are not directly accessible from outside, but instead requests have to be sent to the agent and the agent guarantees to process the requests sequentially on the behalf of the callers. Agents guarantee sequential execution of all requests and so consistency of the values. 
+
 Schematically:
 {{{
 agent = new Agent(0)  //created a new Agent wrapping an integer with initial value 0
@@ -24,10 +26,24 @@ assert agent.state == 1
 
 To wrap integers, we can certainly use AtomicXXX types in Java/Groovy/Scala, but what if the state is a more complex object - list, map, shopping cart, etc.
 
-= Ideas =
 
-I'm thinking of having an Agent-like class in GParallelizer, for now called SafeVariable, which could wrap any object as its internal state. It would extend a Pooled Actor and accept Groovy Closures as messages. Upon reception the closure would be run with the internal state as a parameter and so could directly modify the object without fear of race conditions with other threads.
-The whole update process would be of the fire-and-forget type, since once the message (closure) is sent to the SafeVariable, the caller thread can go off to do other things and come back later to check the current value with SafeVariable.val or SafeVariable.valAsync(closure).
+=Concepts=
+
+GParallelizer provides a SafeVariable class, which is a special-purpose thread-safe non-blocking reference implementation inspired by Agents in Clojure. 
+
+A SafeVariable wraps a reference to mutable state, held inside a single field, and accepts code (closures / commands) as messages, which can be sent to the SafeVariable just like to any other actor using the '<<' operator or any of the send() methods. After reception of a closure / command, the closure is invoked against the internal mutable field and can make changes to it. The closure is guaranteed to be run without intervention from other threads and so may freely alter the internal state of the SafeVariable held in the internal <i>data</i> field.
+
+The whole update process is of the fire-and-forget type, since once the message (closure) is sent to the SafeVariable, the caller thread can go off to do other things and come back later to check the current value with SafeVariable.val or SafeVariable.valAsync(closure).
+
+===Basic rules===
+  * The return value of the closure is sent in reply to the sender of the closure.
+  * If the message sent to a SafeVariable is not a closure, it is considered to be a new value for the internal reference field.
+  * The internal reference can also be changes using the updateValue() method from within the received closures.
+  * The 'val' property of a SafeVariable will safely return the current value of the SafeVariable.
+  * The valAsync() method will do the same without blocking the caller.
+
+=Examples=
+
 {{{
 import org.gparallelizer.actors.pooledActors.SafeVariable
 
