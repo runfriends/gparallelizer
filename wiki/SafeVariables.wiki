@@ -36,11 +36,11 @@ A SafeVariable wraps a reference to mutable state, held inside a single field, a
 The whole update process is of the fire-and-forget type, since once the message (closure) is sent to the SafeVariable, the caller thread can go off to do other things and come back later to check the current value with SafeVariable.val or SafeVariable.valAsync(closure).
 
 ===Basic rules===
-  * The return value of the submitted closure is sent in reply to the sender of the closure.
-  * If the message sent to a SafeVariable is not a closure, it is considered to be a new value for the internal reference field.
-  * The internal reference can also be changes using the updateValue() method from within the received closures.
-  * The 'val' property of a SafeVariable will safely return the current value of the SafeVariable.
-  * The valAsync() method will do the same without blocking the caller.
+  * The *return value* of the submitted closure is *sent in reply* to the sender of the closure.
+  * If the message sent to a _SafeVariable_ is *not a closure*, it is considered to be a *new value* for the internal reference field.
+  * The internal reference can also be changes using the *updateValue() method* from within the received closures.
+  * The _val_ property of a _SafeVariable_ will safely return the current value of the SafeVariable.
+  * The _valAsync()_ method will do the same *without blocking* the caller.
 
 =Examples=
 
