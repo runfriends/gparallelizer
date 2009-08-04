@@ -1,5 +1,5 @@
 #summary The SafeVariable class, which is a special-purpose thread-safe non-blocking reference implementation inspired by Agents in Clojure
-#labels Phase-Design,Phase-Requirements
+#labels Phase-Implementation,Featured
 
 =Important Note=
 
