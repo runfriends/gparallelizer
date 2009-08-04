@@ -17,11 +17,11 @@ Essentially, agents safe-guard mutable values by allowing only a single *agent-m
 Schematically:
 {{{
 agent = new Agent(0)  //created a new Agent wrapping an integer with initial value 0
-agent send {increment()}  //asynchronous send operation, sending the increment() function
+agent.send {increment()}  //asynchronous send operation, sending the increment() function
 ...
 //after some delay to process the message the internal Agent's state has been updated
 ...
-assert agent.state == 1
+assert agent.val== 1
 }}}
 
 To wrap integers, we can certainly use AtomicXXX types in Java/Groovy/Scala, but what if the state is a more complex object - list, map, shopping cart, etc.
