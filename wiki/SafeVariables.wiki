@@ -41,7 +41,7 @@ The whole update process is of the fire-and-forget type, since once the message 
   * The internal reference can also be changed using the *updateValue() method* from within the received closures.
   * The _val_ property of a _SafeVariable_ will safely return the current value of the SafeVariable.
   * The _valAsync()_ method will do the same *without blocking* the caller.
-  * since a _SafeVariable_ is an actor, you can call _stop()_ and _join()_ methods on it to shut it down explicitly.
+  * Since a _SafeVariable_ is an actor, you can call _stop()_ and _join()_ methods on it to shut it down explicitly.
 
 =Examples=
 
