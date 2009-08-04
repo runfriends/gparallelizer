@@ -45,6 +45,7 @@ The whole update process is of the fire-and-forget type, since once the message 
 
 =Examples=
 
+===Shared list of members===
 {{{
 import org.gparallelizer.actors.pooledActors.SafeVariable
 
@@ -69,6 +70,34 @@ System.in.read()
 jugMembers.stop()
 }}}
 
+===Shared conference counting number of registrations===
+{{{
+import org.gparallelizer.actors.pooledActors.SafeVariable
+
+class Conference extends SafeVariable {
+    def Conference() { super(0L) }
+    def register(long num) { data += num }
+    def unregister(long num) { data -= num }
+}
+
+final SafeVariable conference = new Conference()
+
+final Thread t1 = Thread.start {
+    conference << {register(10)}
+}
+
+final Thread t2 = Thread.start {
+    conference << {register(5)}
+}
+
+final Thread t3 = Thread.start {
+    conference << {unregister(3)}
+}
+
+[t1, t2, t3]*.join()
+
+assert 12 == conference.val
+}}}
 The _SafeVariable_ class is in the trunk, so feel free to experiment.
 
 ==The printer service example==
