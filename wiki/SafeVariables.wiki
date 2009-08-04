@@ -38,9 +38,10 @@ The whole update process is of the fire-and-forget type, since once the message 
 ===Basic rules===
   * The *return value* of the submitted closure is *sent in reply* to the sender of the closure.
   * If the message sent to a _SafeVariable_ is *not a closure*, it is considered to be a *new value* for the internal reference field.
-  * The internal reference can also be changes using the *updateValue() method* from within the received closures.
+  * The internal reference can also be changed using the *updateValue() method* from within the received closures.
   * The _val_ property of a _SafeVariable_ will safely return the current value of the SafeVariable.
   * The _valAsync()_ method will do the same *without blocking* the caller.
+  * since a _SafeVariable_ is an actor, you can call _stop()_ and _join()_ methods on it to shut it down explicitly.
 
 =Examples=
 
