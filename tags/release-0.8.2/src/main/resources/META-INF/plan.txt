@@ -1,0 +1,95 @@
+    //Document before next release
+    //todo updated to groovy 1.6.4
+    //todo add custom DSL definitions
+    //todo SafeVariables should give readers higher priority - do them synchronously
+    todo enable wait for SafeVariable
+
+    //Planned for the next release
+
+    //todo clean issues and todos
+    //todo samples on typical concurrency issues
+
+    //todo use Gradle
+    //todo automate code sample download
+    //todo automate javadoc download
+
+    //todo maven
+    //todo put into maven repo
+    //todo add transitive mvn dependencies
+
+    //todo look into MINA
+    //todo test with java.nio
+    //todo onTimeout handler as a react parameter - pass TIMEOUT into the react handler
+    //todo unify actors and pooled actors behavior on timeout and exception, (retry after timeout and exception or stop)
+
+    //Backlog
+    //todo consider simplified fast actors
+    //todo consider extensibility for actors - custom schedulers
+    //todo remove FJPool, ResizableFJPool and ActorBarrier if not needed
+    //todo consider using builder for message handling
+    //todo out-of-order message processing
+    //todo optimize AsyncUtil implementation to split collections among available threads
+    //todo send returning Future for actor reply
+
+    //todo consider the asynchronous metaclass
+    //todo use AST transformation to turn actors methods into async processing
+    //todo try the fixes for the MixinTest
+    //todo support mixins for event-driven actors
+
+    //Speed-up tips
+    //todo use TaskBarrier instead of CountDownLatch in AbstractThreadActor - need to resolve blocking on the message queue
+    //todo use LinkedTransferQueue with ForkJoin
+    //todo remove type info for speed-up
+    //todo ActorAction into Java
+    //todo speedup actor creation
+    //todo switch each to for loops where helping performance
+    //todo reconsider locking in Actors
+    //todo implement in Java
+    //todo consider flow control to throttle message production
+    //todo resize the pool if all threads are busy or blocked
+    //todo rewrite the pool implementation
+    //todo asynchronous race-free non-blocking queues
+
+    //To consider
+    //todo multiple loops
+    //todo exit the current loop
+    //todo test on Google App Engine
+    //todo consider other types of queues
+    //todo actor groups could manage actors and give public access to them
+    //todo thread-bound actors could use threads from a pool or share a thread factory
+    //todo shorten method names withAsynchronizer and withParallelizer doAsync, doParallel
+    //todo add sendLater(Duration) and sendAfterDone(Future)
+    //todo consider pass by copy (clone, serialization) for mutable messages, reject mutable messages otherwise
+    //todo unify and publish spawn operation and mail boxes
+    //todo associate a mail box with each thread, not only with actors
+    //todo add generics to actors
+    //todo implement remote actors
+
+    /*
+import scala.actors.Actor._
+import scala.actors.Future
+
+case class Fib(n: Int)
+case class Add(a: Future[Int], b: Future[Int])
+case class Add2(a: Int, b: Future[Int])
+
+val fib = actor { loop { react {
+ case Fib(n) if n <= 2 => reply(1)
+ case Fib(n) =>
+   val a = self !! (Fib(n-1), { case x => x.asInstanceOf[Int] })
+   val b = self !! (Fib(n-2), { case x => x.asInstanceOf[Int] })
+   self.forward(Add(a, b))
+ case Add(a, b) if a.isSet && b.isSet =>
+   reply(a() + b())
+ case Add(a, b) if a.isSet =>
+   self.forward(Add2(a(), b))
+ case Add(a, b) if b.isSet =>
+   self.forward(Add2(b(), a))
+ case Add(a, b) =>
+   self.forward(Add(a, b))
+ case Add2(a, b) if b.isSet =>
+   reply(a + b())
+ case Add2(a, b) =>
+   self.forward(Add2(a, b))
+} } }
+     */
