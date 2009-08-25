@@ -155,12 +155,23 @@ thread {
 thread {
     distance << deceleration.val * ((velocity.val/deceleration.val) ** 2) * 0.5
 }
-
-Thread.sleep(30000)
 }}}
 
 Note: I did my best to make all the physical calculations right. Feel free to change the values and see how long distance you need to stop the rolling ball.
 
+=Deterministic deadlocks=
+If you happen to introduce a deadlock in your dependencies, the deadlock will occur each time you run the code. No randomness allowed.
+{{{
+thread {
+    println a.val
+    b << 'Hi there'
+}
+
+thread {
+    println b.val
+    a << 'Hello man'
+}
+}}}
 =Implementation in GParallelizer=
 
 The Dataflow Concurrency in GParallelizer builds on top of its actor support. Each time you create a new "thread" with the _DataFlow.thread()_ factory method, an actor is started to process the passed-in code parameter. All of the dataflow thread actors share a thread pool and so the number threads created through _DataFlow.thread()_ factory method don't need to correspond to the number of physical threads required from the system.
