@@ -1,13 +1,6 @@
 #summary The SafeVariable class, which is a special-purpose thread-safe non-blocking reference implementation inspired by Agents in Clojure
 #labels Phase-Implementation,Featured
 
-=Important Note=
-
-This page only describes an experimental proposal for one of the next releases. There's much more available in GParallelizer.
-
-Check out the [http://code.google.com/p/gparallelizer/ Project Home] for more info.
-
-
 = Introduction =
 
 In Clojure you can find a concept of Agents, which essentially behave like actors accepting code (functions) as messages. After reception the function is run against the internal state of the Agent and the return value of the function is considered to be the new internal state of the Agent.
@@ -100,9 +93,6 @@ final Thread t3 = Thread.start {
 
 assert 12 == conference.val
 }}}
-
-=Experiment=
-The _SafeVariable_ class is in the trunk, so feel free to experiment.
 
 ==The printer service example==
 
