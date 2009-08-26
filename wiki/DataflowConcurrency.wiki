@@ -82,7 +82,91 @@ thread {
 }
 }}}
 
-=A more involved example=
+=A simple mashup example=
+In the example we're downloading the front pages of three popular web sites, each in their own thread, while in a separate thread we're filtering out sites talking about Groovy today and forming the output. The output thread synchronizes automatically with the three download threads on the three Dataflow variables through which the content of each website is passed to the output thread.
+
+{{{
+import static org.gparallelizer.Asynchronizer.*
+import org.gparallelizer.dataflow.DataFlowVariable
+import static org.gparallelizer.dataflow.DataFlow.thread
+
+
+/**
+ * A simple mashup sample, downloads content of three websites
+ * and checks how many of them refer to Groovy.
+ */
+
+def dzone = new DataFlowVariable()
+def jroller = new DataFlowVariable()
+def theserverside = new DataFlowVariable()
+
+thread {
+    println 'Started downloading from DZone'
+    dzone << 'http://www.dzone.com'.toURL().text
+    println 'Done downloading from DZone'
+}
+
+thread {
+    println 'Started downloading from JRoller'
+    jroller << 'http://www.jroller.com'.toURL().text
+    println 'Done downloading from JRoller'
+}
+
+thread {
+    println 'Started downloading from TheServerSide'
+    theserverside << 'http://www.theserverside.com'.toURL().text
+    println 'Done downloading from TheServerSide'
+}
+
+thread {
+    doAsync {
+        println "Number of Groovy sites today: " +
+                ([dzone, jroller, theserverside].findAllAsync {
+                    it.val.toUpperCase().contains 'GROOVY'
+                }).size()
+    }
+    System.exit 0
+}
+}}}
+
+==A mashup variant with methods==
+To avoid giving wrong impression about structuring the Dataflow code, here's a rewrite of the mashup example, with a _downloadPage()_ method performing the actual download in a separate thread and returning a DataFlowVariable instance, so that the main thread could eventually get hold of the downloaded content.
+Dataflow variables can obviously be passed around as parameters or return values.
+{{{
+package org.gparallelizer.samples.dataflow
+
+import static org.gparallelizer.Asynchronizer.*
+import org.gparallelizer.dataflow.DataFlowVariable
+import static org.gparallelizer.dataflow.DataFlow.thread
+
+
+/**
+ * A simple mashup sample, downloads content of three websites and checks how many of them refer to Groovy.
+ */
+final List urls = ['http://www.dzone.com', 'http://www.jroller.com', 'http://www.theserverside.com']
+
+thread {
+    def pages = urls.collect { downloadPage(it) }
+    doAsync {
+        println "Number of Groovy sites today: " +
+                (pages.findAllAsync {
+                    it.val.toUpperCase().contains 'GROOVY'
+                }).size()
+    }
+    System.exit 0
+}
+
+def downloadPage(def url) {
+    def page = new DataFlowVariable()
+    thread {
+        println "Started downloading from $url"
+        page << url.toURL().text
+        println "Done downloading from $url"
+    }
+    return page
+}
+}}}
+=A physical calculation example=
 
 Dataflow programs naturally scale with the number of processors. Up to a certain level, the more processors you have the faster the program runs.
 Check out, for example, the following script, which calculates parameters of a simple physical experiment and prints out the results. Each "green" thread performs its part of the calculation, it may depend on values calculated by some other threads as well as its result might be needed by some other "green" thread. With Dataflow Concurrency you can split the work between "green" threads or reorder the threads themselves as you like and the dataflow mechanics will ensure the calculation will be accomplished correctly.
