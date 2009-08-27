@@ -16,7 +16,7 @@ def console = actor {
 Alternativelly you can extend one of the Actor's classes and override the act() method.
 
 {{{
-class CustomActor extends BoundedActor {
+class CustomActor extends BoundedThreadActor {
     @Override protected void act() {
         println receive()
     }
