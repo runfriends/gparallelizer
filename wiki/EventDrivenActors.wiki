@@ -278,6 +278,14 @@ def nonDaemonGroup = new NonDaemonPooledActorGroup()
 def actor2 = nonDaemonGroup.actor {
 ...
 }
+
+class MyActor {
+    def MyActor() {
+        this.actorGroup = nonDaemonGroup
+    }
+
+    void act() {...}
+}
 }}}
 
 _Event-driven_ actors belonging to the same group share the *underlying thread pool*. With pooled actor groups you can split your actors to leverage multiple thread pools of different sizes and so assign resources to different components of your system and tune their performance. 
@@ -310,6 +318,23 @@ helperActors.shutdown()
 }}}
 
 Do not forget to shutdown custom pooled actor groups, once you no longer need them and their actors, to preserve system resources.
+
+===Common trap: App terminatesm actors do not receive messages===
+
+Most likely you're using daemon threads and pools, which is the default setting, and your main thread finishes. Calling _actor.join()_ on any, some or all of your actors would block the main thread until the actor terminates and thus keep all your actors running.
+Alternatively use instances of _NonDaemonThreadActorGroup_ or _NonDaemonPooledActorGroup_ and assign some of your actors to these groups.
+{{{
+nonDaemonGroup.actor {...}
+}}}
+
+alternatively
+{{{
+class MyActor extends AbstractPooledActor {
+    def MyActor() {
+        this.actorGroup = nonDaemonGroup
+    }
+}
+}}}
 
 ==Special-purpose pooled actors==
 ===Dynamic Dispatch Actor===
