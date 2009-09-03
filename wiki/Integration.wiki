@@ -44,6 +44,8 @@ To include GParallelizer in your project add the following repository and depend
     </dependencies>
 }}}
 
+= Dependencies =
+
 GParallelizer itself depends on a couple of libraries from the maven central repository. Check out the GParallelizer public pom:
 {{{
   <?xml version="1.0" encoding="UTF-8" ?> 
