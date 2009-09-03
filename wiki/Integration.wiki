@@ -26,7 +26,6 @@ dependencies {
 
 = Maven =
 
-GParallelizer is stored in the java.net maven repository at _http://download.java.net/maven/2/_.
 To include GParallelizer in your project add the following repository and dependency into your project:
 {{{
     <repositories>
