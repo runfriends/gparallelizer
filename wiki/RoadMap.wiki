@@ -3,11 +3,13 @@
 
 == RoadMap ==
 
-===0.8.1===
+===0.8.4===
 
-Planned release: August 2009
+Planned release: September 2009
 
-  * SafeVariables (inspired by the concept of Clojure Agents)
+  * Dataflow concurrency enhancements
+  * Build automation improvements
+  * Setup a CI
   * Bugfixing
 
 ===0.9===
