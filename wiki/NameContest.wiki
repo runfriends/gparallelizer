@@ -6,11 +6,11 @@ Send an email to gparallelizer at gmail (dot) com with the "Name Contest" text i
 
 = Proposals =
 
-  # Gras - "Groovy ASynchronously" or "Groovy Actors and Synchonization"
-  # aGtor
-  # Clap - French word for [http://bruitages.be/wp-content/uploads/2009/02/clap_bruitages.png Clap], could make an acronym out of that, with the P of Parallel, the A of Actor, L of Library, and C of... errr... computing???
-  # Tractor - a play on words with Actor in it
-  # ActorG
-  # Comedian
-  # Grad - Groovy Async & Distributed
-  # gChic - CHores Initiated Concurrency
+  # *Gras (Grass)* - "Groovy ASynchronously" or "Groovy Actors and Synchonization"
+  # *aGtor*
+  # *Clap* - French word for [http://bruitages.be/wp-content/uploads/2009/02/clap_bruitages.png Clap], could make an acronym out of that, with the P of Parallel, the A of Actor, L of Library, and C of... errr... computing???
+  # *Tractor* - a play on words with Actor in it
+  # *ActorG*
+  # *Comedian*
+  # *Grad* - Groovy Async & Distributed
+  # *gChic* - CHores Initiated Concurrency
