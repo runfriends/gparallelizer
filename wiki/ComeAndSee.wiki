@@ -1,0 +1,14 @@
+#summary Where to get more information.
+#labels talk,session,book
+
+= Talks and sessions =
+
+At W-Jax 2009, Munich, Nov 9-13  Vaclav Pech will speak about "Groovy actors and concurrent dataflow with GParallelizer".
+
+(http://www.jax.de)
+
+= Books =
+
+Groovy in Action, second edition, will cover "Concurrency for the multicore era: actors, asynchronous collections and dataflow".
+
+(http://www.manning.com/koenig2)
