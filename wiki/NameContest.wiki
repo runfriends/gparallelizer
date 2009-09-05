@@ -15,3 +15,14 @@ Send an email to gparallelizer at gmail (dot) com with the "Name Contest" text i
   # *Comedian*
   # *Grad* - Groovy Async & Distributed
   # *gChic* - CHores Initiated Concurrency
+
+= General guidelines =
+
+Below you can find the list of preferences that the new name should take into consideration:
+
+  * it should start with Gr ;-)
+  * it should be short
+  * it should be easy to remember
+  * it may be read as an acronym
+  * it may best not be a valid english word, but sound like one
+  * it should have a conotation to the "many things at once"
