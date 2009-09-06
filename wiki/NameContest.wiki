@@ -18,6 +18,8 @@ Send an email to gparallelizer at gmail (dot) com with the "Name Contest" text i
   # *GRACI* (GR Actor Concurrency Implementation)
   # *GRAND* (GRoovy Actor N Dataflow)
   # *GAO* (Groovy Actor Object), Gao also means tall in chinese
+  # *GParallel* - limit brand change
+  # *Gractor* - Groovy actor
 
 = General guidelines =
 
