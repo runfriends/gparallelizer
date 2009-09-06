@@ -174,7 +174,7 @@ def console = Actors.actor {
 Alternatively you can extend one of the Actor's classes and override the act() method.
 
 {{{
-class CustomActor extends BoundedThreadActor {
+class CustomActor extends BoundThreadActor {
     @Override protected void act() {
         println receive()
     }
