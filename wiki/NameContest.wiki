@@ -20,6 +20,8 @@ Send an email to gparallelizer at gmail (dot) com with the "Name Contest" text i
   # *GAO* (Groovy Actor Object), Gao also means tall in chinese
   # *GParallel* - limit brand change
   # *Gractor* - Groovy actor
+  # *Acting* (Actors in Groovy)
+  # *GRACE* (Groovy Actor Concurrency Executor?)
 
 = General guidelines =
 
