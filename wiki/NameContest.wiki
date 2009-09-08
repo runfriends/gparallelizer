@@ -6,6 +6,8 @@ Send an email to gparallelizer at gmail (dot) com with the "Name Contest" text i
 
 = Proposals =
 
+  # *GParallel* - limit brand change
+  # *ParallelG*
   # *Gras (Grass)* - "Groovy ASynchronously" or "Groovy Actors and Synchonization"
   # *aGtor*
   # *aligActor*
@@ -18,8 +20,6 @@ Send an email to gparallelizer at gmail (dot) com with the "Name Contest" text i
   # *GRACI* (GR Actor Concurrency Implementation)
   # *GRAND* (GRoovy Actor N Dataflow)
   # *GAO* (Groovy Actor Object), Gao also means tall in chinese
-  # *GParallel* - limit brand change
-  # *ParallelG*
   # *Gractor* - Groovy actor
   # *Acting* (Actors in Groovy)
   # *GRACE* (Groovy Actor Concurrency Executor?)
