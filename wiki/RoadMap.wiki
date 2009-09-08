@@ -10,7 +10,7 @@ Planned release: September 2009
   * Dataflow concurrency enhancements (restructuring?)
   * Build automation improvements
   * Gradle build script
-  ** Provide separate samples, doc and src downloads
+   * Provide separate samples, doc and src downloads
   * Setup a CI
   * Bugfixing
 
