@@ -3,7 +3,9 @@
 
 = Talks and sessions =
 
-At W-Jax 2009, Munich, Nov 9-13  Vaclav Pech will speak about "Groovy actors and concurrent dataflow with GParallelizer".
+At W-Jax 2009, Munich, Nov 9-13  Václav Pech will speak about "Groovy actors and concurrent dataflow with GParallelizer".
+
+Devoxx 2009, Antwerp, 18th November 2009, will host a quickie by Václav Pech on "GParallelizer - parallelize your Groovy enjoyment".
 
 (http://www.jax.de)
 
