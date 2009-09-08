@@ -9,6 +9,7 @@ Send an email to gparallelizer at gmail (dot) com with the "Name Contest" text i
   # *GParallel* - limit brand change
   # *Gras (Grass)* - "Groovy ASynchronously" or "Groovy Actors and Synchonization"
   # *Tractor* - a play on words with Actor in it
+  # *Atractor*
   # *GRAND* (GRoovy Actor N Dataflow)
   # *GRACE* (Groovy Actor Concurrency Executor?)
   # *Grapa*
