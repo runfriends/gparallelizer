@@ -22,12 +22,14 @@ Send an email to gparallelizer at gmail (dot) com with the "Name Contest" text i
   # *Gractor* - Groovy actor
   # *Acting* (Actors in Groovy)
   # *GRACE* (Groovy Actor Concurrency Executor?)
+  # *Grapa*
+  # *Groar*
 
 = General guidelines =
 
 Below you can find the list of preferences that the new name should take into consideration:
 
-  * it should start with Gr ;-)
+  * The name should not emphasize one particular model of parallelism (there are more coming ;) )
   * it should be short
   * it should be easy to remember
   * it may be read as an acronym
