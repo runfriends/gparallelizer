@@ -7,23 +7,30 @@ Send an email to gparallelizer at gmail (dot) com with the "Name Contest" text i
 = Proposals =
 
   # *GParallel* - limit brand change
-  # *ParallelG*
   # *Gras (Grass)* - "Groovy ASynchronously" or "Groovy Actors and Synchonization"
-  # *aGtor*
-  # *aligActor*
   # *Clap* - French word for [http://bruitages.be/wp-content/uploads/2009/02/clap_bruitages.png Clap], could make an acronym out of that, with the P of Parallel, the A of Actor, L of Library, and C of... errr... computing???
   # *Tractor* - a play on words with Actor in it
+  # *GRAND* (GRoovy Actor N Dataflow)
+  # *GRACE* (Groovy Actor Concurrency Executor?)
+  # *Grapa*
+  # *gp* (groovy parallelism - pronounced jeep)
+  # *gpars* (as above - pronounced jeepers)
+  # *gconch* (groovy concurrency handling - similar to jconch)
+  # *gcamp* (groovy concurrency, actors, multi-threading, parallelism) 
+
+= Turned down proposals =
+
+  # *ParallelG*
+  # *aGtor*
+  # *aligActor*
   # *ActorG*
   # *Comedian*
   # *Grad* - Groovy Async & Distributed
   # *gChic* - CHores Initiated Concurrency
   # *GRACI* (GR Actor Concurrency Implementation)
-  # *GRAND* (GRoovy Actor N Dataflow)
   # *GAO* (Groovy Actor Object), Gao also means tall in chinese
   # *Gractor* - Groovy actor
   # *Acting* (Actors in Groovy)
-  # *GRACE* (Groovy Actor Concurrency Executor?)
-  # *Grapa*
   # *Groar*
 
 = General guidelines =
