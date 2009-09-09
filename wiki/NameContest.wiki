@@ -17,6 +17,9 @@ Send an email to gparallelizer at gmail (dot) com with the "Name Contest" text i
   # *gpars* (as above - pronounced jeepers)
   # *gconch* (groovy concurrency handling - similar to jconch)
   # *gcamp* (groovy concurrency, actors, multi-threading, parallelism) 
+  # GRIP - GRoovy Intuitive Parallelism
+  # *GRANDPAR* - (as before with Parallelism added or just GRoovy In Parallel)
+  # *GRILLA* - (GRoovy In paraLLel with Actors, allows PILLA to be the Python version for Russel) 
 
 = Turned down proposals =
 
