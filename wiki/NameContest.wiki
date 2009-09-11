@@ -20,8 +20,8 @@ Submissions closed. Expect results soon!
   # *gconch* (groovy concurrency handling - similar to jconch)
   # *gcamp* (groovy concurrency, actors, multi-threading, parallelism) 
   # *Gektor* - sounds like Hector, Troy war hero, also is pronounced like it has "actor" in it
-  # *GRIP* - GRoovy Intuitive Parallelism
-  # *GRANDPAR* - (as before with Parallelism added or just GRoovy In Parallel)
+  # *GRIP* - GRoovy Intuitive Parallelism (or just GRoovy In Parallel)
+  # *GRANDPAR* - as before for GRAND but with PARallelism added
   # *GRILLA* - (GRoovy In paraLLel with Actors, allows PILLA to be the Python version for Russel) 
 
 = Turned down proposals =
