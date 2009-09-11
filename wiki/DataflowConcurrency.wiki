@@ -5,22 +5,22 @@
 
 Check out the small example written in Groovy using GParallelizer, which sums results of calculations performed by three concurrently run threads:
 {{{
-import static org.gparallelizer.dataflow.DataFlow.thread
+import static org.gparallelizer.dataflow.DataFlow.start
 
 final def x = new DataFlowVariable()
 final def y = new DataFlowVariable()
 final def z = new DataFlowVariable()
 
-thread {
+start {
     z << x.val + y.val
     println "Result: ${z.val}"
 }
 
-thread {
+start {
     x << 10
 }
 
-thread {
+start {
     y << 5
 }
 }}}
@@ -66,18 +66,18 @@ And these are the three essential rules your programs have to follow:
 Before I show you the final and most catchy demo, you should know a bit about streams to have a full picture of Dataflow Concurrency. Except for dataflow variables there's also a concept of _DataFlowStreams_ that you can leverage. You may think of them as thread-safe buffers or queues. Check out a typical producer-consumer demo:
 
 {{{
-import static org.gparallelizer.dataflow.DataFlow.thread
+import static org.gparallelizer.dataflow.DataFlow.start
 
 def words = ['Groovy', 'fantastic', 'concurrency', 'fun', 'enjoy', 'safe', 'GParallelizer', 'data', 'flow']
 final def buffer = new DataFlowStream()
 
-thread {
+start {
     for (word in words) {
         buffer << word.toUpperCase()  //add to the buffer
     }
 }
 
-thread {
+start {
     while(true) println buffer.val  //read from the buffer in a loop
 }
 }}}
@@ -88,7 +88,7 @@ In the example we're downloading the front pages of three popular web sites, eac
 {{{
 import static org.gparallelizer.Asynchronizer.*
 import org.gparallelizer.dataflow.DataFlowVariable
-import static org.gparallelizer.dataflow.DataFlow.thread
+import static org.gparallelizer.dataflow.DataFlow.start
 
 
 /**
@@ -100,25 +100,25 @@ def dzone = new DataFlowVariable()
 def jroller = new DataFlowVariable()
 def theserverside = new DataFlowVariable()
 
-thread {
+start {
     println 'Started downloading from DZone'
     dzone << 'http://www.dzone.com'.toURL().text
     println 'Done downloading from DZone'
 }
 
-thread {
+start {
     println 'Started downloading from JRoller'
     jroller << 'http://www.jroller.com'.toURL().text
     println 'Done downloading from JRoller'
 }
 
-thread {
+start {
     println 'Started downloading from TheServerSide'
     theserverside << 'http://www.theserverside.com'.toURL().text
     println 'Done downloading from TheServerSide'
 }
 
-thread {
+start {
     doAsync {
         println "Number of Groovy sites today: " +
                 ([dzone, jroller, theserverside].findAllAsync {
@@ -137,7 +137,7 @@ package org.gparallelizer.samples.dataflow
 
 import static org.gparallelizer.Asynchronizer.*
 import org.gparallelizer.dataflow.DataFlowVariable
-import static org.gparallelizer.dataflow.DataFlow.thread
+import static org.gparallelizer.dataflow.DataFlow.start
 
 
 /**
@@ -145,7 +145,7 @@ import static org.gparallelizer.dataflow.DataFlow.thread
  */
 final List urls = ['http://www.dzone.com', 'http://www.jroller.com', 'http://www.theserverside.com']
 
-thread {
+start {
     def pages = urls.collect { downloadPage(it) }
     doAsync {
         println "Number of Groovy sites today: " +
@@ -158,7 +158,7 @@ thread {
 
 def downloadPage(def url) {
     def page = new DataFlowVariable()
-    thread {
+    start {
         println "Started downloading from $url"
         page << url.toURL().text
         println "Done downloading from $url"
@@ -174,7 +174,7 @@ Check out, for example, the following script, which calculates parameters of a s
 {{{
 import org.gparallelizer.dataflow.DataFlowActor
 import org.gparallelizer.dataflow.DataFlowVariable
-import static org.gparallelizer.dataflow.DataFlow.thread
+import static org.gparallelizer.dataflow.DataFlow.start
 
 final def mass = new DataFlowVariable()
 final def radius = new DataFlowVariable()
@@ -187,7 +187,7 @@ final def decelerationForce = new DataFlowVariable()
 final def deceleration = new DataFlowVariable()
 final def distance = new DataFlowVariable()
 
-thread {
+start {
     println """
 Calculating distance required to stop a moving ball.
 ====================================================
@@ -206,37 +206,37 @@ Author: ${author.val}
     System.exit 0
 }
 
-thread {
+start {
     mass << volume.val * density.val
 }
 
-thread {
+start {
     volume << Math.PI * (radius.val ** 3)
 }
 
-thread {
+start {
     radius << 2.5
     density << 	998.2071  //water
     acceleration << 9.80665 //free fall
     decelerationForce << 900
 }
 
-thread {
+start {
     println 'Enter your name:'
     def name = new InputStreamReader(System.in).readLine()
     author << (name?.trim()?.size()>0 ? name : 'anonymous')
 }
 
-thread {
+start {
     time << 10
     velocity << acceleration.val * time.val
 }
 
-thread {
+start {
     deceleration << decelerationForce.val / mass.val
 }
 
-thread {
+start {
     distance << deceleration.val * ((velocity.val/deceleration.val) ** 2) * 0.5
 }
 }}}
@@ -246,23 +246,23 @@ Note: I did my best to make all the physical calculations right. Feel free to ch
 =Deterministic deadlocks=
 If you happen to introduce a deadlock in your dependencies, the deadlock will occur each time you run the code. No randomness allowed. That's one of the benefits of Dataflow concurrency.
 {{{
-thread {
+start {
     println a.val
     b << 'Hi there'
 }
 
-thread {
+start {
     println b.val
     a << 'Hello man'
 }
 }}}
 =Implementation in GParallelizer=
 
-The Dataflow Concurrency in GParallelizer builds on top of its actor support. Each time you create a new "thread" with the _DataFlow.thread()_ factory method, an actor is started to process the passed-in code parameter. All of the dataflow thread actors share a thread pool and so the number threads created through _DataFlow.thread()_ factory method don't need to correspond to the number of physical threads required from the system.
+The Dataflow Concurrency in GParallelizer builds on top of its actor support. Each time you create a new "thread" with the _DataFlow.start()_ factory method, an actor is started to process the passed-in code parameter. All of the dataflow thread actors share a thread pool and so the number threads created through _DataFlow.start()_ factory method don't need to correspond to the number of physical threads required from the system.
 
 ===Combining actors and Dataflow Concurrency===
 
-The good news is that you can combine actors and Dataflow Concurrency in any way you feel fit for your particular problem at hands. Since the _DataFlow.thread()_ method returns a subclass of _AbstractPooledActor_ (already started, however), you can set the lifecycle event handlers on it just like you can on the _AbstractPooledActor_ class. It's also perfectly valid to send messages to the "thread" and accept incoming messages in the body of the "thread" using _react()_ and _loop()_.
+The good news is that you can combine actors and Dataflow Concurrency in any way you feel fit for your particular problem at hands. Since the _DataFlow.start()_ method returns a subclass of _AbstractPooledActor_ (already started, however), you can set the lifecycle event handlers on it just like you can on the _AbstractPooledActor_ class. It's also perfectly valid to send messages to the "thread" and accept incoming messages in the body of the "thread" using _react()_ and _loop()_.
 
 {{{
 final DataFlowVariable a = new DataFlowVariable()
@@ -273,7 +273,7 @@ final AbstractPooledActor doubler = PooledActors.actor {
     }
 }.start()
 
-final AbstractPooledActor thread = thread {
+final AbstractPooledActor thread = start {
     react {
         doubler.send it  //send a number to the doubler
         println "Result ${a.val}"  //wait for the result to be bound to 'a'
@@ -286,7 +286,7 @@ thread << 10
 In the example you see the "thread" using both messages and a _DataFlowVariable_ to communicate with the _doubler_ actor.
 
 ===Using plain java threads===
-The _DataFlowVariable_ as well as the _DataFlowStream_ classes can obviously be used from any thread of your application, not only the actor-backed _DataFlow.thread()_ threads. Consider the following example:
+The _DataFlowVariable_ as well as the _DataFlowStream_ classes can obviously be used from any thread of your application, not only the actor-backed _DataFlow.start()_ threads. Consider the following example:
 {{{
 import org.gparallelizer.dataflow.DataFlowVariable
 
