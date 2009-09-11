@@ -3,7 +3,7 @@
 
 == RoadMap ==
 
-===0.8.4===
+===0.8.5===
 
 Planned release: September 2009
 
@@ -11,8 +11,8 @@ Planned release: September 2009
   * Build automation improvements
   * Gradle build script
    * Provide separate samples, doc and src downloads
-  * Setup a CI
   * Bugfixing
+  * Distributed actors
 
 ===0.9===
 
