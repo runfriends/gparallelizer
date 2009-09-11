@@ -16,12 +16,12 @@
 
 package org.gparallelizer
 
-import java.lang.Thread.UncaughtExceptionHandler
-import java.util.concurrent.CyclicBarrier
 import java.util.concurrent.atomic.AtomicInteger
-import java.util.concurrent.atomic.AtomicReference
 import jsr166y.forkjoin.ForkJoinPool
-import java.lang.*
+import java.util.concurrent.atomic.AtomicReference
+import java.util.concurrent.CyclicBarrier
+import java.lang.Thread.UncaughtExceptionHandler
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * @author Vaclav Pech

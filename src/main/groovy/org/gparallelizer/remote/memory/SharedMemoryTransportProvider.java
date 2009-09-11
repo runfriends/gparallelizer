@@ -16,20 +16,17 @@
 
 package org.gparallelizer.remote.memory;
 
+import org.gparallelizer.remote.memory.SharedMemoryNode;
 import org.gparallelizer.remote.LocalNode;
-import org.gparallelizer.remote.RemoteNode;
 
-/**
- * @author Alex Tkachman
- */
-public class SharedMemoryTransportProvider extends MemoryTransportProvider {
+public class SharedMemoryTransportProvider extends MemoryTransportProvider<MemoryNode> {
     private final static SharedMemoryTransportProvider instance = new SharedMemoryTransportProvider();
 
     public static SharedMemoryTransportProvider getInstance() {
         return instance;
     }
 
-    protected RemoteNode createRemoteNode(LocalNode node) {
-        return new SharedMemoryNode(node, this);
+    protected MemoryNode createRemoteNode(LocalNode node) {
+        return new SharedMemoryNode(node);
     }
 }

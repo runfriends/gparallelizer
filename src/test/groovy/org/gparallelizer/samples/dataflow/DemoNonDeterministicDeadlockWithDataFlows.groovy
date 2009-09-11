@@ -17,7 +17,7 @@
 package org.gparallelizer.samples.dataflow
 
 import org.gparallelizer.dataflow.DataFlows
-import static org.gparallelizer.dataflow.DataFlow.start
+import static org.gparallelizer.dataflow.DataFlow.*
 
 final df = new DataFlows()
 

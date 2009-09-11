@@ -16,7 +16,9 @@
 
 package org.gparallelizer.samples.actors
 
-import static org.gparallelizer.actors.pooledActors.PooledActors.actor
+import java.util.concurrent.CountDownLatch
+import org.gparallelizer.actors.pooledActors.PooledActors
+import static org.gparallelizer.actors.pooledActors.PooledActors.*
 
 /**
  * Performs merge sort using pooled actors.

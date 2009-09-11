@@ -15,7 +15,6 @@
 //  limitations under the License. 
 
 package org.gparallelizer.actors.pooledActors
-
 /**
  * A pooled actor allowing for an alternative structure of the message handling code.
  * In general DynamicDispatchActor repeatedly scans for messages and dispatches arrived messages to one

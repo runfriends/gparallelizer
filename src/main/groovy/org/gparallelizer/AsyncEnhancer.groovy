@@ -16,9 +16,13 @@
 
 package org.gparallelizer
 
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.concurrent.ThreadFactory
 import org.gparallelizer.Asynchronizer
-import org.gparallelizer.actors.pooledActors.DefaultPool
+import java.lang.Thread.UncaughtExceptionHandler
 import org.gparallelizer.actors.pooledActors.Pool
+import org.gparallelizer.actors.pooledActors.DefaultPool
 
 /**
  * AsyncEnhancer allows classes or instances to be enhanced with asynchronous variants of iterative methods,

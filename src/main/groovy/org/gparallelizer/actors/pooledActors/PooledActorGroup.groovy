@@ -16,6 +16,8 @@
 
 package org.gparallelizer.actors.pooledActors
 
+import org.gparallelizer.actors.AbstractActorGroup
+
 /**
  * Provides logical grouping for pooled actors. Each group has an underlying thread pool, which will perform actions
  * on behalf of the actors belonging to the group. Actors created through the PooledActorGroup.actor() method

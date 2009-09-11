@@ -16,9 +16,10 @@
 
 package org.gparallelizer.actors
 
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
 import org.gparallelizer.actors.pooledActors.ActorReplyException
+import org.gparallelizer.actors.pooledActors.PooledActorGroup
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit;
 
 /**
  * Represents the common superclass to both thread-bound and event-driven actors.

@@ -12,14 +12,18 @@
 //  distributed under the License is distributed on an "AS IS" BASIS,
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //  See the License for the specific language governing permissions and
-//  limitations under the License.
+//  limitations under the License. 
 
-package org.gparallelizer.remote
+package org.gparallelizer.remote.net;
 
-import org.gparallelizer.remote.memory.SharedMemoryTransportProvider;
+import org.gparallelizer.remote.LocalNode;
+import org.gparallelizer.remote.RemoteTransportProvider;
 
-public class SharedMemoryTest extends CommunicationTestBase {
-  RemoteTransportProvider getTransportProvider () {
-    SharedMemoryTransportProvider.instance
-  }
+public class NetTransportProvider extends RemoteTransportProvider<NetNode> {
+    public NetTransportProvider() {
+    }
+
+    protected NetNode createRemoteNode(LocalNode node) {
+        return null;
+    }
 }

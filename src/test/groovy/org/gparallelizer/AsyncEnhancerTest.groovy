@@ -16,7 +16,6 @@
 
 package org.gparallelizer
 
-import java.util.*
 
 public class AsyncEnhancerTest extends GroovyTestCase {
     public void testInstanceEnhancement() {

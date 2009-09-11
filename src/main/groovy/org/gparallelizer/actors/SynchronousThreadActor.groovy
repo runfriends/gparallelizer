@@ -16,7 +16,8 @@
 
 package org.gparallelizer.actors;
 
-import java.util.concurrent.SynchronousQueue
+import java.util.concurrent.SynchronousQueue;
+
 
 /**
  * Provides an Actor implementation with fair SynchronousQueue storing the messages.

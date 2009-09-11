@@ -67,50 +67,53 @@ public abstract class CommunicationTestBase extends GroovyTestCase{
     }
 
     void testMainActor () {
-      def connectDisconnectLatch = new CountDownLatch(24)
-      def printLatch = new CountDownLatch (12)
+      def latch, latch2
+      latch = new CountDownLatch (12)
+      latch2 = new CountDownLatch (24)
 
       def nodes = [:]
       (0..3).each { id ->
         nodes[id] = new LocalNode(transportProvider, {
           addDiscoveryListener { n, op ->
             try {
-              if (op == "connected") {
-                def msg = "Hi, from $id"
-                println "sending $msg"
-                n.mainActor << msg
-              }
+              def msg = "${op == 'connected' ? 'Hi' : 'Bye'}, from $id"
+              println "sending $msg"
+              n.mainActor << msg
             }
             catch (Throwable t) {
               t.printStackTrace ()
             }
             finally {
-              connectDisconnectLatch.countDown ()
+              latch.countDown ()
             }
           }
 
           loop {
             react { msg ->
               try {
-                println "${Thread.currentThread().id} received $id: $msg"
+                println "received $id: $msg"
               }
               catch (Throwable t) {
                 t.printStackTrace ()
               }
               finally {
-                printLatch.countDown ()
+                latch2.countDown ()
               }
             }
           }
         })
       }
 
-      printLatch.await ()
+      latch.await ()
+      println "Discovery finished"
+
+      latch = new CountDownLatch (12)
 
       (0..3).each { id ->
         nodes[id].disconnect ()
       }
 
-      connectDisconnectLatch.await ()
+      latch.await ()
+      latch2.await ()
     }
 }

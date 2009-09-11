@@ -18,6 +18,8 @@ package org.gparallelizer.enhancer;
 
 import groovy.lang.MetaClass;
 
+import java.util.Arrays;
+
 /**
  * A message used to invoke intercepted constructors
  *

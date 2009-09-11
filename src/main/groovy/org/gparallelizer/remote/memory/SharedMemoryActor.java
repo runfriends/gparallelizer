@@ -16,16 +16,14 @@
 
 package org.gparallelizer.remote.memory;
 
-import groovy.time.Duration;
-import org.gparallelizer.actors.Actor;
 import org.gparallelizer.remote.RemoteActor;
 import org.gparallelizer.remote.RemoteNode;
+import org.gparallelizer.actors.Actor;
 
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author Alex Tkachman
- */
+import groovy.time.Duration;
+
 public class SharedMemoryActor extends RemoteActor {
     private final Actor delegate;
 

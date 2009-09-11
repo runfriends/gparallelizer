@@ -17,8 +17,9 @@
 
 package org.gparallelizer.samples.dataflow
 
-import java.util.concurrent.Executors
 import org.gparallelizer.dataflow.DataFlows
+import static org.gparallelizer.dataflow.DataFlow.*
+import java.util.concurrent.Executors
 
 static final LIMIT = 3*100*1000
 

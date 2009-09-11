@@ -16,9 +16,9 @@
 
 package org.gparallelizer.samples.benchmarks
 
-import java.util.concurrent.CountDownLatch
-import org.gparallelizer.actors.pooledActors.AbstractPooledActor
 import org.gparallelizer.actors.pooledActors.PooledActors
+import org.gparallelizer.actors.pooledActors.AbstractPooledActor
+import java.util.concurrent.CountDownLatch
 
 public class PooledActorBenchmark implements Benchmark {
 

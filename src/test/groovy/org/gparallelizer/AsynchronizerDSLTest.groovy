@@ -18,8 +18,7 @@ package org.gparallelizer
 
 import java.util.concurrent.Executors
 import java.util.concurrent.ThreadFactory
-import static org.gparallelizer.Asynchronizer.withAsynchronizer
-import static org.gparallelizer.Asynchronizer.withExistingAsynchronizer
+import static org.gparallelizer.Asynchronizer.*
 
 /**
  * @author Vaclav Pech

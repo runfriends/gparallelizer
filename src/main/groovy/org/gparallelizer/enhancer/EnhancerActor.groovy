@@ -19,6 +19,7 @@ package org.gparallelizer.enhancer
 import org.gparallelizer.actors.DefaultThreadActor
 import org.gparallelizer.enhancer.AsyncMessage
 import org.gparallelizer.enhancer.EnhancerHelper
+import org.gparallelizer.actors.DefaultThreadActor
 
 /**
  * The thread-bound actor used in ActorMetaClass

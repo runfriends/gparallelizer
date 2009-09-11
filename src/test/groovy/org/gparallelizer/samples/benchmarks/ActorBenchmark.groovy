@@ -20,6 +20,7 @@ import java.util.concurrent.CountDownLatch
 import org.gparallelizer.actors.Actor
 import org.gparallelizer.actors.Actors
 
+
 public class ActorBenchmark implements Benchmark {
 
     public long perform(final int numberOfIterations) {

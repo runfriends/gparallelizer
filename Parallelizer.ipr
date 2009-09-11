@@ -545,6 +545,81 @@
         <entry key="$PROJECT_DIR$">
           <value>
             <SvnBranchConfiguration>
+              <option name="branchMap">
+                <map>
+                  <entry key="https://gparallelizer.googlecode.com/svn/branches">
+                    <value>
+                      <list />
+                    </value>
+                  </entry>
+                  <entry key="https://gparallelizer.googlecode.com/svn/tags">
+                    <value>
+                      <list>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1252655502089" />
+                          <option name="revision" value="580" />
+                          <option name="url" value="https://gparallelizer.googlecode.com/svn/tags/release-0.8.4" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1252003910706" />
+                          <option name="revision" value="455" />
+                          <option name="url" value="https://gparallelizer.googlecode.com/svn/tags/release-0.8.3" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1251092458704" />
+                          <option name="revision" value="436" />
+                          <option name="url" value="https://gparallelizer.googlecode.com/svn/tags/release-0.8.2" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1249467050648" />
+                          <option name="revision" value="429" />
+                          <option name="url" value="https://gparallelizer.googlecode.com/svn/tags/release-0.8.1" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1246423303313" />
+                          <option name="revision" value="385" />
+                          <option name="url" value="https://gparallelizer.googlecode.com/svn/tags/release-0.8" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1243602022770" />
+                          <option name="revision" value="236" />
+                          <option name="url" value="https://gparallelizer.googlecode.com/svn/tags/release-0.7" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1236012645329" />
+                          <option name="revision" value="146" />
+                          <option name="url" value="https://gparallelizer.googlecode.com/svn/tags/release-0.6" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1232213335103" />
+                          <option name="revision" value="79" />
+                          <option name="url" value="https://gparallelizer.googlecode.com/svn/tags/release-0.5" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1231852442556" />
+                          <option name="revision" value="68" />
+                          <option name="url" value="https://gparallelizer.googlecode.com/svn/tags/release-0.4" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1227610632237" />
+                          <option name="revision" value="45" />
+                          <option name="url" value="https://gparallelizer.googlecode.com/svn/tags/release-0.3" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1227413768096" />
+                          <option name="revision" value="41" />
+                          <option name="url" value="https://gparallelizer.googlecode.com/svn/tags/release-0.2" />
+                        </SvnBranchItem>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1227334174343" />
+                          <option name="revision" value="39" />
+                          <option name="url" value="https://gparallelizer.googlecode.com/svn/tags/initial_release" />
+                        </SvnBranchItem>
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
               <option name="branchUrls">
                 <list>
                   <option value="https://gparallelizer.googlecode.com/svn/branches" />

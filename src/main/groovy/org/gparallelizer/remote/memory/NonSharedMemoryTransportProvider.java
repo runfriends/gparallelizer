@@ -16,14 +16,10 @@
 
 package org.gparallelizer.remote.memory;
 
-import org.gparallelizer.remote.LocalNode;
-import org.gparallelizer.remote.RemoteNode;
 import org.gparallelizer.remote.RemoteTransportProvider;
+import org.gparallelizer.remote.LocalNode;
 
-/**
- * @author Alex Tkachman
- */
-public class NonSharedMemoryTransportProvider extends MemoryTransportProvider {
+public class NonSharedMemoryTransportProvider extends MemoryTransportProvider<NonSharedMemoryNode> {
 
     private final static RemoteTransportProvider instance = new NonSharedMemoryTransportProvider();
 
@@ -31,7 +27,7 @@ public class NonSharedMemoryTransportProvider extends MemoryTransportProvider {
         return instance;
     }
 
-    protected RemoteNode createRemoteNode(LocalNode node) {
-        return new NonSharedMemoryNode(node, this);
+    protected NonSharedMemoryNode createRemoteNode(LocalNode node) {
+        return new NonSharedMemoryNode(node);
     }
 }
