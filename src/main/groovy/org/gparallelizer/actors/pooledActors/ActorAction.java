@@ -16,20 +16,16 @@
 
 package org.gparallelizer.actors.pooledActors;
 
-import groovy.time.TimeCategory;
-import org.codehaus.groovy.runtime.InvokerHelper;
-import org.codehaus.groovy.runtime.GroovyCategorySupport;
-import org.codehaus.groovy.runtime.ScriptBytecodeAdapter;
-import org.gparallelizer.actors.ReplyRegistry;
-import org.gparallelizer.actors.Actor;
-
-import java.lang.*;
-import java.util.List;
-
-import org.gparallelizer.actors.pooledActors.*;
-import static org.gparallelizer.actors.pooledActors.ActorException.TERMINATE;
 import groovy.lang.Closure;
 import groovy.lang.GroovyRuntimeException;
+import org.codehaus.groovy.runtime.GroovyCategorySupport;
+import org.codehaus.groovy.runtime.InvokerHelper;
+import org.codehaus.groovy.runtime.ScriptBytecodeAdapter;
+import org.codehaus.groovy.runtime.TimeCategory;
+import org.gparallelizer.actors.ReplyRegistry;
+import static org.gparallelizer.actors.pooledActors.ActorException.TERMINATE;
+
+import java.util.List;
 
 /**
  * ActorAction represents a chunk of work to perform on behalf of an associated PooledActor in one go.
