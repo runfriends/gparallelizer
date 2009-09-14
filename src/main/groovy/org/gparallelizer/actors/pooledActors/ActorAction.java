@@ -16,16 +16,20 @@
 
 package org.gparallelizer.actors.pooledActors;
 
+import groovy.time.TimeCategory;
+import org.codehaus.groovy.runtime.InvokerHelper;
+import org.codehaus.groovy.runtime.GroovyCategorySupport;
+import org.codehaus.groovy.runtime.ScriptBytecodeAdapter;
+import org.gparallelizer.actors.ReplyRegistry;
+import org.gparallelizer.actors.Actor;
+
+import java.lang.*;
+import java.util.List;
+
+import org.gparallelizer.actors.pooledActors.*;
+import static org.gparallelizer.actors.pooledActors.ActorException.TERMINATE;
 import groovy.lang.Closure;
 import groovy.lang.GroovyRuntimeException;
-import org.codehaus.groovy.runtime.GroovyCategorySupport;
-import org.codehaus.groovy.runtime.InvokerHelper;
-import org.codehaus.groovy.runtime.ScriptBytecodeAdapter;
-import org.codehaus.groovy.runtime.TimeCategory;
-import org.gparallelizer.actors.ReplyRegistry;
-import static org.gparallelizer.actors.pooledActors.ActorException.TERMINATE;
-
-import java.util.List;
 
 /**
  * ActorAction represents a chunk of work to perform on behalf of an associated PooledActor in one go.
@@ -40,7 +44,6 @@ import java.util.List;
  * @author Vaclav Pech, Alex Tkachman
  * Date: Feb 7, 2009
  */
-@SuppressWarnings({"AssignmentToNull"})
 public final class ActorAction implements Runnable {
 
     /**
@@ -56,12 +59,12 @@ public final class ActorAction implements Runnable {
     /**
      * The thread from the pool assigned to process the current ActorAction
      */
-    private volatile Thread actionThread = null;
+    volatile Thread actionThread;
 
     /**
      * Indicates whether the cancel() method has been called
      */
-    private volatile boolean cancelled = false;
+    volatile boolean cancelled = false;
 
     /**
      * Creates a new ActorAction asociated with a PooledActor, which will eventually perform the specified code.
@@ -121,7 +124,7 @@ public final class ActorAction implements Runnable {
     /**
      * Attempts to cancel the action and interrupt the thread processing it.
      */
-    void cancel() {
+    final void cancel() {
         cancelled = true;
         if (actionThread != null)
             actionThread.interrupt();
@@ -136,7 +139,6 @@ public final class ActorAction implements Runnable {
         handleTermination();
     }
 
-    @SuppressWarnings({"FeatureEnvy"})
     private void handleTermination() {
         this.actor.indicateStop();
         Thread.interrupted();
@@ -164,8 +166,8 @@ public final class ActorAction implements Runnable {
         handleTermination();
     }
 
-    private boolean callDynamic (final String method, final Object [] args) {
-        final List list = (List)InvokerHelper.invokeMethod(actor, "respondsTo", new Object[]{method});
+    private boolean callDynamic (String method, Object [] args) {
+        List list = (List)InvokerHelper.invokeMethod(actor, "respondsTo", new Object[]{method});
         if (list != null && !list.isEmpty()) {
             InvokerHelper.invokeMethod(actor, method, args);
             return true;
@@ -178,7 +180,7 @@ public final class ActorAction implements Runnable {
      * @param actor actor
      * @param code  code
      */
-    public static void actorAction(final AbstractPooledActor actor, final Closure code) {
+    public static void actorAction(AbstractPooledActor actor, Closure code) {
         actor.getActorGroup().getThreadPool().execute (new ActorAction(actor, code));
     }
 
@@ -186,7 +188,7 @@ public final class ActorAction implements Runnable {
         return actionThread;
     }
 
-    public void setActionThread(final Thread actionThread) {
+    public void setActionThread(Thread actionThread) {
         this.actionThread = actionThread;
     }
 
@@ -194,7 +196,7 @@ public final class ActorAction implements Runnable {
         return cancelled;
     }
 
-    public void setCancelled(final boolean cancelled) {
+    public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
     }
 }
