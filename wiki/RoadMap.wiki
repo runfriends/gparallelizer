@@ -18,8 +18,10 @@ Planned release: September 2009
 
 Planned release: Fall 2009
 
-  * Actor-based metaClass
-
 ===Backlog===
+  * Unified pooled and thread actors
+  * Actor-based metaClass?
+  * Leverage Groovy dynamic dispatch to make actor use more natural
+  * CSP
   * Performance optimization
   * Timeout handling enhancements
