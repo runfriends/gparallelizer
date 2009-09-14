@@ -5,6 +5,33 @@
 
 Submissions closed. Expect results soon!
 
+= Finalists = 
+
+  # *GParallel* - 6
+  # *GRAND* - 4
+  # *GRACE* - 4
+  # *gpars* - 4
+  # *GRIP* -  5
+
+= First round results =
+
+  # *GParallel* - G P A R W V - 6
+  # *Gras (Grass)* - A V - 2
+  # *Tractor* - G - 1
+  # *Attractor* - G A - 2
+  # *Atractor*
+  # *GRAND* - D P A W - 4
+  # *GRACE* - D A W V - 4
+  # *Grapa* - D - 1
+  # *gp* - P - 1
+  # *gpars* - D P R W - 4
+  # *gconch* - R - 1
+  # *gcamp* - W - 1
+  # *Gektor* - G - 1
+  # *GRIP* - D G P R V - 5
+  # *GRANDPAR* - 
+  # *GRILLA* - R V = 2
+
 = Proposals =
 
   # *GParallel* - limit brand change
