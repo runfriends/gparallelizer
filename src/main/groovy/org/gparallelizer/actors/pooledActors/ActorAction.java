@@ -16,7 +16,7 @@
 
 package org.gparallelizer.actors.pooledActors;
 
-import org.codehaus.groovy.runtime.TimeCategory;
+import groovy.time.TimeCategory;
 import org.codehaus.groovy.runtime.InvokerHelper;
 import org.codehaus.groovy.runtime.GroovyCategorySupport;
 import org.codehaus.groovy.runtime.ScriptBytecodeAdapter;
