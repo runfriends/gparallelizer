@@ -3,7 +3,7 @@
 
 = New name =
 
-== gpars (Groovy Parallel Systems) ==
+== grace ==
 
 = Finalists = 
 
