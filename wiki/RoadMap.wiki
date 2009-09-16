@@ -7,14 +7,23 @@
 
 Planned release: September 2009
 
+
+
+===0.9===
+
   * Dataflow concurrency enhancements (restructuring?)
   * Build automation improvements
   * Gradle build script
    * Provide separate samples, doc and src downloads
   * Bugfixing
   * Distributed actors
-
-===0.9===
+  * Documentation on the main concepts. What is _our_ understanding of
+   * actors
+   * dataflow (stream, operator)
+   * Safe
+   * glossary with a paragraph per concept, maybe even as small as a link to an external definition.
+   * Which Java concepts do we work with (pools, executors, ...)
+   * Common conventions: << for "bind", ... 
 
 Planned release: Fall 2009
 
