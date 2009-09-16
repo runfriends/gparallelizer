@@ -1,9 +1,9 @@
 #summary We are looking for a new project name
 #labels Featured
 
-= Make a proposal =
+= New name =
 
-Submissions closed. Expect results soon!
+== gpars (Groovy Parallel Systems) ==
 
 = Finalists = 
 
