@@ -1,0 +1,11 @@
+#summary We'ree looking for a project logo
+
+= Submit proposal =
+
+If you have an idea on how a *gpars* logo should look like, please send your proposal to our [http://groups.google.com/group/gparallelizer?pli=1 Google Group].
+
+= Proposals =
+
+These are the proposals we've received:
+*Author:* Dierk Koenig
+*Logo:*
