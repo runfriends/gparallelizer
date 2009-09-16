@@ -12,6 +12,7 @@ Planned release: None
 ===0.9===
 
   * Rename and move the project
+  * Repackage
   * Dataflow concurrency enhancements (restructuring?)
   * Build automation improvements
   * Gradle build script
@@ -19,6 +20,7 @@ Planned release: None
   * Bugfixing
   * Documentation on the main concepts. What is _our_ understanding of
    * actors
+   * Update for actor-based printing, create a Printer actor
    * dataflow (stream, operator)
    * Safe
    * glossary with a paragraph per concept, maybe even as small as a link to an external definition.
