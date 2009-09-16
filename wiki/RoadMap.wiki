@@ -5,7 +5,7 @@
 
 ===0.8.5===
 
-Planned release: September 2009
+Planned release: None
 
 
 
@@ -38,3 +38,8 @@ Planned release: Fall 2009
   * CSP
   * Performance optimization
   * Timeout handling enhancements
+
+== Release plan ==
+
+Since we're exploring quite an unknown territory here and still live in the 0.x era we will make our release cycle pretty short (estimated about max 2 months each), preferably a minor release after each completed major addition.
+We'll only make bugfix releases in case there's a considerable number of bugs that need to get fixed. This policy is likely to change once we reach the 1.0 era.
