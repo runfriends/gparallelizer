@@ -11,12 +11,12 @@ Planned release: September 2009
 
 ===0.9===
 
+  * Rename and move the project
   * Dataflow concurrency enhancements (restructuring?)
   * Build automation improvements
   * Gradle build script
    * Provide separate samples, doc and src downloads
   * Bugfixing
-  * Distributed actors
   * Documentation on the main concepts. What is _our_ understanding of
    * actors
    * dataflow (stream, operator)
@@ -25,6 +25,10 @@ Planned release: September 2009
    * Which Java concepts do we work with (pools, executors, ...)
    * Common conventions: << for "bind", ... 
 
+Optional
+  * New logo
+  * Distributed actors
+  * Refactored and tuned actors
 Planned release: Fall 2009
 
 ===Backlog===
