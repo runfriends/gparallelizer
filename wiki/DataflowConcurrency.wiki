@@ -256,6 +256,22 @@ start {
     a << 'Hello man'
 }
 }}}
+
+== DataFlows map ==
+
+As a handy shortcut the _DataFlows_ class can help you reduce the amount of code you have to write to leverage Dataflow variables.
+
+{{{
+def df = new DataFlows()
+df.x = 'value1'
+assert df.x == 'value1'
+
+DataFlow.start {df.y = 'value2}
+
+assert df.y == 'value2'
+}}}
+Think of DataFlows as a map with Dataflow Variables as keys storing their bound values as appropriate map values. The semantics of reading a value (e.g. df.x) and binding a value (e.g. df.x = 'value') remain identical to the semantics of plain Dataflow Variables.
+
 =Implementation in GParallelizer=
 
 The Dataflow Concurrency in GParallelizer builds on top of its actor support. Each time you create a new "thread" with the _DataFlow.start()_ factory method, an actor is started to process the passed-in code parameter. All of the dataflow thread actors share a thread pool and so the number threads created through _DataFlow.start()_ factory method don't need to correspond to the number of physical threads required from the system.
