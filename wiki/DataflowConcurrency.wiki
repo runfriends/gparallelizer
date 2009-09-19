@@ -257,7 +257,7 @@ start {
 }
 }}}
 
-== DataFlows map ==
+=DataFlows map=
 
 As a handy shortcut the _DataFlows_ class can help you reduce the amount of code you have to write to leverage Dataflow variables.
 
