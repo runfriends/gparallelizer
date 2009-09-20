@@ -11,14 +11,14 @@ Planned release: None
 
 ===0.9===
 
-  * Rename and move the project
-  * Repackage
-  * Dataflow concurrency enhancements (restructuring?)
-  * Build automation improvements
-  * Gradle build script
+  * Distributed actors (Alex)
+  * Rename and move the project to Codehaus (Vaclav)
+  * Repackage, rename factory classes (Dierk)
+  * Old Dataflow concurrency enhancements, renaming? (Dierk)
+  * New DataFlow constructs, operator (Russel)
+  * Build automation improvements with Gradle (Vaclav)
    * Provide separate samples, doc and src downloads
-  * Bugfixing
-  * Documentation on the main concepts. What is _our_ understanding of
+  * Documentation on the main concepts. What is _our_ understanding of (Dierk)
    * actors
    * Update for actor-based printing, create a Printer actor
    * dataflow (stream, operator)
@@ -26,15 +26,18 @@ Planned release: None
    * glossary with a paragraph per concept, maybe even as small as a link to an external definition.
    * Which Java concepts do we work with (pools, executors, ...)
    * Common conventions: << for "bind", ... 
+  * New logo contest (Paul)
+  * Refactored and tuned actors (Vaclav)
+  * Unified pooled and thread actors (Vaclav)
+  * Bugfixing
 
-Optional
-  * New logo
-  * Distributed actors
-  * Refactored and tuned actors
 Planned release: Fall 2009
 
+=== 0.10 ===
+  * System messages, failover
+  * Further actor improvements
+
 ===Backlog===
-  * Unified pooled and thread actors
   * Actor-based metaClass?
   * Leverage Groovy dynamic dispatch to make actor use more natural
   * CSP
