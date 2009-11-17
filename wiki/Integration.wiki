@@ -1,6 +1,9 @@
 #summary Check out how to integrate GParallelizer into your projects
 #labels Featured,Phase-Implementation
 
+===Note===
+
+The snapshots of the recent versions, released under the *GPars* name, reside in the Codehaus mvn repository. See the details at [http://gpars.codehaus.org/Integration]
 = Grape =
 
 Integration using _Grape_ is very straightforward:
